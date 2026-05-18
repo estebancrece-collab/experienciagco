@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pasaporte GCO · Experiencia Inmersión Retail</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,800&family=Nunito+Sans:wght@300;400;600;700&display=swap');
+
+:root{
+  --purple:#382C54;--blue:#586AE8;--yellow:#FFB901;
+  --teal:#6DC7CC;--coral:#FD636B;--green:#C0EE5A;
+  --gray:#C6C6C6;--bg:#F0F1F8;--text:#1F1B3A;--white:#fff;
+  --sh:0 8px 32px rgba(56,44,84,0.12);--r:20px;
+  --n1a:#586AE8;--n1b:#3a50d4;
+  --n2a:#FFB901;--n2b:#d98f00;
+  --n3a:#3dba5e;--n3b:#2a9046;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{height:100%;}
+body{font-family:'Nunito Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100%;}
+
+/* ── SCREENS ── */
+.screen{position:fixed;inset:0;z-index:2000;background:var(--purple);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 20px;transition:opacity .5s,transform .5s;overflow-y:auto;}
+.screen.hide{opacity:0;transform:translateY(-28px);pointer-events:none;}
+.sc-logo{margin-bottom:20px;}.sc-logo svg{width:96px;height:auto;}
+.sc-title{font-family:'Nunito',sans-serif;font-weight:900;font-size:clamp(1.4rem,4vw,2rem);color:#fff;text-align:center;line-height:1.2;margin-bottom:7px;}
+.sc-title span{color:var(--yellow);}
+.sc-sub{color:rgba(255,255,255,.58);font-size:.87rem;text-align:center;max-width:340px;line-height:1.6;margin-bottom:24px;}
+.sc-form{width:100%;max-width:340px;display:flex;flex-direction:column;gap:11px;}
+.sc-lbl{color:rgba(255,255,255,.7);font-size:.73rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;display:block;}
+.sc-inp,.sc-sel{width:100%;padding:12px 15px;border-radius:12px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.09);color:#fff;font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:700;outline:none;transition:border-color .2s;appearance:none;}
+.sc-inp::placeholder{color:rgba(255,255,255,.28);}
+.sc-inp:focus,.sc-sel:focus{border-color:var(--yellow);}
+.sc-inp.err{border-color:var(--coral);}
+.sc-sel option{background:var(--purple);color:#fff;}
+.sc-btn{width:100%;padding:14px;border-radius:13px;border:none;background:var(--yellow);color:var(--purple);font-family:'Nunito',sans-serif;font-size:.97rem;font-weight:900;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 18px rgba(255,185,1,.38);}
+.sc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(255,185,1,.5);}
+.sc-btn:disabled{opacity:.5;pointer-events:none;}
+.sc-btn-sec{background:rgba(255,255,255,.1);color:#fff;box-shadow:none;}
+.sc-btn-sec:hover{background:rgba(255,255,255,.2);transform:none;}
+.sc-err{color:var(--coral);font-size:.77rem;font-weight:700;text-align:center;min-height:15px;}
+.sc-loader{display:none;align-items:center;justify-content:center;gap:8px;color:rgba(255,255,255,.6);font-size:.83rem;}
+.sc-loader.show{display:flex;}
+.spinner{width:15px;height:15px;border:2px solid rgba(255,255,255,.22);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.sc-div{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.28);font-size:.75rem;}
+.sc-div::before,.sc-div::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.12);}
+.sc-back{color:rgba(255,255,255,.4);font-size:.75rem;cursor:pointer;text-decoration:underline;text-align:center;margin-top:4px;}
+.sc-back:hover{color:rgba(255,255,255,.72);}
+.sc-dots{display:flex;gap:7px;margin-top:20px;}
+.sc-dots span{width:9px;height:9px;border-radius:50%;}
+.role-cards{display:flex;flex-direction:column;gap:11px;width:100%;max-width:320px;}
+.role-card{background:rgba(255,255,255,.09);border:2px solid rgba(255,255,255,.13);border-radius:16px;padding:17px 19px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:15px;}
+.role-card:hover{background:rgba(255,255,255,.17);border-color:var(--yellow);transform:translateY(-2px);}
+.role-ic{font-size:1.9rem;flex-shrink:0;}
+.role-info strong{font-family:'Nunito',sans-serif;font-size:.97rem;font-weight:900;color:#fff;display:block;}
+.role-info span{font-size:.74rem;color:rgba(255,255,255,.5);}
+
+/* ── GLOBAL OVERLAYS ── */
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:900;display:none;}
+#flash-overlay{position:fixed;inset:0;z-index:850;pointer-events:none;background:radial-gradient(circle at center,rgba(255,185,1,.4),transparent 65%);display:none;}
+#flash-overlay.active{display:block;animation:flashIn 1s ease-out forwards;}
+@keyframes flashIn{0%{opacity:0;}30%{opacity:1;}100%{opacity:0;}}
+#level-celebration{position:fixed;inset:0;z-index:3000;display:none;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;}
+#level-celebration.show{display:flex;}
+.lc-medal{animation:lcDrop .9s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes lcDrop{0%{transform:scale(0) translateY(-100px) rotate(-30deg);opacity:0;}60%{transform:scale(1.2) translateY(6px) rotate(4deg);}100%{transform:scale(1) translateY(0) rotate(0);opacity:1;}}
+.lc-medal img{width:200px;height:auto;display:block;filter:drop-shadow(0 24px 48px rgba(56,44,84,.55)) drop-shadow(0 0 60px rgba(255,185,1,.5));}
+.lc-text{margin-top:18px;text-align:center;animation:lcRise .6s cubic-bezier(.34,1.3,.64,1) .3s both;}
+@keyframes lcRise{0%{transform:translateY(32px);opacity:0;}100%{transform:translateY(0);opacity:1;}}
+.lc-h{font-family:'Nunito',sans-serif;font-size:clamp(1.8rem,5vw,2.6rem);font-weight:900;color:#fff;text-shadow:0 4px 28px rgba(56,44,84,.9),0 0 50px rgba(255,185,1,.7);line-height:1.1;margin-bottom:6px;}
+.lc-sub{font-family:'Nunito',sans-serif;font-size:clamp(1rem,3vw,1.3rem);font-weight:800;color:var(--yellow);text-shadow:0 2px 16px rgba(56,44,84,.7);}
+#badge-toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-180px);z-index:800;background:#fff;border-radius:18px;padding:13px 20px;box-shadow:0 12px 48px rgba(56,44,84,.25);display:flex;align-items:center;gap:12px;transition:transform .55s cubic-bezier(.34,1.56,.64,1);min-width:250px;max-width:90vw;border-top:4px solid var(--yellow);}
+#badge-toast.show{transform:translateX(-50%) translateY(0);}
+#badge-toast img{width:42px;height:auto;flex-shrink:0;}
+.t-ttl{font-family:'Nunito',sans-serif;font-weight:900;font-size:.88rem;color:var(--purple);display:block;}
+.t-sub{font-size:.74rem;color:#888;}
+#sync-bar{position:fixed;bottom:14px;right:14px;z-index:500;background:var(--purple);color:#fff;border-radius:10px;padding:6px 13px;font-size:.72rem;font-weight:700;display:none;align-items:center;gap:6px;box-shadow:0 4px 18px rgba(56,44,84,.28);}
+#sync-bar.show{display:flex;}
+#sync-bar.ok{background:#16a34a;}
+#sync-bar.err{background:var(--coral);}
+
+/* ── COLLAB APP ── */
+
+/* ── COLLAB APP — VERTICAL LAYOUT ── */
+#collab-app{display:none;flex-direction:column;min-height:100vh;background:var(--bg);overflow-x:hidden;overflow-y:auto;}
+
+/* Header */
+header{background:var(--purple);padding:18px 24px;position:relative;overflow:hidden;flex-shrink:0;}
+header::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;background:rgba(88,106,232,.15);border-radius:50%;}
+#particles-canvas{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.55;}
+.hdr{max-width:980px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;position:relative;z-index:1;}
+.hdr-left{display:flex;align-items:center;gap:14px;}
+.gco-svg{width:78px;height:auto;display:block;flex-shrink:0;}
+.hdr-title{font-family:'Nunito',sans-serif;font-size:clamp(1rem,2.5vw,1.5rem);font-weight:900;color:#fff;line-height:1.15;}
+.hdr-right{display:flex;align-items:center;gap:8px;}
+.hdr-btn{background:rgba(255,255,255,.12);border:none;color:rgba(255,255,255,.75);font-family:'Nunito Sans',sans-serif;font-size:.72rem;font-weight:700;padding:6px 14px;border-radius:99px;cursor:pointer;transition:all .2s;}
+.hdr-btn:hover{background:rgba(255,255,255,.22);color:#fff;}
+
+/* Main scroll area */
+#collab-main{max-width:980px;margin:0 auto;padding:22px 14px 80px;width:100%;}
+
+/* Hero card */
+.hero-card{background:var(--purple);border-radius:var(--r);padding:26px 24px;box-shadow:0 8px 36px rgba(56,44,84,.22);margin-bottom:18px;display:flex;align-items:center;gap:22px;flex-wrap:wrap;position:relative;overflow:hidden;}
+.hero-card::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;border-radius:50%;background:rgba(88,106,232,.15);}
+.hero-card::after{content:'';position:absolute;bottom:-30px;left:15%;width:150px;height:150px;border-radius:50%;background:rgba(255,185,1,.08);}
+
+/* Avatar with day ring */
+.hero-av-wrap{position:relative;flex-shrink:0;z-index:1;}
+.day-ring-svg{position:absolute;top:-6px;left:-6px;width:112px;height:112px;pointer-events:none;z-index:2;}
+.day-ring-bg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:4;}
+.day-ring-fill{fill:none;stroke-width:4;stroke-linecap:round;transform:rotate(-90deg);transform-origin:56px 56px;transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1),stroke .6s;}
+.hero-av{width:100px;height:100px;border-radius:50%;border:3px solid rgba(255,255,255,.28);background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:2.4rem;overflow:hidden;cursor:pointer;}
+.hero-av img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:none;}
+.hero-av-btn{position:absolute;bottom:0;right:0;width:26px;height:26px;background:var(--yellow);border:2px solid var(--purple);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--purple);font-weight:900;}
+#av-input{display:none;}
+
+/* Hero info */
+.hero-info{flex:1;min-width:140px;z-index:1;}
+.hero-name{font-family:'Nunito',sans-serif;font-size:1.5rem;font-weight:900;color:#fff;line-height:1.15;margin-bottom:4px;}
+.tw-cursor{display:inline-block;width:2px;height:.93em;background:var(--yellow);margin-left:2px;vertical-align:middle;animation:twBlink .8s steps(1) infinite;}
+@keyframes twBlink{0%,100%{opacity:1;}50%{opacity:0;}}
+.hero-meta{font-size:.78rem;color:rgba(255,255,255,.5);font-weight:600;margin-bottom:10px;}
+.hero-meta span{color:rgba(255,255,255,.72);margin-right:8px;}
+.day-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.1);border-radius:99px;padding:5px 14px;}
+.day-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.day-dot.g{background:var(--green);}.day-dot.y{background:var(--yellow);}.day-dot.r{background:var(--coral);}
+.day-num{font-family:'Nunito',sans-serif;font-size:1rem;font-weight:900;color:#fff;}
+.day-lbl{font-size:.72rem;color:rgba(255,255,255,.55);font-weight:600;}
+
+/* Badge block in hero */
+.hero-badge-block{z-index:1;flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.16);border-radius:20px;padding:16px 22px;min-width:180px;text-align:center;}
+.hbb-label{font-size:.66rem;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:rgba(255,255,255,.5);}
+.sb-badge-name{font-family:'Nunito',sans-serif;font-size:1.05rem;font-weight:900;color:#fff;line-height:1.2;margin-top:4px;}
+.sb-badge-name.empty{color:rgba(255,255,255,.28);font-size:.82rem;font-weight:600;font-style:italic;}
+
+/* Progress message */
+.prog-msg-card{border-radius:var(--r);padding:16px 20px;margin-bottom:18px;box-shadow:var(--sh);display:flex;align-items:center;gap:13px;transition:all .4s;}
+.pmc-icon{font-size:1.7rem;flex-shrink:0;}
+.pmc-txt{font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:800;line-height:1.45;}
+.pmc-txt em{font-style:italic;font-weight:700;}
+
+/* Mission */
+.mission{background:linear-gradient(135deg,#4a3a6e,var(--purple));border-radius:var(--r);padding:14px 20px;display:flex;align-items:center;gap:13px;margin-bottom:18px;box-shadow:var(--sh);}
+.mission-ico{font-size:1.8rem;flex-shrink:0;}
+.mission-txt{color:#fff;font-family:'Nunito',sans-serif;font-size:clamp(.84rem,2.2vw,1.05rem);font-weight:800;line-height:1.4;}
+.mission-txt span{color:var(--yellow);}
+
+/* Summary */
+.summary{background:#fff;border-radius:var(--r);padding:18px 22px;box-shadow:var(--sh);margin-bottom:18px;}
+.sum-ttl{font-family:'Nunito',sans-serif;font-size:.7rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:13px;}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:11px;}
+.sum-item{display:flex;flex-direction:column;gap:3px;}
+.sum-lbl{font-size:.68rem;color:#999;font-weight:600;text-transform:uppercase;letter-spacing:.7px;}
+.sum-val{font-family:'Nunito',sans-serif;font-size:1.35rem;font-weight:900;color:var(--purple);transition:transform .2s;}
+.sum-val.bump{transform:scale(1.25);}
+.cv-blue{color:var(--blue);}.cv-yellow{color:#b87e00;}.cv-teal{color:#1f8a90;}
+.rainbow{height:4px;margin-top:13px;border-radius:99px;background:linear-gradient(90deg,var(--yellow),var(--coral),var(--purple),var(--blue),var(--teal));}
+
+/* Progress bar */
+.prog-card{background:#fff;border-radius:var(--r);padding:15px 22px;box-shadow:var(--sh);margin-bottom:22px;}
+.prog-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.prog-lbl{font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;color:var(--text);}
+.prog-pct{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.2rem;color:var(--blue);}
+.prog-track{height:12px;background:#eef0f8;border-radius:99px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--teal));transition:width .9s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;}
+.prog-fill::after{content:'';position:absolute;top:0;left:-60px;width:60px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);animation:sheen 2.4s ease-in-out infinite;}
+@keyframes sheen{0%{left:-60px;}100%{left:110%;}}
+
+/* Level cards — accordion */
+.levels-ttl{font-family:'Nunito',sans-serif;font-weight:900;font-size:.97rem;color:var(--text);margin-bottom:12px;}
+.levels-grid{display:grid;gap:14px;}
+.lv-card{background:#fff;border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;transition:box-shadow .2s,transform .2s;}
+.lv-card:not(.locked):hover{box-shadow:0 7px 28px rgba(56,44,84,.13);transform:translateY(-1px);}
+.lv-card.locked{opacity:.46;pointer-events:none;filter:grayscale(.3);}
+.lv-hdr{padding:14px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;}
+.ph-n1{background:linear-gradient(135deg,#586AE8,#3a50d4);}
+.ph-n2{background:linear-gradient(135deg,#FFB901,#d98f00);}
+.ph-n3{background:linear-gradient(135deg,#3dba5e,#2a9046);}
+.ph-done{background:linear-gradient(135deg,#2e7d32,#1b5e20);}
+.lv-ico{width:48px;height:48px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.lv-ico img{width:48px;height:auto;}
+.lv-inf{flex:1;}
+.lv-num{font-size:.63rem;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,.72);margin-bottom:1px;}
+.lv-nm{font-family:'Nunito',sans-serif;font-size:.93rem;font-weight:900;color:#fff;line-height:1.2;}
+.lv-cmp{font-size:.7rem;color:rgba(255,255,255,.62);margin-top:2px;}
+.lv-st{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+.lv-mbar{width:62px;height:5px;background:rgba(255,255,255,.2);border-radius:99px;overflow:hidden;}
+.lv-mfil{height:100%;background:rgba(255,255,255,.85);border-radius:99px;transition:width .4s;}
+.lv-pt{font-size:.67rem;color:rgba(255,255,255,.78);font-weight:700;}
+.lv-chapter{padding:14px 18px 0;font-family:'Nunito',sans-serif;font-style:italic;font-size:.86rem;font-weight:700;color:#7a6ea0;line-height:1.55;border-left:3px solid;margin-bottom:2px;}
+.sc-n1{border-color:var(--blue);}.sc-n2{border-color:var(--yellow);}.sc-n3{border-color:#3dba5e;}
+.lv-body{max-height:0;overflow:hidden;padding:0 18px;transition:max-height .48s cubic-bezier(.4,0,.2,1),padding .3s,opacity .35s;opacity:0;}
+.lv-body.open{max-height:1400px;padding:0 18px 18px;opacity:1;}
+.ck-list{display:flex;flex-direction:column;gap:7px;margin-top:13px;}
+
+/* Tasks */
+.task{display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border-radius:10px;background:#f7f8fb;border:1.5px solid transparent;transition:background .15s,transform .1s;}
+.task.self-task{cursor:pointer;}
+.task.self-task:hover{background:#eef0f8;transform:translateX(2px);}
+.task.status-completada,.task.status-validada{background:#f0fdf4;border-color:#bbf7d0;}
+.task.status-completada .t-txt,.task.status-validada .t-txt{color:#16a34a;opacity:.75;}
+.task.status-enviada{background:#fffbeb;border-color:#fde68a;animation:pRing 2.2s ease-out infinite;}
+.task.status-enviada .t-txt{color:#92400e;}
+.task.status-devuelta{background:#fff1f2;border-color:#fecdd3;}
+.task.status-devuelta .t-txt{color:#9f1239;}
+@keyframes pRing{0%{box-shadow:0 0 0 0 rgba(245,158,11,.55);}65%{box-shadow:0 0 0 8px rgba(245,158,11,0);}100%{box-shadow:0 0 0 0 rgba(245,158,11,0);}}
+.t-cb{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--gray);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .18s;margin-top:1px;font-size:.72rem;}
+.task.status-completada .t-cb,.task.status-validada .t-cb{background:#16a34a;border-color:#16a34a;color:#fff;}
+.task.status-enviada .t-cb{background:#f59e0b;border-color:#f59e0b;color:#fff;}
+.task.status-devuelta .t-cb{background:var(--coral);border-color:var(--coral);color:#fff;}
+.t-body{flex:1;min-width:0;}
+.t-txt-wrap{position:relative;}
+.t-txt{font-size:.86rem;line-height:1.4;color:var(--text);}
+.task.status-completada .t-txt,.task.status-validada .t-txt{text-decoration:line-through;}
+.t-strike{position:absolute;left:0;top:50%;height:1.5px;background:linear-gradient(90deg,#16a34a,#22c55e);border-radius:2px;width:0;transition:width .42s cubic-bezier(.4,0,.2,1);pointer-events:none;}
+.task.status-completada .t-strike,.task.status-validada .t-strike{width:100%;}
+.t-badge{display:inline-flex;align-items:center;gap:3px;margin-top:3px;padding:1px 7px;border-radius:99px;font-size:.62rem;font-weight:800;letter-spacing:.4px;text-transform:uppercase;}
+.tb-self{background:#eff6ff;color:var(--blue);}.tb-val{background:#fdf4ff;color:#7c3aed;}
+.tb-vd{background:#f0fdf4;color:#16a34a;}.tb-vw{background:#fffbeb;color:#92400e;}.tb-vb{background:#fff1f2;color:#9f1239;}
+.t-obs{margin-top:4px;font-size:.74rem;color:#9f1239;font-style:italic;background:#fff1f2;padding:4px 9px;border-radius:6px;border-left:2px solid var(--coral);}
+.t-send-btn{margin-top:5px;padding:4px 12px;border-radius:99px;border:none;background:linear-gradient(90deg,#7c3aed,#586AE8);color:#fff;font-size:.68rem;font-weight:800;cursor:pointer;transition:opacity .18s;}
+.t-send-btn:hover{opacity:.82;}
+
+/* Badge strip inside accordion */
+.lv-unlock{margin-top:12px;padding:11px 14px;border-radius:12px;display:flex;align-items:center;gap:11px;opacity:0;transform:translateY(6px);transition:opacity .4s,transform .4s;pointer-events:none;}
+.lv-unlock.show{opacity:1;transform:translateY(0);pointer-events:auto;}
+.bu-n1{background:#eff6ff;border:1.5px solid #bfdbfe;}
+.bu-n2{background:#fffbeb;border:1.5px solid #fde68a;}
+.bu-n3{background:#f0fdf4;border:1.5px solid #bbf7d0;}
+.bu-img{width:44px;flex-shrink:0;}
+.bu-inf strong{font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:900;color:var(--purple);display:block;}
+.bu-inf span{font-size:.72rem;color:#888;}
+.bu-em{font-family:'Nunito',sans-serif;font-size:.74rem;font-style:italic;font-weight:700;color:#7a6ea0;margin-top:3px;}
+
+/* Badges tray */
+.bdg-section{background:#fff;border-radius:var(--r);padding:20px 22px;box-shadow:var(--sh);margin-top:22px;}
+.bdg-ttl{font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;color:var(--text);margin-bottom:16px;}
+.bdg-tray{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.bdg-wrap{display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 10px 13px;border-radius:16px;border:2px solid #e8eaf0;background:#f7f8fb;text-align:center;transition:all .4s cubic-bezier(.34,1.2,.64,1);filter:grayscale(1);opacity:.38;}
+.bdg-wrap.earned{filter:grayscale(0);opacity:1;border-color:transparent;box-shadow:0 7px 24px rgba(56,44,84,.13);transform:translateY(-2px);}
+.bdg-wrap.earned img{animation:medalDrop .55s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes medalDrop{0%{transform:scale(.4) rotate(-20deg);opacity:0;}60%{transform:scale(1.15) rotate(5deg);}100%{transform:scale(1) rotate(0);opacity:1;}}
+.bdg-wrap img{width:88px;height:auto;display:block;margin:0 auto;}
+.bdg-medal-name{font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:900;color:var(--purple);line-height:1.3;}
+.bdg-wrap:not(.earned) .bdg-medal-name{color:#bbb;}
+.bdg-medal-status{font-size:.65rem;font-weight:800;letter-spacing:.7px;text-transform:uppercase;}
+.bdg-wrap.earned .bdg-medal-status{color:#16a34a;}
+.bdg-wrap:not(.earned) .bdg-medal-status{color:#ccc;}
+
+/* Reset */
+.reset-wrap{display:flex;justify-content:center;margin-top:26px;}
+.reset-btn{background:transparent;border:2px solid var(--gray);color:#bbb;font-family:'Nunito Sans',sans-serif;font-size:.78rem;font-weight:700;padding:9px 22px;border-radius:99px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;}
+.reset-btn:hover{border-color:var(--coral);color:var(--coral);background:#fff5f5;}
+
+@media(max-width:600px){
+  header{padding:14px 12px;}
+  #collab-main{padding:14px 10px 60px;}
+  .hero-card{padding:18px 14px;gap:14px;}
+  .hero-av{width:82px;height:82px;font-size:1.9rem;}
+  .day-ring-svg{width:94px;height:94px;}
+  .day-ring-bg,.day-ring-fill{transform-origin:47px 47px;}
+  .hero-badge-block{min-width:130px;padding:12px 12px;}
+  .sum-grid{grid-template-columns:1fr 1fr;}
+  .bdg-tray{grid-template-columns:1fr 1fr 1fr;}
+}
+
+/* ── LEADER PANEL ── */
+#leader-panel{display:none;position:fixed;inset:0;z-index:1500;background:var(--bg);overflow-y:auto;}
+.lp-wrap{max-width:980px;margin:0 auto;padding:20px 14px 60px;}
+.lp-hdr{background:var(--purple);border-radius:18px;padding:17px 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:9px;}
+.lp-title{font-family:'Nunito',sans-serif;font-size:1rem;font-weight:900;color:#fff;}
+.lp-title span{color:rgba(255,255,255,.48);font-size:.76rem;font-weight:600;display:block;margin-top:2px;}
+.lp-acts{display:flex;gap:7px;flex-wrap:wrap;}
+.lp-btn{padding:7px 14px;border-radius:10px;border:none;font-family:'Nunito',sans-serif;font-size:.74rem;font-weight:800;cursor:pointer;transition:all .2s;}
+.lp-btn-ex{background:var(--green);color:var(--purple);}.lp-btn-ex:hover{transform:translateY(-1px);}
+.lp-btn-cl{background:rgba(255,255,255,.14);color:#fff;}.lp-btn-cl:hover{background:rgba(255,255,255,.24);}
+.lp-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:9px;margin-bottom:15px;}
+.lp-stat{background:#fff;border-radius:13px;padding:12px 15px;box-shadow:var(--sh);}
+.lp-sl{font-size:.63rem;color:#999;font-weight:600;text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px;}
+.lp-sv{font-family:'Nunito',sans-serif;font-size:1.4rem;font-weight:900;color:var(--purple);}
+.lp-sv.b{color:var(--blue);}.lp-sv.y{color:#b87e00;}.lp-sv.r{color:var(--coral);}
+.lp-list{display:grid;gap:10px;}
+.lp-cc{background:#fff;border-radius:15px;box-shadow:var(--sh);overflow:hidden;}
+.lp-ch{padding:13px 17px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;}
+.lp-av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;flex-shrink:0;overflow:hidden;}
+.lp-av img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+.lp-ci{flex:1;}
+.lp-cn{font-family:'Nunito',sans-serif;font-weight:900;font-size:.9rem;color:var(--text);}
+.lp-cm{font-size:.68rem;color:#999;margin-top:1px;}
+.lp-cr{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+.lp-pct{font-family:'Nunito',sans-serif;font-weight:900;font-size:.92rem;color:var(--blue);}
+.lp-pb{background:#fff1f2;border:1px solid #fecdd3;color:#9f1239;font-size:.64rem;font-weight:800;padding:2px 8px;border-radius:99px;}
+.lp-pb.ok{background:#f0fdf4;border-color:#bbf7d0;color:#16a34a;}
+.lp-cb{max-height:0;overflow:hidden;padding:0 17px;transition:max-height .4s cubic-bezier(.4,0,.2,1),padding .3s;}
+.lp-cb.open{max-height:2000px;padding:0 17px 17px;}
+.lp-tab-bar{display:flex;gap:0;border-bottom:2px solid #e8eaf0;margin-bottom:14px;margin-top:4px;}
+.lp-tab{padding:8px 14px;font-family:'Nunito',sans-serif;font-size:.76rem;font-weight:800;color:#aaa;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.lp-tab.active{color:var(--blue);border-bottom-color:var(--blue);}
+.lp-tab-content{display:none;}.lp-tab-content.active{display:block;}
+/* Validation tab */
+.lp-vttl{font-family:'Nunito',sans-serif;font-size:.66rem;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--gray);margin-bottom:8px;}
+.lp-vl{display:flex;flex-direction:column;gap:7px;}
+.lp-vi{padding:10px 12px;border-radius:9px;background:#f7f8fb;border:1.5px solid #e8eaf0;}
+.lp-vi.pend{border-color:#fde68a;background:#fffbeb;}.lp-vi.val{border-color:#bbf7d0;background:#f0fdf4;}.lp-vi.ret{border-color:#fecdd3;background:#fff1f2;}
+.lp-vn{font-family:'Nunito',sans-serif;font-size:.81rem;font-weight:800;color:var(--text);margin-bottom:4px;}
+.lp-vl2{font-size:.64rem;color:#aaa;margin-bottom:4px;}
+.lp-vs{display:inline-flex;align-items:center;gap:3px;font-size:.66rem;font-weight:800;padding:2px 8px;border-radius:99px;}
+.vsp{background:#fffbeb;color:#92400e;}.vsv{background:#f0fdf4;color:#16a34a;}.vsr{background:#fff1f2;color:#9f1239;}
+.lp-va{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center;}
+.lp-oi{flex:1;min-width:130px;padding:5px 9px;border-radius:7px;border:1.5px solid #e0e0e0;font-family:'Nunito Sans',sans-serif;font-size:.76rem;outline:none;transition:border-color .2s;}
+.lp-oi:focus{border-color:var(--blue);}
+.lp-vb{padding:5px 12px;border-radius:99px;border:none;font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:800;cursor:pointer;transition:all .15s;}
+.lp-vb.a{background:#16a34a;color:#fff;}.lp-vb.a:hover{background:#15803d;}
+.lp-vb.r{background:var(--coral);color:#fff;}.lp-vb.r:hover{background:#d94048;}
+.lp-oe{font-size:.7rem;color:#9f1239;font-style:italic;margin-top:3px;}
+.lp-np{padding:13px;text-align:center;color:#bbb;font-size:.82rem;}
+.lp-load{text-align:center;padding:24px;color:#bbb;font-size:.84rem;}
+/* Welcome profile tab */
+.wf-summary-card{background:linear-gradient(135deg,var(--purple),#4a3a6e);border-radius:14px;padding:18px;margin-bottom:12px;}
+.wf-sum-title{font-family:'Nunito',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:12px;}
+.wf-sum-item{display:flex;align-items:flex-start;gap:9px;margin-bottom:8px;}
+.wf-sum-ico{font-size:.95rem;flex-shrink:0;margin-top:1px;}
+.wf-sum-txt{font-size:.8rem;line-height:1.45;color:rgba(255,255,255,.86);}
+.wf-sum-txt strong{color:var(--yellow);}
+.wf-section{background:#f7f8fb;border-radius:13px;padding:14px 16px;margin-bottom:10px;border:1.5px solid #e8eaf0;}
+.wf-sec-title{font-family:'Nunito',sans-serif;font-size:.66rem;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:var(--gray);margin-bottom:11px;}
+.wf-row{display:flex;flex-direction:column;gap:2px;margin-bottom:9px;}
+.wf-row:last-child{margin-bottom:0;}
+.wf-lbl{font-size:.65rem;color:#aaa;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+.wf-val{font-size:.86rem;color:var(--text);font-weight:500;line-height:1.5;}
+.wf-tag{display:inline-flex;padding:2px 9px;border-radius:99px;background:#eff6ff;color:var(--blue);font-size:.72rem;font-weight:700;margin:2px 2px 2px 0;}
+.wf-questions{background:#fff;border-radius:13px;padding:14px 16px;margin-bottom:10px;border:1.5px solid #e8eaf0;}
+.wf-q-title{font-family:'Nunito',sans-serif;font-size:.66rem;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:var(--blue);margin-bottom:11px;}
+.wf-q-item{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border-radius:8px;background:#f7f8fb;margin-bottom:6px;border:1px solid #e8eaf0;}
+.wf-q-bullet{width:18px;height:18px;border-radius:50%;background:var(--blue);color:#fff;font-size:.62rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.wf-q-txt{font-size:.8rem;color:var(--text);line-height:1.45;font-style:italic;}
+.wf-no-profile{padding:20px;text-align:center;color:#bbb;font-size:.84rem;}
+
+/* ── WELCOME SURVEY PANEL ── */
+#welcome-panel{display:none;position:fixed;inset:0;z-index:2500;background:var(--purple);overflow-y:auto;}
+.wp-wrap{max-width:620px;margin:0 auto;padding:24px 16px 60px;}
+.wp-header{text-align:center;margin-bottom:22px;padding-top:8px;}
+.wp-header-logo svg{width:72px;height:auto;margin:0 auto 12px;display:block;}
+.wp-header-title{font-family:'Nunito',sans-serif;font-size:1.3rem;font-weight:900;color:#fff;margin-bottom:5px;}
+.wp-header-sub{font-size:.83rem;color:rgba(255,255,255,.55);line-height:1.55;}
+.wp-steps{display:flex;align-items:center;margin-bottom:20px;background:rgba(255,255,255,.06);border-radius:12px;padding:10px 14px;gap:0;}
+.wp-step{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;position:relative;}
+.wp-step::after{content:'';position:absolute;top:11px;left:60%;width:80%;height:2px;background:rgba(255,255,255,.18);z-index:0;}
+.wp-step:last-child::after{display:none;}
+.wp-step.done::after,.wp-step.active::after{background:var(--blue);}
+.wp-step-dot{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:900;color:#fff;transition:all .3s;flex-shrink:0;position:relative;z-index:1;}
+.wp-step.active .wp-step-dot{background:var(--blue);box-shadow:0 0 0 4px rgba(88,106,232,.3);}
+.wp-step.done .wp-step-dot{background:#16a34a;}
+.wp-step-lbl{font-size:.54rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:rgba(255,255,255,.38);text-align:center;line-height:1.3;}
+.wp-step.active .wp-step-lbl{color:var(--blue);}
+.wp-step.done .wp-step-lbl{color:#16a34a;}
+.wp-card{background:#fff;border-radius:20px;padding:24px 20px;margin-bottom:14px;display:none;}
+.wp-card.active{display:block;animation:fadeUp .4s ease both;}
+.wp-card-ico{font-size:2rem;margin-bottom:8px;display:block;}
+.wp-card-title{font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:900;color:var(--purple);margin-bottom:4px;}
+.wp-card-sub{font-size:.82rem;color:#888;line-height:1.55;margin-bottom:18px;}
+.wp-field{margin-bottom:16px;}
+.wp-lbl{display:block;font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:800;color:var(--text);margin-bottom:5px;}
+.wp-lbl .req,.req{color:var(--coral);margin-left:2px;}
+.wp-hint{font-size:.7rem;color:#aaa;margin-top:3px;line-height:1.45;}
+.wp-inp,.wp-ta{width:100%;padding:10px 13px;border-radius:10px;border:2px solid #e8eaf0;background:#f7f8fb;font-family:'Nunito Sans',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s,background .2s;color:var(--text);}
+.wp-inp:focus,.wp-ta:focus{border-color:var(--blue);background:#fff;}
+.wp-inp.err,.wp-ta.err{border-color:var(--coral);}
+.wp-ta{resize:vertical;min-height:82px;line-height:1.55;}
+.wp-err-msg{font-size:.7rem;color:var(--coral);font-weight:700;margin-top:3px;display:none;}
+.wp-err-msg.show{display:block;}
+.wp-bday{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.wp-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 13px;border-radius:10px;border:2px solid #e8eaf0;background:#f7f8fb;cursor:pointer;transition:all .18s;user-select:none;}
+.wp-opt:hover{border-color:rgba(88,106,232,.3);background:#f0f1ff;}
+.wp-opt.selected{border-color:var(--blue);background:#eff6ff;}
+.wp-opt input{accent-color:var(--blue);width:15px;height:15px;flex-shrink:0;margin-top:2px;cursor:pointer;}
+.wp-opt span{font-size:.84rem;color:var(--text);line-height:1.35;}
+.wp-nav{display:flex;gap:9px;justify-content:space-between;margin-top:20px;}
+.wp-back{background:rgba(255,255,255,.12);border:none;color:rgba(255,255,255,.7);font-family:'Nunito',sans-serif;font-size:.86rem;font-weight:800;padding:10px 20px;border-radius:11px;cursor:pointer;transition:all .2s;}
+.wp-back:hover{background:rgba(255,255,255,.22);color:#fff;}
+.wp-next{background:var(--blue);border:none;color:#fff;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:900;padding:11px 26px;border-radius:11px;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(88,106,232,.35);flex:1;}
+.wp-next:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(88,106,232,.45);}
+.wp-next:disabled{opacity:.5;pointer-events:none;}
+.wp-finish{background:linear-gradient(135deg,#16a34a,#15803d);border:none;color:#fff;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:900;padding:11px 26px;border-radius:11px;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(22,163,74,.35);flex:1;}
+.wp-finish:hover{transform:translateY(-2px);}
+.wp-skip{text-align:center;margin-top:9px;}
+.wp-skip a{color:rgba(255,255,255,.35);font-size:.72rem;cursor:pointer;text-decoration:underline;}
+.wp-skip a:hover{color:rgba(255,255,255,.65);}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.fade-up{animation:fadeUp .5s ease both;}
+@keyframes popIn{0%{transform:scale(.4);opacity:0;}60%{transform:scale(1.22);}100%{transform:scale(1);opacity:1;}}
+.pop{animation:popIn .4s cubic-bezier(.4,0,.2,1) both;}
+.tw-cursor{display:inline-block;width:2px;height:.93em;background:var(--yellow);margin-left:2px;vertical-align:middle;animation:twBlink .8s steps(1) infinite;}
+@keyframes twBlink{0%,100%{opacity:1;}50%{opacity:0;}}
+</style>
+</head>
+<body>
+
+<!-- OVERLAYS -->
+<div id="flash-overlay"></div>
+<canvas id="confetti-canvas"></canvas>
+<div id="level-celebration">
+  <div class="lc-medal"><img id="lc-img" src="" alt=""></div>
+  <div class="lc-text"><div class="lc-h">¡Felicitaciones!</div><div class="lc-sub" id="lc-sub">Nueva medalla</div></div>
+</div>
+<div id="badge-toast">
+  <div id="toast-img"></div>
+  <div><span class="t-ttl" id="t-ttl">¡Badge!</span><span class="t-sub" id="t-sub"></span></div>
+</div>
+<div id="sync-bar"><div class="spinner" id="sync-sp"></div><span id="sync-tx">Guardando...</span></div>
+
+<!-- ════════════════════════════════════
+     SCREENS
+════════════════════════════════════ -->
+<div class="screen" id="sc-role">
+  <div class="sc-logo"><svg viewBox="0 0 140 80" xmlns="http://www.w3.org/2000/svg"><text x="2" y="60" font-family="'Nunito',sans-serif" font-weight="900" font-size="64" fill="rgba(255,255,255,.9)" letter-spacing="-3">GCO</text><circle cx="22" cy="73" r="5" fill="#586AE8"/><circle cx="38" cy="73" r="5" fill="#FFB901"/><circle cx="54" cy="73" r="5" fill="#C0EE5A"/><circle cx="70" cy="73" r="5" fill="#FD636B"/></svg></div>
+  <div class="sc-title">¿Cómo quieres<br><span>ingresar?</span></div>
+  <div class="sc-sub">Selecciona tu perfil para continuar</div>
+  <div class="role-cards">
+    <div class="role-card" onclick="showSc('sc-colab')"><div class="role-ic">🧭</div><div class="role-info"><strong>Soy Colaborador</strong><span>Ver mi pasaporte y completar mi journey</span></div></div>
+    <div class="role-card" onclick="showSc('sc-leader-login')"><div class="role-ic">🏆</div><div class="role-info"><strong>Soy Líder / Mentor</strong><span>Validar y hacer seguimiento a mi equipo</span></div></div>
+  </div>
+  <div class="sc-dots"><span style="background:#586AE8"></span><span style="background:#FFB901"></span><span style="background:#C0EE5A"></span><span style="background:#FD636B"></span></div>
+</div>
+
+<div class="screen hide" id="sc-colab">
+  <div class="sc-logo"><svg viewBox="0 0 140 80" xmlns="http://www.w3.org/2000/svg"><text x="2" y="60" font-family="'Nunito',sans-serif" font-weight="900" font-size="64" fill="rgba(255,255,255,.9)" letter-spacing="-3">GCO</text><circle cx="22" cy="73" r="5" fill="#586AE8"/><circle cx="38" cy="73" r="5" fill="#FFB901"/><circle cx="54" cy="73" r="5" fill="#C0EE5A"/><circle cx="70" cy="73" r="5" fill="#FD636B"/></svg></div>
+  <div class="sc-title">Ingresa como<br><span>Colaborador</span></div>
+  <div class="sc-sub">Tu cédula es tu llave de acceso</div>
+  <div class="sc-form" id="cf-s1">
+    <div><label class="sc-lbl">Número de cédula</label><input class="sc-inp" id="c-ced" type="number" placeholder="Ej: 1234567890" inputmode="numeric"></div>
+    <div class="sc-err" id="c-err1"></div>
+    <button class="sc-btn" onclick="colabLookup()">Continuar →</button>
+    <div class="sc-loader" id="c-load1"><div class="spinner"></div> Buscando tu perfil...</div>
+  </div>
+  <div class="sc-form hide" id="cf-s2">
+    <div style="background:rgba(255,255,255,.09);border-radius:11px;padding:10px 13px;margin-bottom:2px;"><div style="color:rgba(255,255,255,.5);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Nuevo colaborador</div><div style="color:#fff;font-family:'Nunito',sans-serif;font-weight:800;font-size:.88rem;margin-top:2px;">Completa tu perfil</div></div>
+    <div><label class="sc-lbl">Nombre completo</label><input class="sc-inp" id="c-nom" type="text" placeholder="Tu nombre completo"></div>
+    <div><label class="sc-lbl">Marca</label><select class="sc-sel" id="c-marca"><option value="">Selecciona tu marca</option><option>Americanino</option><option>Esprit</option><option>Chevignon</option><option>Mango</option><option>American Eagle</option><option>Rifle</option></select></div>
+    <div><label class="sc-lbl">Tienda</label><select class="sc-sel" id="c-tienda"><option value="">Selecciona tu tienda</option><option>001</option><option>002</option><option>003</option></select></div>
+    <div class="sc-err" id="c-err2"></div>
+    <button class="sc-btn" onclick="colabRegister()">Crear mi pasaporte 🚀</button>
+    <div class="sc-loader" id="c-load2"><div class="spinner"></div> Creando tu perfil...</div>
+  </div>
+  <div class="sc-back" onclick="showSc('sc-role')">← Volver</div>
+</div>
+
+<div class="screen hide" id="sc-leader-login">
+  <div class="sc-logo"><svg viewBox="0 0 140 80" xmlns="http://www.w3.org/2000/svg"><text x="2" y="60" font-family="'Nunito',sans-serif" font-weight="900" font-size="64" fill="rgba(255,255,255,.9)" letter-spacing="-3">GCO</text><circle cx="22" cy="73" r="5" fill="#586AE8"/><circle cx="38" cy="73" r="5" fill="#FFB901"/><circle cx="54" cy="73" r="5" fill="#C0EE5A"/><circle cx="70" cy="73" r="5" fill="#FD636B"/></svg></div>
+  <div class="sc-title">Ingresa como<br><span>Líder / Mentor</span></div>
+  <div class="sc-sub">Cédula y PIN de líder</div>
+  <div class="sc-form">
+    <div><label class="sc-lbl">Cédula del líder</label><input class="sc-inp" id="l-ced" type="number" placeholder="Número de cédula" inputmode="numeric"></div>
+    <div><label class="sc-lbl">PIN de líder</label><input class="sc-inp" id="l-pin" type="password" placeholder="PIN de acceso"></div>
+    <div class="sc-err" id="l-err"></div>
+    <button class="sc-btn" onclick="leaderLogin()">Ingresar</button>
+    <div class="sc-loader" id="l-load"><div class="spinner"></div> Verificando...</div>
+    <div class="sc-div">o</div>
+    <button class="sc-btn sc-btn-sec" onclick="showSc('sc-leader-reg')">Registrarme como líder</button>
+  </div>
+  <div class="sc-back" onclick="showSc('sc-role')">← Volver</div>
+</div>
+
+<div class="screen hide" id="sc-leader-reg">
+  <div class="sc-logo"><svg viewBox="0 0 140 80" xmlns="http://www.w3.org/2000/svg"><text x="2" y="60" font-family="'Nunito',sans-serif" font-weight="900" font-size="64" fill="rgba(255,255,255,.9)" letter-spacing="-3">GCO</text><circle cx="22" cy="73" r="5" fill="#586AE8"/><circle cx="38" cy="73" r="5" fill="#FFB901"/><circle cx="54" cy="73" r="5" fill="#C0EE5A"/><circle cx="70" cy="73" r="5" fill="#FD636B"/></svg></div>
+  <div class="sc-title">Registro de<br><span>Líder</span></div>
+  <div class="sc-sub">Código maestro para crear tu acceso</div>
+  <div class="sc-form">
+    <div><label class="sc-lbl">Código maestro</label><input class="sc-inp" id="lr-master" type="password" placeholder="Código de autorización"></div>
+    <div><label class="sc-lbl">Tu cédula</label><input class="sc-inp" id="lr-ced" type="number" placeholder="Número de cédula" inputmode="numeric"></div>
+    <div><label class="sc-lbl">Tu nombre completo</label><input class="sc-inp" id="lr-nom" type="text" placeholder="Nombre completo"></div>
+    <div><label class="sc-lbl">Tienda asignada</label><select class="sc-sel" id="lr-tienda"><option value="">Selecciona tu tienda</option><option>001</option><option>002</option><option>003</option></select></div>
+    <div><label class="sc-lbl">Crea tu PIN (mínimo 4 dígitos)</label><input class="sc-inp" id="lr-pin" type="password" placeholder="Tu PIN personal"></div>
+    <div class="sc-err" id="lr-err"></div>
+    <button class="sc-btn" onclick="leaderRegister()">Crear cuenta de líder</button>
+    <div class="sc-loader" id="lr-load"><div class="spinner"></div> Registrando...</div>
+  </div>
+  <div class="sc-back" onclick="showSc('sc-leader-login')">← Volver</div>
+</div>
+
+<!-- ════════════════════════════════════
+     WELCOME SURVEY — 8 preguntas, 4 pasos
+════════════════════════════════════ -->
+<div id="welcome-panel">
+  <div class="wp-wrap">
+    <div class="wp-header">
+      <div class="wp-header-logo"><svg viewBox="0 0 140 80" xmlns="http://www.w3.org/2000/svg"><text x="2" y="60" font-family="'Nunito',sans-serif" font-weight="900" font-size="64" fill="rgba(255,255,255,.88)" letter-spacing="-3">GCO</text><circle cx="22" cy="73" r="5" fill="#586AE8"/><circle cx="38" cy="73" r="5" fill="#FFB901"/><circle cx="54" cy="73" r="5" fill="#C0EE5A"/><circle cx="70" cy="73" r="5" fill="#FD636B"/></svg></div>
+      <div class="wp-header-title">Ficha de Bienvenida 👋</div>
+      <div class="wp-header-sub">Queremos conocerte de verdad — responde con total libertad, no hay respuestas incorrectas</div>
+    </div>
+
+    <div class="wp-steps">
+      <div class="wp-step active" id="wps-0"><div class="wp-step-dot">1</div><div class="wp-step-lbl">Quién eres</div></div>
+      <div class="wp-step" id="wps-1"><div class="wp-step-dot">2</div><div class="wp-step-lbl">Tu mundo</div></div>
+      <div class="wp-step" id="wps-2"><div class="wp-step-dot">3</div><div class="wp-step-lbl">Motivación</div></div>
+      <div class="wp-step" id="wps-3"><div class="wp-step-dot">4</div><div class="wp-step-lbl">Cómo acompañarte</div></div>
+    </div>
+
+    <!-- PASO 1 -->
+    <div class="wp-card active" id="wp-step-0">
+      <span class="wp-card-ico">😊</span>
+      <div class="wp-card-title">¿Quién eres?</div>
+      <div class="wp-card-sub">Empecemos por lo básico. Tu líder usará esto para recibirte de manera más cercana.</div>
+      <div class="wp-field">
+        <label class="wp-lbl">¿Cómo prefieres que te llamemos? <span class="req">*</span></label>
+        <input class="wp-inp" id="wp-preferred-name" type="text" placeholder="Ej: Valen, Juancho, Mary...">
+        <div class="wp-err-msg" id="wp-err-pn">Este campo es obligatorio</div>
+      </div>
+      <div class="wp-field">
+        <label class="wp-lbl">¿Cuándo es tu cumpleaños? <span class="req">*</span></label>
+        <div class="wp-bday">
+          <select class="wp-inp" id="wp-bday-day"><option value="">Día</option></select>
+          <select class="wp-inp" id="wp-bday-month"><option value="">Mes</option><option value="1">Enero</option><option value="2">Febrero</option><option value="3">Marzo</option><option value="4">Abril</option><option value="5">Mayo</option><option value="6">Junio</option><option value="7">Julio</option><option value="8">Agosto</option><option value="9">Septiembre</option><option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option></select>
+        </div>
+        <div class="wp-err-msg" id="wp-err-bd">Selecciona día y mes</div>
+      </div>
+      <div class="wp-field">
+        <label class="wp-lbl">¿Con quién vives? <span style="color:#bbb;font-weight:600;font-size:.7rem;">(opcional)</span></label>
+        <input class="wp-inp" id="wp-living" type="text" placeholder="Ej: con mi familia, con mi pareja, solo/a...">
+      </div>
+      <div class="wp-field">
+        <label class="wp-lbl">Cuéntanos algo sobre ti que quisieras que tu equipo sepa <span class="req">*</span></label>
+        <div class="wp-hint">Tu personalidad, tu historia, lo que sea que quieras compartir. Sin filtros.</div>
+        <textarea class="wp-ta" id="wp-about-me" placeholder="Escribe con tus propias palabras..."></textarea>
+        <div class="wp-err-msg" id="wp-err-am">Este campo es obligatorio</div>
+      </div>
+      <div class="wp-nav"><button class="wp-next" onclick="wpNext(0)">Siguiente →</button></div>
+      <div class="wp-skip"><a onclick="skipSurvey()">Completar la ficha más tarde</a></div>
+    </div>
+
+    <!-- PASO 2 -->
+    <div class="wp-card" id="wp-step-1">
+      <span class="wp-card-ico">🌍</span>
+      <div class="wp-card-title">Tu mundo fuera del trabajo</div>
+      <div class="wp-card-sub">Queremos conocer quién eres más allá del rol.</div>
+      <div class="wp-field">
+        <label class="wp-lbl">¿Qué te apasiona fuera del trabajo? <span class="req">*</span></label>
+        <div class="wp-hint">Hobbies, personas, lugares, lo que sea que te mueva. En tus propias palabras.</div>
+        <textarea class="wp-ta" id="wp-free-time" placeholder="Escribe aquí..."></textarea>
+        <div class="wp-err-msg" id="wp-err-ft">Este campo es obligatorio</div>
+      </div>
+      <div class="wp-nav">
+        <button class="wp-back" onclick="wpBack(1)">← Atrás</button>
+        <button class="wp-next" onclick="wpNext(1)">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- PASO 3 -->
+    <div class="wp-card" id="wp-step-2">
+      <span class="wp-card-ico">🚀</span>
+      <div class="wp-card-title">Motivación y metas</div>
+      <div class="wp-card-sub">Queremos entender qué te impulsa y a dónde quieres llegar.</div>
+      <div class="wp-field">
+        <label class="wp-lbl">¿Qué te motivó a ingresar a GCO? <span class="req">*</span></label>
+        <textarea class="wp-ta" id="wp-motivation-join" placeholder="Escribe aquí..."></textarea>
+        <div class="wp-err-msg" id="wp-err-mj">Este campo es obligatorio</div>
+      </div>
+      <div class="wp-field">
+        <label class="wp-lbl">¿A dónde quieres llegar? Cuéntanos tus metas <span class="req">*</span></label>
+        <div class="wp-hint">Corto, mediano o largo plazo — personales o profesionales, como quieras contarlo.</div>
+        <textarea class="wp-ta" id="wp-goals" placeholder="Ej: En el corto plazo quiero aprender... A largo plazo sueño con..." style="min-height:96px;"></textarea>
+        <div class="wp-err-msg" id="wp-err-gl">Este campo es obligatorio</div>
+      </div>
+      <div class="wp-nav">
+        <button class="wp-back" onclick="wpBack(2)">← Atrás</button>
+        <button class="wp-next" onclick="wpNext(2)">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- PASO 4 -->
+    <div class="wp-card" id="wp-step-3">
+      <span class="wp-card-ico">🤝</span>
+      <div class="wp-card-title">Cómo acompañarte mejor</div>
+      <div class="wp-card-sub">Las respuestas más valiosas para tu líder — y las más honestas que puedas dar.</div>
+      <div class="wp-field">
+        <label class="wp-lbl">¿Cómo aprendes mejor cuando algo es nuevo para ti? <span class="req">*</span></label>
+        <div class="wp-hint">Selecciona las que más te representen.</div>
+        <div style="display:flex;flex-direction:column;gap:7px;margin-top:8px;" id="wp-learning-opts">
+          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Viendo cómo lo hace otra persona"><span>👀 Viendo cómo lo hace otra persona</span></label>
+          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Practicando directamente desde el inicio"><span>💪 Practicando directamente desde el inicio</span></label>
+          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Con explicación paso a paso antes de hacer"><span>📋 Con explicación paso a paso antes de hacer</span></label>
+          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Con acompañamiento cercano mientras aprendo"><span>🤝 Con acompañamiento cercano mientras aprendo</span></label>
+          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Con autonomía y feedback después de intentarlo"><span>🔄 Con autonomía y feedback después de intentarlo</span></label>
+        </div>
+        <div class="wp-err-msg" id="wp-err-ls">Selecciona al menos una opción</div>
+      </div>
+      <div class="wp-field">
+        <label class="wp-lbl">¿Qué es lo que más te cuesta en situaciones nuevas? <span class="req">*</span></label>
+        <div class="wp-hint">Ser honesto/a aquí le permite a tu líder anticiparse y apoyarte mejor.</div>
+        <textarea class="wp-ta" id="wp-challenges" placeholder="Escribe aquí..."></textarea>
+        <div class="wp-err-msg" id="wp-err-ch">Este campo es obligatorio</div>
+      </div>
+      <div class="wp-field">
+        <label class="wp-lbl">¿Qué tipo de líder saca lo mejor de ti? <span class="req">*</span></label>
+        <div class="wp-hint">Cómo se comunica, cómo acompaña, cómo te hace sentir...</div>
+        <textarea class="wp-ta" id="wp-leader-type" placeholder="Escribe aquí..."></textarea>
+        <div class="wp-err-msg" id="wp-err-lt">Este campo es obligatorio</div>
+      </div>
+      <div class="wp-field">
+        <label class="wp-lbl">¿Qué te gustaría que tu líder sepa para acompañarte mejor? <span class="req">*</span></label>
+        <textarea class="wp-ta" id="wp-leader-know" placeholder="Escribe aquí..."></textarea>
+        <div class="wp-err-msg" id="wp-err-lk">Este campo es obligatorio</div>
+      </div>
+      <div class="wp-nav">
+        <button class="wp-back" onclick="wpBack(3)">← Atrás</button>
+        <button class="wp-finish" onclick="submitSurvey()">¡Enviar mi ficha! 🎉</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     COLLABORATOR APP — VERTICAL LAYOUT
+════════════════════════════════════ -->
+<div id="collab-app">
+
+  <header>
+    <canvas id="particles-canvas"></canvas>
+    <div class="hdr">
+      <div class="hdr-left">
+        <svg class="gco-svg" viewBox="0 0 120 75" xmlns="http://www.w3.org/2000/svg">
+          <text x="2" y="54" font-family="'Nunito',sans-serif" font-weight="900" font-size="58" fill="rgba(255,255,255,.88)" letter-spacing="-3">GCO</text>
+          <circle cx="20" cy="67" r="4.5" fill="#586AE8"/><circle cx="34" cy="67" r="4.5" fill="#FFB901"/>
+          <circle cx="48" cy="67" r="4.5" fill="#C0EE5A"/><circle cx="62" cy="67" r="4.5" fill="#FD636B"/>
+        </svg>
+        <h1 class="hdr-title">Experiencia Inmersión Retail</h1>
+      </div>
+      <div class="hdr-right">
+        <button class="hdr-btn" onclick="logoutColab()">Salir</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="collab-main">
+
+    <!-- HERO CARD -->
+    <div class="hero-card fade-up">
+      <div class="hero-av-wrap">
+        <svg class="day-ring-svg" viewBox="0 0 112 112">
+          <circle class="day-ring-bg" cx="56" cy="56" r="50"/>
+          <circle class="day-ring-fill" id="day-ring" cx="56" cy="56" r="50"
+            stroke="#C0EE5A" stroke-dasharray="314" stroke-dashoffset="314"/>
+        </svg>
+        <div class="hero-av" id="hero-av" onclick="document.getElementById('av-input').click()">
+          <span id="av-emoji">👤</span><img id="av-img" alt="">
+        </div>
+        <div class="hero-av-btn" onclick="document.getElementById('av-input').click()">📷</div>
+        <input type="file" id="av-input" accept="image/*" onchange="handleAvatar(event)">
+      </div>
+      <div class="hero-info">
+        <div class="hero-name">
+          <span id="hero-name-tw"></span><span class="tw-cursor" id="tw-cur" style="display:none"></span>
+        </div>
+        <div class="hero-meta">
+          <span id="sb-marca">—</span>
+          <span id="sb-tienda">—</span>
+          <span id="sb-ced" style="opacity:.5;font-size:.72rem;"></span>
+        </div>
+        <div class="day-pill">
+          <div class="day-dot g" id="day-dot"></div>
+          <div class="day-num" id="day-num">Día 1</div>
+          <div class="day-lbl" id="day-lbl">· Vas bien 🟢</div>
+        </div>
+      </div>
+      <div class="hero-badge-block">
+        <div class="hbb-label">⭐ Badge Actual</div>
+        <div id="sb-badge-img" style="width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;margin:0 auto;font-size:1.8rem;color:rgba(255,255,255,.2);">🔒</div>
+        <div class="sb-badge-name empty" id="sb-badge-name">Sin badge aún</div>
+      </div>
+    </div>
+
+    <!-- PROGRESS MESSAGE -->
+    <div class="prog-msg-card fade-up" id="prog-msg-card" style="background:#eff6ff;">
+      <div class="pmc-icon" id="pmc-icon">🌱</div>
+      <div class="pmc-txt" id="pmc-txt" style="color:var(--blue);">El camino empieza aquí. <em>Cada tarea te acerca un paso más.</em></div>
+    </div>
+
+    <!-- MISSION -->
+    <div class="mission fade-up">
+      <div class="mission-ico">📅</div>
+      <div class="mission-txt">Tu misión es completar los 3 niveles en los primeros <span>30 días</span></div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="summary fade-up">
+      <div class="sum-ttl">📊 Mi Resumen</div>
+      <div class="sum-grid">
+        <div class="sum-item"><div class="sum-lbl">Nivel actual</div><div class="sum-val cv-blue" id="sum-lv">1</div></div>
+        <div class="sum-item"><div class="sum-lbl">Badges</div><div class="sum-val cv-yellow" id="sum-bd">0 / 3</div></div>
+        <div class="sum-item"><div class="sum-lbl">Avance</div><div class="sum-val cv-teal" id="sum-pc">0%</div></div>
+        <div class="sum-item"><div class="sum-lbl">Tareas</div><div class="sum-val" id="sum-tk">0 / 17</div></div>
+      </div>
+      <div class="rainbow"></div>
+    </div>
+
+    <!-- PROGRESS BAR -->
+    <div class="prog-card fade-up">
+      <div class="prog-hdr">
+        <div class="prog-lbl">Progreso General del Pasaporte</div>
+        <div class="prog-pct" id="prog-pct">0%</div>
+      </div>
+      <div class="prog-track">
+        <div class="prog-fill" id="prog-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- LEVELS ACCORDION -->
+    <div class="levels-ttl">🗺️ Tu Journey</div>
+    <div class="levels-grid" id="journey-scroll"></div>
+
+    <!-- BADGES TRAY -->
+    <div class="bdg-section fade-up">
+      <div class="bdg-ttl">🏅 Mis Badges</div>
+      <div class="bdg-tray" id="mob-badge-mini"></div>
+    </div>
+
+    <div class="reset-wrap">
+      <button class="reset-btn" onclick="confirmReset()">🔄 Reiniciar mi progreso</button>
+    </div>
+
+  </main>
+</div>
+
+<!-- ════════════════════════════════════
+     LEADER PANEL
+════════════════════════════════════ -->
+<div id="leader-panel">
+  <div class="lp-wrap">
+    <div class="lp-hdr">
+      <div class="lp-title">Panel de Líder<span id="lp-lname">—</span></div>
+      <div class="lp-acts">
+        <button class="lp-btn lp-btn-ex" onclick="exportExcel()">⬇ Excel</button>
+        <button class="lp-btn" onclick="loadLeaderData()" style="background:rgba(255,255,255,.14);color:#fff;">↺ Actualizar</button>
+        <button class="lp-btn lp-btn-cl" onclick="logoutLeader()">Salir</button>
+      </div>
+    </div>
+    <div class="lp-stats">
+      <div class="lp-stat"><div class="lp-sl">Colaboradores</div><div class="lp-sv b" id="lp-total">0</div></div>
+      <div class="lp-stat"><div class="lp-sl">Avance prom.</div><div class="lp-sv" id="lp-avg">0%</div></div>
+      <div class="lp-stat"><div class="lp-sl">Completaron N3</div><div class="lp-sv y" id="lp-done">0</div></div>
+      <div class="lp-stat"><div class="lp-sl">Por validar</div><div class="lp-sv r" id="lp-pending">0</div></div>
+    </div>
+    <div id="lp-cont"><div class="lp-load">Cargando colaboradores...</div></div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   SUPABASE
+══════════════════════════════════════════ */
+const SB='https://vjvdtbmuiltoqvsuufei.supabase.co';
+const SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqdmR0Ym11aWx0b3F2c3V1ZmVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NTE2NDAsImV4cCI6MjA5NDQyNzY0MH0.l-6R4VONtgWeR4zFYs7KOMkY100l4lrCu3zRZo8ZHvE';
+const SH={'Content-Type':'application/json','apikey':SK,'Authorization':`Bearer ${SK}`};
+const MASTER='GCO2025LIDER';
+const sbq=async(t,c,v)=>{const r=await fetch(`${SB}/rest/v1/${t}?${c}=eq.${encodeURIComponent(v)}&select=*`,{headers:SH});const d=await r.json();return d[0]||null;};
+const sbins=async(t,d)=>{const r=await fetch(`${SB}/rest/v1/${t}`,{method:'POST',headers:{...SH,'Prefer':'return=representation'},body:JSON.stringify(d)});return await r.json();};
+const sbpatch=async(t,c,v,d)=>fetch(`${SB}/rest/v1/${t}?${c}=eq.${encodeURIComponent(v)}`,{method:'PATCH',headers:SH,body:JSON.stringify(d)});
+const sball=async(t,c,v)=>{const u=c?`${SB}/rest/v1/${t}?${c}=eq.${encodeURIComponent(v)}&select=*`:`${SB}/rest/v1/${t}?select=*`;const r=await fetch(u,{headers:SH});return await r.json();};
+
+/* ══════════════════════════════════════════
+   MEDALS
+══════════════════════════════════════════ */
+const BASE='https://estebancrece-collab.github.io/pasaporte-gco';
+const MI={1:`${BASE}/medalla1.png`,2:`${BASE}/medalla2.png`,3:`${BASE}/medalla3.png`};
+const mImg=(id,sz=60,lk=false)=>`<img src="${MI[id]}" style="width:${sz}px;height:auto;display:block;${lk?'filter:grayscale(1);opacity:.3;':''}" draggable="false">`;
+
+/* ══════════════════════════════════════════
+   LEVELS
+══════════════════════════════════════════ */
+const LEVELS=[
+  {id:1,num:'NIVEL 1',name:'Bienvenida GCO',cmp:'Formación GCO',phc:'ph-n1',buc:'bu-n1',sc:'sc-n1',mid:1,
+   badge:'Explorador GCO',story:'Acabas de llegar. Tu primera misión es entender el territorio: quiénes somos, cómo funciona este mundo y qué reglas lo gobiernan.',badgeMsg:'¡Bienvenido/a al universo GCO! Ya nada será igual.',
+   tasks:[{txt:'Conoce el grupo y la compañía',type:'self'},{txt:'Entiende la industria del comercio de moda',type:'self'},{txt:'Identifica las temporadas del calendario comercial',type:'self'},{txt:'Reconoce los actores clave en tienda',type:'self'},{txt:'Comprende los indicadores clave de desempeño',type:'self'},{txt:'Realiza los cursos legales y normativos',type:'self'}]},
+  {id:2,num:'NIVEL 2',name:'Experto de Marca',cmp:'Formación Marca',phc:'ph-n2',buc:'bu-n2',sc:'sc-n2',mid:2,
+   badge:'Embajador de Marca',story:'Ya conoces el mundo. Ahora es momento de encontrar tu lugar en él. Tu marca es tu identidad — aprende a hablar su lenguaje y representarla con orgullo.',badgeMsg:'La marca te eligió. Ahora tú la representas.',
+   tasks:[{txt:'Conoce tu marca',type:'self'},{txt:'Aplica conceptos de styling y outfits',type:'self'},{txt:'Interpreta el visual de la marca',type:'self'},{txt:'Entiende el plan de fidelización',type:'self'},{txt:'Ejecuta el protocolo de servicio de la marca',type:'leader'}]},
+  {id:3,num:'NIVEL 3',name:'Inmersión en Tienda',cmp:'Formación Tienda',phc:'ph-n3',buc:'bu-n3',sc:'sc-n3',mid:3,
+   badge:'Experto en Tienda',story:'Tu territorio ya tiene nombre y dirección. Cada rincón de esta tienda tiene una historia. Tu equipo será tu mayor aliado.',badgeMsg:'Esta tienda ya te conoce. Y tú ya la conoces a ella.',
+   tasks:[{txt:'Conoce tu tienda y tu equipo',type:'leader'},{txt:'Entiende la dinámica de la bodega',type:'leader'},{txt:'Profundiza en los indicadores del negocio',type:'self'},{txt:'Participa en la apertura de tienda',type:'leader'},{txt:'Aprende de tus compañeros en el día a día',type:'leader'},{txt:'Aplica técnicas de despinado, doblado y cuidado de prendas',type:'leader'}]},
+];
+const TOTAL=LEVELS.reduce((s,l)=>s+l.tasks.length,0);
+const PROG_MSGS=[
+  {max:1,bg:'#f0fdf4',c:'#16a34a',i:'🌱',t:'El camino empieza aquí.'},
+  {max:25,bg:'#eff6ff',c:'var(--blue)',i:'🧭',t:'Explorando el universo GCO. <em>¡Sigue así!</em>'},
+  {max:50,bg:'#fffbeb',c:'#b87e00',i:'🔥',t:'Ya encontraste el ritmo.'},
+  {max:75,bg:'#f5f3ff',c:'var(--purple)',i:'⚡',t:'¡Vas fuerte! El badge final está al alcance.'},
+  {max:99,bg:'#fdf4ff',c:'var(--blue)',i:'🚀',t:'¡Último empuje!'},
+  {max:100,bg:'linear-gradient(135deg,#382C54,#586AE8)',c:'#fff',i:'🏆',t:'<em>Misión cumplida.</em> Eres <strong>Experto en Tienda.</strong>'},
+];
+
+/* ══════════════════════════════════════════
+   STATE
+══════════════════════════════════════════ */
+let U=null,L=null,TS={},TO={},prevBdg=0,syncTmr=null,twDone=false;
+const tk=(l,i)=>`${l}_${i}`;
+const getSt=(l,i)=>TS[tk(l,i)]||'pendiente';
+const isDone=id=>LEVELS.find(l=>l.id===id).tasks.every((_,i)=>['completada','validada'].includes(getSt(id,i)));
+const isUnlock=id=>{if(id===1)return true;return isDone(id-1);};
+const cntDone=()=>LEVELS.reduce((s,l)=>s+l.tasks.filter((_,i)=>['completada','validada'].includes(getSt(l.id,i))).length,0);
+const cntBdg=()=>LEVELS.filter(l=>isDone(l.id)).length;
+const pct=()=>Math.round(cntDone()/TOTAL*100);
+const topBdg=()=>{for(let i=LEVELS.length-1;i>=0;i--)if(isDone(LEVELS[i].id))return LEVELS[i];return null;};
+const curLv=()=>{for(let i=LEVELS.length-1;i>=0;i--){if(isUnlock(LEVELS[i].id)&&!isDone(LEVELS[i].id))return LEVELS[i].id;if(isDone(LEVELS[i].id))return LEVELS[i].id;}return 1;};
+const daySince=()=>U?Math.max(1,Math.ceil((Date.now()-new Date(U.fecha_inicio||Date.now()).getTime())/864e5)):1;
+const CS={lv:0,bd:0,pc:0,tk:0};
+function animNum(id,fr,to,sfx='',dur=650){
+  const el=document.getElementById(id);if(!el)return;
+  if(fr===to){el.textContent=to+sfx;return;}
+  const s=performance.now(),d=to-fr;
+  const step=n=>{const t=Math.min((n-s)/dur,1),e=1-Math.pow(1-t,3);el.textContent=Math.round(fr+d*e)+sfx;if(t<1)requestAnimationFrame(step);else{el.textContent=to+sfx;el.classList.add('pop');setTimeout(()=>el.classList.remove('pop'),300);}};
+  requestAnimationFrame(step);
+}
+
+/* ══════════════════════════════════════════
+   SCREENS
+══════════════════════════════════════════ */
+function showSc(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('hide',s.id!==id));}
+
+/* ══════════════════════════════════════════
+   COLLAB FLOW
+══════════════════════════════════════════ */
+async function colabLookup(){
+  const ced=document.getElementById('c-ced').value.trim(),err=document.getElementById('c-err1');
+  err.textContent='';
+  if(!ced){document.getElementById('c-ced').classList.add('err');err.textContent='Ingresa tu cédula.';return;}
+  document.getElementById('c-ced').classList.remove('err');
+  document.getElementById('c-load1').classList.add('show');
+  document.querySelector('#cf-s1 .sc-btn').disabled=true;
+  try{
+    const c=await sbq('colaboradores','cedula',ced);
+    if(c)await loadColabStart(c);
+    else{document.getElementById('cf-s1').classList.add('hide');document.getElementById('cf-s2').classList.remove('hide');}
+  }catch(e){err.textContent='Error de conexión. Intenta de nuevo.';}
+  document.getElementById('c-load1').classList.remove('show');
+  document.querySelector('#cf-s1 .sc-btn').disabled=false;
+}
+async function loadColabStart(c){
+  const tasks=await sball('tareas','cedula',c.cedula);
+  TS={};TO={};tasks.forEach(t=>{const k=tk(t.nivel_id,t.tarea_index);TS[k]=t.estado;if(t.observacion)TO[k]=t.observacion;});
+  U=c;prevBdg=cntBdg();
+  if(c.avatar)localStorage.setItem(`gco_av_${c.cedula}`,c.avatar);
+  startColabApp();
+}
+async function colabRegister(){
+  const ced=document.getElementById('c-ced').value.trim(),nom=document.getElementById('c-nom').value.trim(),marc=document.getElementById('c-marca').value,tiend=document.getElementById('c-tienda').value,err=document.getElementById('c-err2');
+  err.textContent='';
+  if(!nom){err.textContent='Ingresa tu nombre.';return;}
+  if(!marc){err.textContent='Selecciona tu marca.';return;}
+  if(!tiend){err.textContent='Selecciona tu tienda.';return;}
+  document.querySelector('#cf-s2 .sc-btn').disabled=true;document.getElementById('c-load2').classList.add('show');
+  try{
+    const nc={cedula:ced,nombre:nom,marca:marc,tienda:tiend,fecha_inicio:new Date().toISOString()};
+    await sbins('colaboradores',nc);TS={};TO={};U=nc;prevBdg=0;
+    // Show welcome survey for new collaborators
+    showWelcomeSurvey();
+  }catch(e){err.textContent='Error al crear perfil.';}
+  document.querySelector('#cf-s2 .sc-btn').disabled=false;document.getElementById('c-load2').classList.remove('show');
+}
+function startColabApp(){
+  document.querySelectorAll('.screen').forEach(s=>s.style.display='none');
+  document.getElementById('welcome-panel').style.display='none';
+  const app=document.getElementById('collab-app');app.style.display='flex';app.style.flexDirection='column';
+  const av=localStorage.getItem(`gco_av_${U.cedula}`);if(av)applyAv(av);
+  twDone=false;renderJourney();renderSidebar();setTimeout(initParticles,120);
+}
+function logoutColab(){
+  if(!confirm('¿Salir? Tu progreso está guardado en la nube.'))return;
+  U=null;TS={};TO={};twDone=false;
+  document.getElementById('collab-app').style.display='none';
+  document.querySelectorAll('.screen').forEach(s=>s.style.display='');
+  document.getElementById('c-ced').value='';document.getElementById('c-nom').value='';
+  document.getElementById('cf-s1').classList.remove('hide');document.getElementById('cf-s2').classList.add('hide');
+  showSc('sc-role');
+}
+
+/* ══════════════════════════════════════════
+   WELCOME SURVEY
+══════════════════════════════════════════ */
+let wpStep=0;
+
+function showWelcomeSurvey(){
+  document.querySelectorAll('.screen').forEach(s=>s.style.display='none');
+  document.getElementById('welcome-panel').style.display='block';
+  wpStep=0;wpGoTo(0);
+  const ds=document.getElementById('wp-bday-day');
+  ds.innerHTML='<option value="">Día</option>';
+  for(let i=1;i<=31;i++)ds.innerHTML+=`<option value="${i}">${i}</option>`;
+}
+
+function wpGoTo(step){
+  wpStep=step;
+  const total=4;
+  for(let i=0;i<total;i++){
+    const card=document.getElementById(`wp-step-${i}`);
+    const dot=document.getElementById(`wps-${i}`);
+    if(card) card.classList.toggle('active',i===step);
+    if(dot){
+      dot.classList.remove('active','done');
+      if(i<step){dot.classList.add('done');dot.querySelector('.wp-step-dot').textContent='✓';}
+      else dot.querySelector('.wp-step-dot').textContent=i+1;
+      if(i===step)dot.classList.add('active');
+    }
+  }
+  document.getElementById('welcome-panel').scrollTo({top:0,behavior:'smooth'});
+}
+
+function wpNext(step){if(!wpValidate(step))return;wpGoTo(step+1);}
+function wpBack(step){wpGoTo(step-1);}
+
+function wpValidate(step){
+  let ok=true;
+  const req=(id,errId)=>{
+    const el=document.getElementById(id);
+    const v=el?.value?.trim();
+    const bad=!v;
+    showWpErr(errId,bad);
+    if(bad){el?.classList.add('err');ok=false;}
+    else el?.classList.remove('err');
+  };
+  if(step===0){
+    req('wp-preferred-name','wp-err-pn');
+    const bd=document.getElementById('wp-bday-day').value;
+    const bm=document.getElementById('wp-bday-month').value;
+    showWpErr('wp-err-bd',!bd||!bm);
+    if(!bd||!bm)ok=false;
+    req('wp-about-me','wp-err-am');
+  }
+  if(step===1){req('wp-free-time','wp-err-ft');}
+  if(step===2){req('wp-motivation-join','wp-err-mj');req('wp-goals','wp-err-gl');}
+  if(step===3){
+    const ls=document.querySelectorAll('#wp-learning-opts input[type=checkbox]:checked');
+    showWpErr('wp-err-ls',ls.length===0);
+    if(ls.length===0)ok=false;
+    req('wp-challenges','wp-err-ch');
+    req('wp-leader-type','wp-err-lt');
+    req('wp-leader-know','wp-err-lk');
+  }
+  return ok;
+}
+function showWpErr(id,show){const el=document.getElementById(id);if(el)el.classList.toggle('show',show);}
+
+const gVal=id=>document.getElementById(id)?.value?.trim()||null;
+const getChecked=grpId=>[...document.querySelectorAll(`#${grpId} input:checked`)].map(c=>c.value);
+
+async function submitSurvey(){
+  if(!wpValidate(3))return;
+  const btn=document.querySelector('.wp-finish');
+  btn.disabled=true;btn.textContent='Guardando...';
+  const profile={
+    cedula:U.cedula,
+    preferred_name:gVal('wp-preferred-name'),
+    birthday_day:parseInt(document.getElementById('wp-bday-day').value)||null,
+    birthday_month:parseInt(document.getElementById('wp-bday-month').value)||null,
+    living_with:gVal('wp-living'),
+    about_me:gVal('wp-about-me'),
+    free_time:gVal('wp-free-time'),
+    motivation_join:gVal('wp-motivation-join'),
+    goals:gVal('wp-goals'),
+    learning_style:[...document.querySelectorAll('#wp-learning-opts input[type=checkbox]:checked')].map(c=>c.value).join(' · ')||null,
+    challenges:gVal('wp-challenges'),
+    leader_type:gVal('wp-leader-type'),
+    leader_should_know:gVal('wp-leader-know'),
+  };
+  try{await sbins('welcome_profiles',profile);}catch(e){console.warn('Survey err',e);}
+  btn.disabled=false;
+  startColabApp();
+}
+
+function skipSurvey(){
+  if(confirm('¿Deseas completar la ficha más tarde? Tu líder no podrá ver tu información hasta entonces.'))
+    startColabApp();
+}
+
+/* ══════════════════════════════════════════
+   RENDER JOURNEY
+══════════════════════════════════════════ */
+function renderJourney(){
+  const grid=document.getElementById('journey-scroll');
+  if(!grid)return;
+  grid.innerHTML='';
+  // Find which level should be open by default
+  const openId=LEVELS.find(l=>isUnlock(l.id)&&!isDone(l.id))?.id || LEVELS[LEVELS.length-1].id;
+
+  LEVELS.forEach(lv=>{
+    const ul=isUnlock(lv.id),dn=isDone(lv.id);
+    const done=lv.tasks.filter((_,i)=>['completada','validada'].includes(getSt(lv.id,i))).length;
+    const t=lv.tasks.length,p=Math.round(done/t*100);
+    const hc=dn?'ph-done':lv.phc;
+    const isOpen=lv.id===openId;
+
+    const card=document.createElement('div');
+    card.className='lv-card'+(ul?'':' locked');
+
+    const tasksHtml=lv.tasks.map((task,i)=>buildTask(lv.id,task,i)).join('');
+    const stripHtml=`<div class="lv-unlock ${lv.buc}${dn?' show':''}">
+      <div class="bu-img">${mImg(lv.mid,44,false)}</div>
+      <div class="bu-inf">
+        <strong>${lv.badge}</strong>
+        <span>${dn?'¡Badge desbloqueado! 🎉':'Completa todas las tareas para desbloquear'}</span>
+        ${dn?`<div class="bu-em">"${lv.badgeMsg}"</div>`:''}
+      </div>
+    </div>`;
+
+    card.innerHTML=`
+      <div class="lv-hdr ${hc}" onclick="toggleLv(${lv.id},this)">
+        <div class="lv-ico">${mImg(lv.mid,48,!ul)}</div>
+        <div class="lv-inf">
+          <div class="lv-num">${lv.num}${dn?' · ✓ Completado':''}</div>
+          <div class="lv-nm">${lv.name}</div>
+          <div class="lv-cmp">${lv.cmp}</div>
+        </div>
+        <div class="lv-st">
+          ${ul
+            ? `<div class="lv-mbar"><div class="lv-mfil" style="width:${p}%"></div></div>
+               <div class="lv-pt">${done}/${t} · ${p}%</div>`
+            : `<span style="font-size:1.1rem;opacity:.6">🔒</span>`
+          }
+        </div>
+      </div>
+      <div class="lv-body${isOpen?' open':''}">
+        <div class="lv-chapter ${lv.sc}">${lv.story}</div>
+        <div class="ck-list">${tasksHtml}</div>
+        ${stripHtml}
+      </div>`;
+
+    grid.appendChild(card);
+  });
+
+  // Badges tray
+  const tray=document.getElementById('mob-badge-mini');
+  if(tray) tray.innerHTML=LEVELS.map(lv=>{
+    const e=isDone(lv.id);
+    return`<div class="bdg-wrap${e?' earned':''}">
+      ${mImg(lv.mid,88,!e)}
+      <div class="bdg-medal-name">${lv.badge}</div>
+      <div class="bdg-medal-status">${e?'✓ Desbloqueado':'🔒 Bloqueado'}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleLv(id,hdrEl){
+  if(!isUnlock(id))return;
+  const body=hdrEl.closest('.lv-card').querySelector('.lv-body');
+  const isOpen=body.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.lv-body').forEach(b=>b.classList.remove('open'));
+  if(!isOpen)body.classList.add('open');
+}
+
+function buildTask(lvId,task,idx){
+  const st=getSt(lvId,idx),obs=TO[tk(lvId,idx)]||'',isSelf=task.type==='self';
+  let cb='';if(st==='completada'||st==='validada')cb='✓';else if(st==='enviada')cb='⏳';else if(st==='devuelta')cb='↩';
+  let badge='';
+  if(isSelf)badge=`<span class="t-badge tb-self">👤 Autogestión</span>`;
+  else{if(st==='pendiente')badge=`<span class="t-badge tb-val">👨‍💼 Validación líder</span>`;if(st==='enviada')badge=`<span class="t-badge tb-vw">⏳ Enviada al líder</span>`;if(st==='validada')badge=`<span class="t-badge tb-vd">✓ Validada</span>`;if(st==='devuelta')badge=`<span class="t-badge tb-vb">↩ Devuelta</span>`;}
+  const click=isSelf?`onclick="toggleSelf(${lvId},${idx})"`:' ';
+  const sendBtn=(!isSelf&&st==='pendiente')?`<button class="t-send-btn" onclick="sendToLeader(${lvId},${idx})">Enviar al líder</button>`:'';
+  const obsHtml=obs?`<div class="t-obs">💬 ${obs}</div>`:'';
+  return `<div class="task ${isSelf?'self-task':'val-task'} status-${st}" ${click}>
+    <div class="t-cb">${cb}</div>
+    <div class="t-body"><div class="t-txt-wrap"><div class="t-txt">${task.txt}</div><div class="t-strike"></div></div>${badge}${sendBtn}${obsHtml}</div>
+  </div>`;
+}
+
+/* ══════════════════════════════════════════
+   RENDER SIDEBAR
+══════════════════════════════════════════ */
+function renderSidebar(){
+  if(!U)return;
+  typewriter(U.nombre);
+  document.getElementById('sb-marca').textContent=U.marca||'';
+  document.getElementById('sb-tienda').textContent=`Tienda ${U.tienda||''}`;
+  document.getElementById('sb-ced').textContent=`CC ${U.cedula}`;
+  // Badge
+  const b=topBdg();
+  const bimg=document.getElementById('sb-badge-img'),bnm=document.getElementById('sb-badge-name');
+  if(b){
+    bimg.innerHTML=`<img src="${MI[b.mid]}" style="width:90px;height:auto;display:block;margin:0 auto;" class="pop">`;
+    bnm.textContent=b.badge;bnm.className='sb-badge-name';
+  }else{
+    bimg.innerHTML=`<div style="width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;margin:0 auto;font-size:1.8rem;color:rgba(255,255,255,.2);">🔒</div>`;
+    bnm.textContent='Sin badge aún';bnm.className='sb-badge-name empty';
+  }
+  // Stats with animated counters
+  const p=pct(),lv=curLv(),bd=cntBdg(),dn=cntDone();
+  if(lv!==CS.lv){animNum('sum-lv',CS.lv,lv);CS.lv=lv;}else document.getElementById('sum-lv').textContent=lv;
+  if(bd!==CS.bd){animNum('sum-bd',CS.bd,bd,' / 3');CS.bd=bd;}else document.getElementById('sum-bd').textContent=`${bd} / 3`;
+  if(p!==CS.pc){animNum('sum-pc',CS.pc,p,'%');CS.pc=p;}else document.getElementById('sum-pc').textContent=`${p}%`;
+  if(dn!==CS.tk){animNum('sum-tk',CS.tk,dn,` / ${TOTAL}`);CS.tk=dn;}else document.getElementById('sum-tk').textContent=`${dn} / ${TOTAL}`;
+  document.getElementById('prog-pct').textContent=`${p}%`;
+  document.getElementById('prog-fill').style.width=p+'%';
+  // Progress message
+  const msg=PROG_MSGS.find(m=>p<=m.max)||PROG_MSGS[PROG_MSGS.length-1];
+  const mc=document.getElementById('prog-msg-card');
+  if(mc){mc.style.background=msg.bg;document.getElementById('pmc-icon').textContent=msg.i;const pt=document.getElementById('pmc-txt');if(pt){pt.style.color=msg.c;pt.innerHTML=msg.t;}}
+  // Day counter + ring (circumference = 2*PI*50 = 314)
+  const d=daySince();
+  document.getElementById('day-num').textContent=`Día ${d}`;
+  const dl=document.getElementById('day-lbl'),dd=document.getElementById('day-dot');
+  if(d<=20){dl.textContent='· Vas bien 🟢';dd.className='day-dot g';}
+  else if(d<=27){dl.textContent='· Aprieta el paso 🟡';dd.className='day-dot y';}
+  else{dl.textContent='· ¡Último empuje! 🔴';dd.className='day-dot r';}
+  const ring=document.getElementById('day-ring');
+  if(ring){const c=314,off=c-(Math.min(d/30,1)*c);ring.style.strokeDashoffset=off;ring.style.stroke=d<=20?'#C0EE5A':d<=27?'#FFB901':'#FD636B';}
+}
+
+function render(){
+  const nb=cntBdg();
+  if(nb>prevBdg){const je=LEVELS.filter(l=>isDone(l.id))[nb-1];if(je){showCelebration(je);launchConfetti();}}
+  prevBdg=nb;renderJourney();renderSidebar();scheduleSave();
+}
+
+/* ══════════════════════════════════════════
+   TASK INTERACTIONS
+══════════════════════════════════════════ */
+function toggleSelf(lvId,idx){
+  const k=tk(lvId,idx);TS[k]=TS[k]==='completada'?'pendiente':'completada';
+  render();saveTaskDirect(lvId,idx,TS[k],null);
+}
+async function sendToLeader(lvId,idx){
+  const k=tk(lvId,idx);TS[k]='enviada';render();
+  showSync('saving','Enviando al líder...');await saveTaskDirect(lvId,idx,'enviada',null);showSync('ok','✓ Enviado al líder');
+}
+async function saveTaskDirect(lvId,idx,estado,obs){
+  if(!U)return;
+  const ced=U.cedula,tipo=LEVELS.find(l=>l.id===lvId).tasks[idx].type,fecha=new Date().toISOString();
+  try{
+    await fetch(`${SB}/rest/v1/tareas?cedula=eq.${ced}&nivel_id=eq.${lvId}&tarea_index=eq.${idx}`,{method:'DELETE',headers:SH});
+    await fetch(`${SB}/rest/v1/tareas`,{method:'POST',headers:{...SH,'Prefer':'return=minimal'},body:JSON.stringify({cedula:ced,nivel_id:lvId,tarea_index:idx,tipo,estado,observacion:obs||null,fecha})});
+  }catch(e){console.warn('save err',e);}
+}
+function scheduleSave(){clearTimeout(syncTmr);syncTmr=setTimeout(syncAll,1800);}
+async function syncAll(){
+  if(!U)return;showSync('saving','Guardando...');
+  try{
+    for(const lv of LEVELS)for(let i=0;i<lv.tasks.length;i++){const k=tk(lv.id,i),st=TS[k]||'pendiente';if(st!=='pendiente')await saveTaskDirect(lv.id,i,st,TO[k]||null);}
+    const av=localStorage.getItem(`gco_av_${U.cedula}`);
+    await sbpatch('colaboradores','cedula',U.cedula,{fecha_actualizacion:new Date().toISOString(),avatar:av||null});
+    showSync('ok','✓ Guardado');
+  }catch(e){showSync('err','⚠ Sin conexión');}
+}
+let sbt;function showSync(state,msg){const b=document.getElementById('sync-bar'),sp=document.getElementById('sync-sp'),tx=document.getElementById('sync-tx');b.className='show '+(state==='saving'?'':state);sp.style.display=state==='saving'?'block':'none';tx.textContent=msg;if(state!=='saving'){clearTimeout(sbt);sbt=setTimeout(()=>b.className='',2800);}}
+function confirmReset(){if(!confirm('¿Reiniciar todo tu progreso?'))return;TS={};TO={};prevBdg=0;twDone=false;renderJourney();renderSidebar();}
+
+/* ══════════════════════════════════════════
+   AVATAR
+══════════════════════════════════════════ */
+function handleAvatar(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{const src=ev.target.result;if(U){localStorage.setItem(`gco_av_${U.cedula}`,src);sbpatch('colaboradores','cedula',U.cedula,{avatar:src}).catch(()=>{});}applyAv(src);};r.readAsDataURL(f);}
+function applyAv(src){const em=document.getElementById('av-emoji'),img=document.getElementById('av-img');if(img){img.src=src;img.style.display='block';if(em)em.style.display='none';}}
+
+/* ══════════════════════════════════════════
+   TYPEWRITER
+══════════════════════════════════════════ */
+function typewriter(name){
+  if(twDone){const el=document.getElementById('hero-name-tw');if(el)el.textContent=name;return;}
+  twDone=true;
+  const el=document.getElementById('hero-name-tw'),cur=document.getElementById('tw-cur');if(!el||!cur)return;
+  const g=`Hola, ${name} 👋`;el.textContent='';cur.style.display='inline-block';let i=0;
+  const iv=setInterval(()=>{el.textContent=g.slice(0,++i);if(i>=g.length){clearInterval(iv);setTimeout(()=>{cur.style.display='none';el.textContent=name;},1900);}},52);
+}
+
+/* ══════════════════════════════════════════
+   CELEBRATION + CONFETTI
+══════════════════════════════════════════ */
+function showCelebration(lv){
+  const el=document.getElementById('level-celebration');
+  document.getElementById('lc-img').src=MI[lv.mid];document.getElementById('lc-sub').textContent=lv.badge;
+  el.classList.remove('show');void el.offsetWidth;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3800);showBadgeToast(lv);
+}
+let tT;function showBadgeToast(lv){document.getElementById('toast-img').innerHTML=`<img src="${MI[lv.mid]}" style="width:40px;height:auto;">`;document.getElementById('t-ttl').textContent=`¡${lv.badge} desbloqueado!`;document.getElementById('t-sub').textContent=lv.badgeMsg;const t=document.getElementById('badge-toast');t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),5000);}
+function launchConfetti(){
+  const fl=document.getElementById('flash-overlay');fl.className='active';setTimeout(()=>fl.className='',1000);
+  const cv=document.getElementById('confetti-canvas');cv.style.display='block';cv.width=window.innerWidth;cv.height=window.innerHeight;
+  const ctx=cv.getContext('2d'),C=['#586AE8','#FFB901','#6DC7CC','#FD636B','#C0EE5A','#382C54','#fff'],S=['rect','circle','star'],B=[{x:cv.width*.2,y:cv.height*.35},{x:cv.width*.5,y:cv.height*.25},{x:cv.width*.8,y:cv.height*.35}],ps=[];
+  B.forEach(b=>{for(let k=0;k<90;k++){const a=Math.random()*Math.PI*2,sp=7+Math.random()*18;ps.push({x:b.x,y:b.y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-12,w:7+Math.random()*10,h:7+Math.random()*15,c:C[~~(Math.random()*C.length)],s:S[~~(Math.random()*S.length)],r:Math.random()*360,rv:(Math.random()-.5)*15,a:1,g:.42});}});
+  for(let k=0;k<120;k++)ps.push({x:Math.random()*cv.width,y:-20-Math.random()*220,vx:(Math.random()-.5)*4,vy:3+Math.random()*7,w:6+Math.random()*9,h:8+Math.random()*14,c:C[~~(Math.random()*C.length)],s:S[~~(Math.random()*S.length)],r:Math.random()*360,rv:(Math.random()-.5)*10,a:1,g:.24});
+  function star(ct,cx,cy,r){ct.beginPath();for(let i=0;i<5;i++){const a=(i*4*Math.PI/5)-Math.PI/2,b=((i*4+2)*Math.PI/5)-Math.PI/2;i===0?ct.moveTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r):ct.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);ct.lineTo(cx+Math.cos(b)*(r*.4),cy+Math.sin(b)*(r*.4));}ct.closePath();ct.fill();}
+  let fr=0;function draw(){ctx.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{ctx.save();ctx.globalAlpha=p.a;ctx.translate(p.x,p.y);ctx.rotate(p.r*Math.PI/180);ctx.fillStyle=p.c;if(p.s==='rect')ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);else if(p.s==='circle'){ctx.beginPath();ctx.arc(0,0,p.w/2,0,Math.PI*2);ctx.fill();}else star(ctx,0,0,p.w/2);ctx.restore();p.x+=p.vx;p.y+=p.vy;p.vy+=p.g;p.vx*=.99;p.r+=p.rv;if(fr>95)p.a-=.012;});fr++;if(fr<210)requestAnimationFrame(draw);else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}}draw();
+}
+
+/* ══════════════════════════════════════════
+   PARTICLES
+══════════════════════════════════════════ */
+function initParticles(){
+  const cv=document.getElementById('particles-canvas');if(!cv)return;
+  const hdr=cv.closest('header');if(!hdr)return;
+  cv.width=hdr.offsetWidth;cv.height=hdr.offsetHeight;
+  const ctx=cv.getContext('2d'),C=['#586AE8','#FFB901','#6DC7CC','#FD636B','#C0EE5A'];
+  const dots=Array.from({length:22},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,r:1.8+Math.random()*3.2,c:C[~~(Math.random()*C.length)],vx:(Math.random()-.5)*.38,vy:(Math.random()-.5)*.38,a:.1+Math.random()*.32}));
+  function draw(){ctx.clearRect(0,0,cv.width,cv.height);dots.forEach(d=>{ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);ctx.fillStyle=d.c;ctx.globalAlpha=d.a;ctx.fill();ctx.globalAlpha=1;d.x+=d.vx;d.y+=d.vy;if(d.x<0||d.x>cv.width)d.vx*=-1;if(d.y<0||d.y>cv.height)d.vy*=-1;});requestAnimationFrame(draw);}draw();
+  window.addEventListener('resize',()=>{cv.width=hdr.offsetWidth;cv.height=hdr.offsetHeight;});
+}
+
+/* ══════════════════════════════════════════
+   LEADER FLOW
+══════════════════════════════════════════ */
+async function leaderLogin(){
+  const ced=document.getElementById('l-ced').value.trim(),pin=document.getElementById('l-pin').value.trim(),err=document.getElementById('l-err');
+  err.textContent='';if(!ced||!pin){err.textContent='Completa todos los campos.';return;}
+  document.querySelector('#sc-leader-login .sc-btn').disabled=true;document.getElementById('l-load').classList.add('show');
+  try{const ldr=await sbq('lideres','cedula',ced);if(!ldr||ldr.pin!==pin)err.textContent='Cédula o PIN incorrecto.';else{L=ldr;startLeaderPanel();}}catch(e){err.textContent='Error de conexión.';}
+  document.querySelector('#sc-leader-login .sc-btn').disabled=false;document.getElementById('l-load').classList.remove('show');
+}
+async function leaderRegister(){
+  const master=document.getElementById('lr-master').value.trim(),ced=document.getElementById('lr-ced').value.trim(),nom=document.getElementById('lr-nom').value.trim(),tiend=document.getElementById('lr-tienda').value,pin=document.getElementById('lr-pin').value.trim(),err=document.getElementById('lr-err');
+  err.textContent='';if(master!==MASTER){err.textContent='Código maestro incorrecto.';return;}if(!ced||!nom||!tiend||!pin){err.textContent='Completa todos los campos.';return;}if(pin.length<4){err.textContent='El PIN debe tener al menos 4 caracteres.';return;}
+  document.querySelector('#sc-leader-reg .sc-btn').disabled=true;document.getElementById('lr-load').classList.add('show');
+  try{const ex=await sbq('lideres','cedula',ced);if(ex)err.textContent='Esta cédula ya está registrada.';else{await sbins('lideres',{cedula:ced,nombre:nom,tienda:tiend,pin});L={cedula:ced,nombre:nom,tienda:tiend,pin};startLeaderPanel();}}catch(e){err.textContent='Error al registrar.';}
+  document.querySelector('#sc-leader-reg .sc-btn').disabled=false;document.getElementById('lr-load').classList.remove('show');
+}
+function startLeaderPanel(){
+  document.querySelectorAll('.screen').forEach(s=>s.style.display='none');
+  document.getElementById('leader-panel').style.display='block';
+  document.getElementById('lp-lname').textContent=`${L.nombre} · Tienda ${L.tienda}`;
+  loadLeaderData();
+}
+function logoutLeader(){L=null;document.getElementById('leader-panel').style.display='none';document.querySelectorAll('.screen').forEach(s=>s.style.display='');document.getElementById('l-ced').value='';document.getElementById('l-pin').value='';showSc('sc-role');}
+
+let ldrC=[];
+async function loadLeaderData(){
+  document.getElementById('lp-cont').innerHTML='<div class="lp-load">Cargando colaboradores...</div>';
+  try{
+    ldrC=await sball('colaboradores','tienda',L.tienda);
+    for(const c of ldrC){
+      const tasks=await sball('tareas','cedula',c.cedula);
+      c._t={};c._o={};tasks.forEach(t=>{const k=tk(t.nivel_id,t.tarea_index);c._t[k]=t.estado;if(t.observacion)c._o[k]=t.observacion;});
+      // Load welcome profile
+      const wp=await sbq('welcome_profiles','cedula',c.cedula);c._wp=wp||null;
+    }
+    renderLeaderPanel();
+  }catch(e){document.getElementById('lp-cont').innerHTML='<div class="lp-load" style="color:var(--coral)">⚠ Error al cargar.</div>';}
+}
+
+function renderLeaderPanel(){
+  const total=ldrC.length;let totPct=0,done3=0,totPend=0;
+  ldrC.forEach(c=>{let comp=0;LEVELS.forEach(lv=>lv.tasks.forEach((_,i)=>{if(['completada','validada'].includes(c._t[tk(lv.id,i)]||'pendiente'))comp++;}));c._pct=Math.round(comp/TOTAL*100);totPct+=c._pct;if(LEVELS[2].tasks.every((_,i)=>['completada','validada'].includes(c._t[tk(3,i)]||'pendiente')))done3++;let pend=0;LEVELS.forEach(lv=>lv.tasks.forEach((t,i)=>{if(t.type==='leader'&&(c._t[tk(lv.id,i)]||'pendiente')==='enviada')pend++;}));c._pend=pend;totPend+=pend;});
+  document.getElementById('lp-total').textContent=total;document.getElementById('lp-avg').textContent=total?Math.round(totPct/total)+'%':'0%';document.getElementById('lp-done').textContent=done3;document.getElementById('lp-pending').textContent=totPend;
+  if(!total){document.getElementById('lp-cont').innerHTML='<div class="lp-load">No hay colaboradores en esta tienda.</div>';return;}
+  ldrC.sort((a,b)=>b._pend-a._pend);
+  const html=ldrC.map((c,ci)=>{
+    const ini=c.nombre.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    const avHtml=c.avatar?`<div class="lp-av"><img src="${c.avatar}" alt="${c.nombre}"></div>`:`<div class="lp-av">${ini}</div>`;
+    const pb=c._pend>0?`<span class="lp-pb">${c._pend} por validar</span>`:`<span class="lp-pb ok">Al día ✓</span>`;
+    const hasFicha=!!c._wp;
+    // Validation tab
+    let vItems='';LEVELS.forEach(lv=>{lv.tasks.forEach((t,i)=>{if(t.type!=='leader')return;const st=c._t[tk(lv.id,i)]||'pendiente';const obs=c._o[tk(lv.id,i)]||'';if(st==='pendiente')return;const sc=st==='enviada'?'pend':st==='validada'?'val':'ret';const sl=st==='enviada'?'⏳ Enviada':st==='validada'?'✓ Validada':'↩ Devuelta';const sbc=st==='enviada'?'vsp':st==='validada'?'vsv':'vsr';vItems+=`<div class="lp-vi ${sc}"><div class="lp-vl2">${lv.num}</div><div class="lp-vn">${t.txt}</div><span class="lp-vs ${sbc}">${sl}</span>${obs?`<div class="lp-oe">Obs: ${obs}</div>`:''}${st==='enviada'?`<div class="lp-va"><input class="lp-oi" id="oi_${ci}_${lv.id}_${i}" placeholder="Observación (opcional)"><button class="lp-vb a" onclick="validateTask('${c.cedula}',${lv.id},${i},${ci},'validada')">✓ Validar</button><button class="lp-vb r" onclick="validateTask('${c.cedula}',${lv.id},${i},${ci},'devuelta')">↩ Devolver</button></div>`:''}</div>`;});});
+    if(!vItems)vItems='<div class="lp-np">No hay momentos enviados a validación.</div>';
+    // Welcome profile tab
+    const wfHtml=hasFicha?buildWelcomeProfile(c._wp):`<div class="wf-no-profile">📋 Este colaborador aún no ha completado su Ficha de Bienvenida.</div>`;
+    return`<div class="lp-cc">
+      <div class="lp-ch" onclick="toggleCC(${ci})">${avHtml}<div class="lp-ci"><div class="lp-cn">${c.nombre}</div><div class="lp-cm">CC ${c.cedula} · ${c.marca||'—'} · Tienda ${c.tienda}${hasFicha?' · 📋 Ficha completada':''}</div></div><div class="lp-cr"><div class="lp-pct">${c._pct}%</div>${pb}</div></div>
+      <div class="lp-cb" id="lp-cb-${ci}">
+        <div class="lp-tab-bar">
+          <div class="lp-tab active" id="tab-val-${ci}" onclick="switchTab(${ci},'val')">✓ Validaciones</div>
+          <div class="lp-tab" id="tab-ficha-${ci}" onclick="switchTab(${ci},'ficha')">📋 Ficha de Bienvenida</div>
+        </div>
+        <div class="lp-tab-content active" id="tc-val-${ci}">
+          <div class="lp-vttl">Momentos por validar</div>
+          <div class="lp-vl">${vItems}</div>
+        </div>
+        <div class="lp-tab-content" id="tc-ficha-${ci}">${wfHtml}</div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('lp-cont').innerHTML=`<div class="lp-list">${html}</div>`;
+}
+
+function switchTab(ci,tab){
+  ['val','ficha'].forEach(t=>{
+    document.getElementById(`tab-${t}-${ci}`).classList.toggle('active',t===tab);
+    document.getElementById(`tc-${t}-${ci}`).classList.toggle('active',t===tab);
+  });
+}
+
+function buildWelcomeProfile(wp){
+  const months=['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const bday=wp.birthday_day&&wp.birthday_month?`${wp.birthday_day} de ${months[wp.birthday_month]}`:null;
+  const blk=(ico,lbl,val)=>val?`<div class="wf-row"><div class="wf-lbl">${ico} ${lbl}</div><div class="wf-val">${val}</div></div>`:'';
+
+  // Resumen ejecutivo para el líder
+  const si=[];
+  if(wp.preferred_name)si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">😊</div><div class="wf-sum-txt">Prefiere que le digan <strong>${wp.preferred_name}</strong></div></div>`);
+  if(bday)si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">🎂</div><div class="wf-sum-txt">Cumpleaños: <strong>${bday}</strong></div></div>`);
+  if(wp.free_time){const s=wp.free_time.length>80?wp.free_time.slice(0,80)+'...':wp.free_time;si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">🌍</div><div class="wf-sum-txt">Le apasiona: <strong>${s}</strong></div></div>`);}
+  if(wp.learning_style)si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">🧠</div><div class="wf-sum-txt">Aprende mejor: <strong>${wp.learning_style}</strong></div></div>`);
+  if(wp.leader_type){const s=wp.leader_type.length>80?wp.leader_type.slice(0,80)+'...':wp.leader_type;si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">🏆</div><div class="wf-sum-txt">El líder que lo impulsa: <strong>${s}</strong></div></div>`);}
+  if(wp.leader_should_know){const s=wp.leader_should_know.length>80?wp.leader_should_know.slice(0,80)+'...':wp.leader_should_know;si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">📝</div><div class="wf-sum-txt">Clave para ti como líder: <strong>${s}</strong></div></div>`);}
+
+  // Preguntas sugeridas 100% personalizadas
+  const qs=[];
+  if(wp.free_time){const t=wp.free_time.split(/[,.\n]/).shift().trim();qs.push(`Mencionaste que te apasiona "${t.length>40?t.slice(0,40)+'...':t}". ¿Cómo eso te define como persona?`);}
+  if(wp.motivation_join)qs.push(`Entraste a GCO porque "${wp.motivation_join.slice(0,55)}...". ¿Qué necesitarías ver para saber que fue la decisión correcta?`);
+  if(wp.goals)qs.push(`Tienes metas claras. ¿Cómo puede este rol ser un paso real hacia lo que quieres lograr?`);
+  if(wp.challenges)qs.push(`Dijiste que te cuesta "${wp.challenges.slice(0,55)}...". ¿Qué podemos hacer juntos para que eso no sea una barrera?`);
+  if(wp.leader_type)qs.push(`El líder que saca lo mejor de ti "${wp.leader_type.slice(0,55)}...". ¿Cómo puedo ser ese tipo de líder contigo desde el primer día?`);
+  qs.push('¿Qué esperas de tu primera semana aquí?');
+  qs.push('¿Hay algo que te genere incertidumbre y quieras que conversemos antes de empezar?');
+  const qsHtml=qs.slice(0,6).map((q,i)=>`<div class="wf-q-item"><div class="wf-q-bullet">${i+1}</div><div class="wf-q-txt">"${q}"</div></div>`).join('');
+
+  return`
+    <div class="wf-summary-card">
+      <div class="wf-sum-title">⭐ Resumen para la primera conversación</div>
+      ${si.join('')}
+    </div>
+    <div class="wf-section">
+      <div class="wf-sec-title">📋 Datos básicos</div>
+      ${blk('😊','Prefiere que le llamen',wp.preferred_name)}
+      ${blk('🎂','Cumpleaños',bday)}
+      ${blk('🏠','Con quién vive',wp.living_with)}
+    </div>
+    <div class="wf-section">
+      <div class="wf-sec-title">💬 Sobre la persona</div>
+      ${blk('✨','Algo que quiere que el equipo sepa',wp.about_me)}
+      ${blk('🌍','Qué le apasiona fuera del trabajo',wp.free_time)}
+    </div>
+    <div class="wf-section">
+      <div class="wf-sec-title">🚀 Motivación y metas</div>
+      ${blk('💥','Por qué ingresó a GCO',wp.motivation_join)}
+      ${blk('🎯','Sus metas',wp.goals)}
+    </div>
+    <div class="wf-section">
+      <div class="wf-sec-title">🧠 Cómo acompañarlo/a</div>
+      ${blk('📚','Cómo aprende mejor',wp.learning_style)}
+      ${blk('⚠️','Qué le cuesta en situaciones nuevas',wp.challenges)}
+      ${blk('🏆','El tipo de líder que saca lo mejor de sí',wp.leader_type)}
+      ${blk('📝','Lo que le gustaría que su líder sepa',wp.leader_should_know)}
+    </div>
+    <div class="wf-questions">
+      <div class="wf-q-title">💬 Preguntas sugeridas — basadas en sus respuestas reales</div>
+      ${qsHtml}
+    </div>`;
+}
+
+function toggleCC(ci){const b=document.getElementById(`lp-cb-${ci}`);b.classList.toggle('open');}
+async function validateTask(ced,lvId,idx,ci,ns){
+  const oi=document.getElementById(`oi_${ci}_${lvId}_${idx}`);const obs=oi?oi.value.trim():'';
+  try{
+    const ex=await sball('tareas','cedula',ced);const row=ex.find(t=>t.nivel_id===lvId&&t.tarea_index===idx);
+    if(row)await fetch(`${SB}/rest/v1/tareas?id=eq.${row.id}`,{method:'PATCH',headers:SH,body:JSON.stringify({estado:ns,validado_por:L.cedula,observacion:obs||null,fecha:new Date().toISOString()})});
+    const c=ldrC[ci];const k=tk(lvId,idx);c._t[k]=ns;if(obs)c._o[k]=obs;
+    c._pend=LEVELS.reduce((s,lv)=>s+lv.tasks.filter((t,i)=>t.type==='leader'&&(c._t[tk(lv.id,i)]||'pendiente')==='enviada').length,0);
+    renderLeaderPanel();showSync('ok','✓ Validación guardada');
+  }catch(e){showSync('err','⚠ Error al guardar');}
+}
+
+function exportExcel(){
+  if(!ldrC.length){alert('No hay datos para exportar.');return;}
+  const H=['Nombre','Cédula','Marca','Tienda','Nivel','Avance%','Completadas','Total','Badge N1','Badge N2','Badge N3','Por Validar','Días','Fecha Inicio','Ficha Completada','Prefiere que le llamen','Cumpleaños'];
+  const R=ldrC.map(c=>{
+    let comp=0,b1=false,b2=false,b3=false;LEVELS.forEach(lv=>{const ld=lv.tasks.every((_,i)=>['completada','validada'].includes(c._t[tk(lv.id,i)]||'pendiente'));if(lv.id===1)b1=ld;if(lv.id===2)b2=ld;if(lv.id===3)b3=ld;lv.tasks.forEach((_,i)=>{if(['completada','validada'].includes(c._t[tk(lv.id,i)]||'pendiente'))comp++;});});
+    const cl=LEVELS.findLast(lv=>lv.tasks.some((_,i)=>['completada','validada'].includes(c._t[tk(lv.id,i)]||'pendiente')))?.id||1;
+    const dias=c.fecha_inicio?Math.max(1,Math.ceil((Date.now()-new Date(c.fecha_inicio).getTime())/864e5)):1;
+    const wp=c._wp;const months=['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    const bday=wp&&wp.birthday_day?`${wp.birthday_day}/${months[wp.birthday_month]}`:'-';
+    return[c.nombre,c.cedula,c.marca||'',c.tienda,cl,`${c._pct}%`,comp,TOTAL,b1?'Sí':'No',b2?'Sí':'No',b3?'Sí':'No',c._pend,dias,c.fecha_inicio?new Date(c.fecha_inicio).toLocaleDateString('es-CO'):'',wp?'Sí':'No',wp?wp.preferred_name||'-':'-',bday];
+  });
+  const csv=[H,...R].map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'}));a.download=`GCO_Tienda${L.tienda}_${new Date().toISOString().slice(0,10)}.csv`;a.click();
+}
+
+/* ══ END ══ */
+</script>
+</body>
+</html>
