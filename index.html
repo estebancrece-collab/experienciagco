@@ -338,7 +338,34 @@ header::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;he
 .wf-q-txt{font-size:.8rem;color:var(--text);line-height:1.45;font-style:italic;}
 .wf-no-profile{padding:20px;text-align:center;color:#bbb;font-size:.84rem;}
 
-/* ── WELCOME SURVEY PANEL ── */
+/* ── ADMIN PANEL ── */
+#admin-panel{display:none;position:fixed;inset:0;z-index:1600;background:var(--bg);overflow-y:auto;}
+.ap-wrap{max-width:980px;margin:0 auto;padding:20px 14px 60px;}
+.ap-hdr{background:linear-gradient(135deg,#1a1230,var(--purple));border-radius:18px;padding:17px 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:9px;}
+.ap-title{font-family:'Nunito',sans-serif;font-size:1rem;font-weight:900;color:#fff;}
+.ap-title span{color:rgba(255,255,255,.45);font-size:.74rem;display:block;margin-top:2px;}
+.ap-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.ap-tab{padding:8px 18px;border-radius:99px;border:2px solid #e8eaf0;background:#fff;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:800;cursor:pointer;transition:all .2s;color:#aaa;}
+.ap-tab.active{background:var(--purple);color:#fff;border-color:var(--purple);}
+.ap-section{display:none;}.ap-section.active{display:block;}
+.ap-table{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--sh);}
+.ap-table th{background:var(--purple);color:#fff;font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:800;padding:10px 14px;text-align:left;}
+.ap-table td{padding:10px 14px;font-size:.82rem;border-bottom:1px solid #f0f1f8;vertical-align:middle;}
+.ap-table tr:last-child td{border-bottom:none;}
+.ap-table tr:hover td{background:#f7f8fb;}
+.ap-del-btn{padding:4px 12px;border-radius:99px;border:none;background:#fff1f2;color:var(--coral);font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:800;cursor:pointer;transition:all .2s;}
+.ap-del-btn:hover{background:var(--coral);color:#fff;}
+.ap-mark-btn{padding:4px 10px;border-radius:99px;border:1.5px solid #bbf7d0;background:#f0fdf4;color:#16a34a;font-family:'Nunito',sans-serif;font-size:.68rem;font-weight:800;cursor:pointer;transition:all .2s;margin-right:4px;}
+.ap-mark-btn:hover{background:#16a34a;color:#fff;}
+.ap-task-row td{font-size:.78rem;}
+.ap-badge{display:inline-flex;padding:2px 9px;border-radius:99px;font-size:.66rem;font-weight:800;}
+.ap-badge.done{background:#f0fdf4;color:#16a34a;}
+.ap-badge.pend{background:#f7f8fb;color:#aaa;}
+.ap-badge.sent{background:#fffbeb;color:#92400e;}
+.ap-empty{padding:24px;text-align:center;color:#bbb;font-size:.86rem;}
+.ap-search{width:100%;padding:10px 14px;border-radius:11px;border:2px solid #e8eaf0;font-family:'Nunito Sans',sans-serif;font-size:.88rem;outline:none;margin-bottom:14px;transition:border-color .2s;}
+.ap-search:focus{border-color:var(--blue);}
+
 #welcome-panel{display:none;position:fixed;inset:0;z-index:2500;background:var(--purple);overflow-y:auto;}
 .wp-wrap{max-width:620px;margin:0 auto;padding:24px 16px 60px;}
 .wp-header{text-align:center;margin-bottom:22px;padding-top:8px;}
@@ -423,6 +450,7 @@ header::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;he
   <div class="role-cards">
     <div class="role-card" onclick="showSc('sc-colab')"><div class="role-ic">🧭</div><div class="role-info"><strong>Soy Colaborador</strong><span>Ver mi pasaporte y completar mi journey</span></div></div>
     <div class="role-card" onclick="showSc('sc-leader-login')"><div class="role-ic">🏆</div><div class="role-info"><strong>Soy Líder / Mentor</strong><span>Validar y hacer seguimiento a mi equipo</span></div></div>
+    <div class="role-card" onclick="showSc('sc-admin')" style="border-color:rgba(253,99,107,.3);"><div class="role-ic">⚙️</div><div class="role-info"><strong>Administrador</strong><span>Gestión de usuarios, tareas y configuración</span></div></div>
   </div>
   <div class="sc-dots"><span style="background:#586AE8"></span><span style="background:#FFB901"></span><span style="background:#C0EE5A"></span><span style="background:#FD636B"></span></div>
 </div>
@@ -480,6 +508,19 @@ header::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;he
     <div class="sc-loader" id="lr-load"><div class="spinner"></div> Registrando...</div>
   </div>
   <div class="sc-back" onclick="showSc('sc-leader-login')">← Volver</div>
+</div>
+
+<!-- ADMIN LOGIN SCREEN -->
+<div class="screen hide" id="sc-admin">
+  <div class="sc-logo"><svg viewBox="0 0 140 80" xmlns="http://www.w3.org/2000/svg"><text x="2" y="60" font-family="'Nunito',sans-serif" font-weight="900" font-size="64" fill="rgba(255,255,255,.9)" letter-spacing="-3">GCO</text><circle cx="22" cy="73" r="5" fill="#586AE8"/><circle cx="38" cy="73" r="5" fill="#FFB901"/><circle cx="54" cy="73" r="5" fill="#C0EE5A"/><circle cx="70" cy="73" r="5" fill="#FD636B"/></svg></div>
+  <div class="sc-title">Acceso de<br><span>Administrador</span></div>
+  <div class="sc-sub">Ingresa la clave maestra de administrador</div>
+  <div class="sc-form">
+    <div><label class="sc-lbl">Clave de administrador</label><input class="sc-inp" id="adm-key" type="password" placeholder="Clave de acceso"></div>
+    <div class="sc-err" id="adm-err"></div>
+    <button class="sc-btn" onclick="adminLogin()">Ingresar como Admin</button>
+  </div>
+  <div class="sc-back" onclick="showSc('sc-role')">← Volver</div>
 </div>
 
 <!-- ════════════════════════════════════
@@ -747,6 +788,40 @@ header::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;he
       <div class="lp-stat"><div class="lp-sl">Por validar</div><div class="lp-sv r" id="lp-pending">0</div></div>
     </div>
     <div id="lp-cont"><div class="lp-load">Cargando colaboradores...</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     ADMIN PANEL
+════════════════════════════════════ -->
+<div id="admin-panel">
+  <div class="ap-wrap">
+    <div class="ap-hdr">
+      <div class="ap-title">Panel de Administrador <span>GCO · Acceso total</span></div>
+      <div style="display:flex;gap:8px;">
+        <button class="lp-btn" onclick="loadAdminData()" style="background:rgba(255,255,255,.14);color:#fff;">↺ Actualizar</button>
+        <button class="lp-btn lp-btn-cl" onclick="logoutAdmin()">Salir</button>
+      </div>
+    </div>
+    <div class="ap-tabs">
+      <div class="ap-tab active" onclick="switchAdminTab('colaboradores')">👥 Colaboradores</div>
+      <div class="ap-tab" onclick="switchAdminTab('lideres')">🏆 Líderes</div>
+      <div class="ap-tab" onclick="switchAdminTab('tareas')">✅ Tareas</div>
+    </div>
+    <!-- COLABORADORES -->
+    <div class="ap-section active" id="ap-colaboradores">
+      <input class="ap-search" id="ap-search-colab" placeholder="Buscar por nombre o cédula..." oninput="filterAdminTable('colab')">
+      <div id="ap-colab-cont"><div class="ap-empty">Cargando...</div></div>
+    </div>
+    <!-- LÍDERES -->
+    <div class="ap-section" id="ap-lideres">
+      <div id="ap-lider-cont"><div class="ap-empty">Cargando...</div></div>
+    </div>
+    <!-- TAREAS -->
+    <div class="ap-section" id="ap-tareas">
+      <input class="ap-search" id="ap-search-tareas" placeholder="Buscar por cédula o nombre..." oninput="filterAdminTable('tareas')">
+      <div id="ap-tareas-cont"><div class="ap-empty">Cargando...</div></div>
+    </div>
   </div>
 </div>
 
@@ -1259,6 +1334,7 @@ function renderLeaderPanel(){
         <div class="lp-tab-bar">
           <div class="lp-tab active" id="tab-val-${ci}" onclick="switchTab(${ci},'val')">✓ Validaciones</div>
           <div class="lp-tab" id="tab-ficha-${ci}" onclick="switchTab(${ci},'ficha')">📋 Ficha de Bienvenida</div>
+          <div class="lp-tab" id="tab-pdf-${ci}" onclick="downloadCV(${ci})" style="color:#16a34a;margin-left:auto;">⬇ PDF</div>
         </div>
         <div class="lp-tab-content active" id="tc-val-${ci}">
           <div class="lp-vttl">Momentos por validar</div>
@@ -1353,15 +1429,314 @@ function exportExcel(){
   if(!ldrC.length){alert('No hay datos para exportar.');return;}
   const H=['Nombre','Cédula','Marca','Tienda','Nivel','Avance%','Completadas','Total','Badge N1','Badge N2','Badge N3','Por Validar','Días','Fecha Inicio','Ficha Completada','Prefiere que le llamen','Cumpleaños'];
   const R=ldrC.map(c=>{
-    let comp=0,b1=false,b2=false,b3=false;LEVELS.forEach(lv=>{const ld=lv.tasks.every((_,i)=>['completada','validada'].includes(c._t[tk(lv.id,i)]||'pendiente'));if(lv.id===1)b1=ld;if(lv.id===2)b2=ld;if(lv.id===3)b3=ld;lv.tasks.forEach((_,i)=>{if(['completada','validada'].includes(c._t[tk(lv.id,i)]||'pendiente'))comp++;});});
+    let comp=0,b1=false,b2=false,b3=false;
+    LEVELS.forEach(lv=>{
+      const ld=lv.tasks.every((_,i)=>['completada','validada'].includes(c._t[tk(lv.id,i)]||'pendiente'));
+      if(lv.id===1)b1=ld;if(lv.id===2)b2=ld;if(lv.id===3)b3=ld;
+      lv.tasks.forEach((_,i)=>{if(['completada','validada'].includes(c._t[tk(lv.id,i)]||'pendiente'))comp++;});
+    });
     const cl=LEVELS.findLast(lv=>lv.tasks.some((_,i)=>['completada','validada'].includes(c._t[tk(lv.id,i)]||'pendiente')))?.id||1;
     const dias=c.fecha_inicio?Math.max(1,Math.ceil((Date.now()-new Date(c.fecha_inicio).getTime())/864e5)):1;
-    const wp=c._wp;const months=['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    const wp=c._wp;
+    const months=['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
     const bday=wp&&wp.birthday_day?`${wp.birthday_day}/${months[wp.birthday_month]}`:'-';
-    return[c.nombre,c.cedula,c.marca||'',c.tienda,cl,`${c._pct}%`,comp,TOTAL,b1?'Sí':'No',b2?'Sí':'No',b3?'Sí':'No',c._pend,dias,c.fecha_inicio?new Date(c.fecha_inicio).toLocaleDateString('es-CO'):'',wp?'Sí':'No',wp?wp.preferred_name||'-':'-',bday];
+    return[c.nombre,c.cedula,c.marca||'',c.tienda,cl,c._pct+'%',comp,TOTAL,b1?'Sí':'No',b2?'Sí':'No',b3?'Sí':'No',c._pend,dias,c.fecha_inicio?new Date(c.fecha_inicio).toLocaleDateString('es-CO'):'',wp?'Sí':'No',wp?wp.preferred_name||'-':'-',bday];
   });
-  const csv=[H,...R].map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'}));a.download=`GCO_Tienda${L.tienda}_${new Date().toISOString().slice(0,10)}.csv`;a.click();
+
+  // Build XLSX with SheetJS (loaded from CDN)
+  const script=document.createElement('script');
+  script.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+  script.onload=()=>{
+    const ws=XLSX.utils.aoa_to_sheet([H,...R]);
+    // Style header row bold via column widths
+    ws['!cols']=H.map((_,i)=>({wch:Math.max(H[i].length,14)}));
+    // Create table ref
+    ws['!autofilter']={ref:`A1:${XLSX.utils.encode_col(H.length-1)}1`};
+    const wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb,ws,'Colaboradores');
+    XLSX.writeFile(wb,`GCO_Tienda${L.tienda}_${new Date().toISOString().slice(0,10)}.xlsx`);
+  };
+  // If already loaded just run directly
+  if(window.XLSX){script.onload();}
+  else document.head.appendChild(script);
+}
+
+/* ══════════════════════════════════════════
+   PDF — HOJA DE VIDA DEL COLABORADOR
+══════════════════════════════════════════ */
+function downloadCV(ci){
+  const c=ldrC[ci];
+  const wp=c._wp;
+  const months=['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+  // Load jsPDF from CDN then generate
+  function generate(){
+    const {jsPDF}=window.jspdf;
+    const doc=new jsPDF({unit:'mm',format:'a4'});
+    const W=210,M=18,cw=W-M*2;
+    let y=0;
+
+    // ── HEADER BAND ──
+    doc.setFillColor(56,44,84);
+    doc.rect(0,0,W,42,'F');
+
+    // Avatar circle placeholder (or image if available)
+    const avSrc=localStorage.getItem(`gco_av_${c.cedula}`)||c.avatar||null;
+    if(avSrc){
+      try{doc.addImage(avSrc,'JPEG',M,6,28,28,'','FAST');
+         // circle clip effect via white border
+         doc.setDrawColor(255,255,255);doc.setLineWidth(1);doc.circle(M+14,20,14,'S');}
+      catch(e){}
+      y=M+28+2;
+    }
+    const nameX=avSrc?M+32:M;
+    doc.setFont('helvetica','bold');doc.setFontSize(16);doc.setTextColor(255,255,255);
+    doc.text(c.nombre,nameX,15);
+    doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(180,170,210);
+    doc.text(`${c.marca||'—'}  ·  Tienda ${c.tienda||'—'}  ·  CC ${c.cedula}`,nameX,22);
+    if(c.fecha_inicio){
+      const fi=new Date(c.fecha_inicio).toLocaleDateString('es-CO');
+      doc.text(`Ingreso: ${fi}`,nameX,28);
+    }
+    // Progress badge
+    doc.setFillColor(88,106,232);doc.roundedRect(W-M-32,8,32,14,3,3,'F');
+    doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(255,255,255);
+    doc.text(`${c._pct}%`,W-M-16,17,{align:'center'});
+    doc.setFontSize(7);doc.text('avance',W-M-16,22,{align:'center'});
+
+    y=50;
+    doc.setTextColor(30,27,58);
+
+    // ── PROGRESS SECTION ──
+    doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(100,90,130);
+    doc.text('PROGRESO EN EL PASAPORTE',M,y);
+    y+=5;
+    // Progress bar
+    doc.setFillColor(230,232,248);doc.roundedRect(M,y,cw,5,2,2,'F');
+    doc.setFillColor(88,106,232);doc.roundedRect(M,y,cw*(c._pct/100),5,2,2,'F');
+    y+=9;
+    LEVELS.forEach(lv=>{
+      const done=lv.tasks.filter((_,i)=>['completada','validada'].includes(c._t[tk(lv.id,i)]||'pendiente')).length;
+      const total=lv.tasks.length;
+      const pct=Math.round(done/total*100);
+      const dn=done===total;
+      doc.setFont('helvetica',dn?'bold':'normal');
+      doc.setFontSize(8);doc.setTextColor(dn?22:80,dn?163:80,dn?74:80);
+      doc.text(`${dn?'✓':' '} ${lv.name}`,M+2,y);
+      doc.setTextColor(100,100,130);
+      doc.text(`${done}/${total} tareas · ${pct}%`,W-M,y,{align:'right'});
+      y+=5;
+    });
+    y+=4;
+
+    // ── DIVIDER ──
+    const divider=()=>{doc.setDrawColor(220,222,240);doc.setLineWidth(0.3);doc.line(M,y,W-M,y);y+=6;};
+    divider();
+
+    // ── FICHA DE BIENVENIDA ──
+    if(wp){
+      const sect=(title,ico)=>{
+        doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(88,106,232);
+        doc.text(`${ico}  ${title}`,M,y);y+=6;
+      };
+      const field=(label,value)=>{
+        if(!value)return;
+        doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(140,130,170);
+        doc.text(label.toUpperCase(),M+2,y);y+=4;
+        doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(30,27,58);
+        const lines=doc.splitTextToSize(value,cw-4);
+        doc.text(lines,M+2,y);y+=lines.length*4.5+2;
+      };
+
+      sect('DATOS PERSONALES','👤');
+      field('Prefiere que le llamen',wp.preferred_name);
+      if(wp.birthday_day&&wp.birthday_month)field('Cumpleaños',`${wp.birthday_day} de ${months[wp.birthday_month]}`);
+      field('Con quién vive',wp.living_with);
+      divider();
+
+      sect('SOBRE LA PERSONA','💬');
+      field('Algo que quiere que el equipo sepa',wp.about_me);
+      field('Qué le apasiona fuera del trabajo',wp.free_time);
+      divider();
+
+      if(y>250){doc.addPage();y=18;}
+      sect('MOTIVACIÓN Y METAS','🚀');
+      field('Por qué ingresó a GCO',wp.motivation_join);
+      field('Sus metas',wp.goals);
+      divider();
+
+      if(y>250){doc.addPage();y=18;}
+      sect('CÓMO ACOMPAÑARLO/A','🧠');
+      field('Cómo aprende mejor',wp.learning_style);
+      field('Qué le cuesta en situaciones nuevas',wp.challenges);
+      field('El tipo de líder que saca lo mejor de sí',wp.leader_type);
+      field('Lo que le gustaría que su líder sepa',wp.leader_should_know);
+    } else {
+      doc.setFont('helvetica','italic');doc.setFontSize(9);doc.setTextColor(160,150,180);
+      doc.text('Este colaborador aún no ha completado su Ficha de Bienvenida.',M,y);y+=8;
+    }
+
+    // ── FOOTER ──
+    doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(180,180,200);
+    doc.text(`Generado por Pasaporte GCO · ${new Date().toLocaleDateString('es-CO')}`,W/2,285,{align:'center'});
+
+    doc.save(`HojaDeVida_${c.nombre.replace(/ /g,'_')}.pdf`);
+  }
+
+  if(window.jspdf){generate();}
+  else{
+    const s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    s.onload=generate;
+    document.head.appendChild(s);
+  }
+}
+
+/* ══════════════════════════════════════════
+   ADMIN PANEL
+══════════════════════════════════════════ */
+const ADMIN_KEY='GCO2025ADMIN';
+let adminData={colabs:[],lideres:[],tareas:[]};
+
+function adminLogin(){
+  const key=document.getElementById('adm-key').value.trim();
+  const err=document.getElementById('adm-err');
+  if(key!==ADMIN_KEY){err.textContent='Clave incorrecta.';return;}
+  err.textContent='';
+  document.querySelectorAll('.screen').forEach(s=>s.style.display='none');
+  document.getElementById('admin-panel').style.display='block';
+  loadAdminData();
+}
+
+function logoutAdmin(){
+  document.getElementById('admin-panel').style.display='none';
+  document.getElementById('adm-key').value='';
+  document.querySelectorAll('.screen').forEach(s=>s.style.display='');
+  showSc('sc-role');
+}
+
+async function loadAdminData(){
+  document.getElementById('ap-colab-cont').innerHTML='<div class="ap-empty">Cargando...</div>';
+  document.getElementById('ap-lider-cont').innerHTML='<div class="ap-empty">Cargando...</div>';
+  document.getElementById('ap-tareas-cont').innerHTML='<div class="ap-empty">Cargando...</div>';
+  try{
+    adminData.colabs=await sball('colaboradores',null,null);
+    adminData.lideres=await sball('lideres',null,null);
+    adminData.tareas=await sball('tareas',null,null);
+    renderAdminColabs();renderAdminLideres();renderAdminTareas();
+  }catch(e){document.getElementById('ap-colab-cont').innerHTML='<div class="ap-empty">⚠ Error al cargar datos.</div>';}
+}
+
+function switchAdminTab(tab){
+  document.querySelectorAll('.ap-tab').forEach((t,i)=>t.classList.toggle('active',['colaboradores','lideres','tareas'][i]===tab));
+  document.querySelectorAll('.ap-section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(`ap-${tab}`).classList.add('active');
+}
+
+function renderAdminColabs(filter=''){
+  const rows=adminData.colabs.filter(c=>!filter||c.nombre?.toLowerCase().includes(filter)||c.cedula?.includes(filter));
+  if(!rows.length){document.getElementById('ap-colab-cont').innerHTML='<div class="ap-empty">No se encontraron colaboradores.</div>';return;}
+  document.getElementById('ap-colab-cont').innerHTML=`
+    <table class="ap-table">
+      <thead><tr><th>Nombre</th><th>Cédula</th><th>Marca</th><th>Tienda</th><th>Fecha ingreso</th><th>Acción</th></tr></thead>
+      <tbody>${rows.map(c=>`<tr>
+        <td>${c.nombre||'—'}</td>
+        <td>${c.cedula}</td>
+        <td>${c.marca||'—'}</td>
+        <td>${c.tienda||'—'}</td>
+        <td>${c.fecha_inicio?new Date(c.fecha_inicio).toLocaleDateString('es-CO'):'—'}</td>
+        <td><button class="ap-del-btn" onclick="adminDeleteColab('${c.cedula}','${(c.nombre||'').replace(/'/g,"\\'")}')">🗑 Borrar</button></td>
+      </tr>`).join('')}</tbody>
+    </table>`;
+}
+
+function renderAdminLideres(){
+  const rows=adminData.lideres;
+  if(!rows.length){document.getElementById('ap-lider-cont').innerHTML='<div class="ap-empty">No hay líderes registrados.</div>';return;}
+  document.getElementById('ap-lider-cont').innerHTML=`
+    <table class="ap-table">
+      <thead><tr><th>Nombre</th><th>Cédula</th><th>Tienda</th><th>Acción</th></tr></thead>
+      <tbody>${rows.map(l=>`<tr>
+        <td>${l.nombre||'—'}</td>
+        <td>${l.cedula}</td>
+        <td>${l.tienda||'—'}</td>
+        <td><button class="ap-del-btn" onclick="adminDeleteLider('${l.cedula}','${(l.nombre||'').replace(/'/g,"\\'")}')">🗑 Borrar</button></td>
+      </tr>`).join('')}</tbody>
+    </table>`;
+}
+
+function renderAdminTareas(filter=''){
+  // Join tareas with colabs for names
+  const colabMap={};adminData.colabs.forEach(c=>colabMap[c.cedula]=c.nombre);
+  const rows=adminData.tareas.filter(t=>!filter||
+    t.cedula?.includes(filter)||
+    (colabMap[t.cedula]||'').toLowerCase().includes(filter));
+  if(!rows.length){document.getElementById('ap-tareas-cont').innerHTML='<div class="ap-empty">No se encontraron tareas.</div>';return;}
+  const stBadge=st=>({
+    pendiente:`<span class="ap-badge pend">Pendiente</span>`,
+    completada:`<span class="ap-badge done">✓ Completada</span>`,
+    validada:`<span class="ap-badge done">✓ Validada</span>`,
+    enviada:`<span class="ap-badge sent">⏳ Enviada</span>`,
+    devuelta:`<span class="ap-badge" style="background:#fff1f2;color:#9f1239;">↩ Devuelta</span>`,
+  }[st]||`<span class="ap-badge pend">${st}</span>`);
+  const lvName=r=>{const lv=LEVELS.find(l=>l.id==r.nivel_id);return lv?`${lv.num} — ${lv.tasks[r.tarea_index]?.txt||'?'}`:r.nivel_id;};
+  document.getElementById('ap-tareas-cont').innerHTML=`
+    <table class="ap-table">
+      <thead><tr><th>Colaborador</th><th>Cédula</th><th>Tarea</th><th>Estado</th><th>Acciones</th></tr></thead>
+      <tbody>${rows.map(t=>`<tr class="ap-task-row">
+        <td>${colabMap[t.cedula]||'—'}</td>
+        <td>${t.cedula}</td>
+        <td style="max-width:200px;font-size:.76rem;">${lvName(t)}</td>
+        <td>${stBadge(t.estado)}</td>
+        <td>
+          ${t.estado!=='completada'&&t.estado!=='validada'?`<button class="ap-mark-btn" onclick="adminMarkTask('${t.id}','completada')">✓ Marcar hecha</button>`:''}
+          ${t.estado!=='pendiente'?`<button class="ap-mark-btn" style="border-color:#fde68a;background:#fffbeb;color:#92400e;" onclick="adminMarkTask('${t.id}','pendiente')">↩ Resetear</button>`:''}
+          <button class="ap-del-btn" onclick="adminDeleteTask('${t.id}')">🗑</button>
+        </td>
+      </tr>`).join('')}</tbody>
+    </table>`;
+}
+
+function filterAdminTable(type){
+  if(type==='colab'){const f=document.getElementById('ap-search-colab').value.toLowerCase();renderAdminColabs(f);}
+  if(type==='tareas'){const f=document.getElementById('ap-search-tareas').value.toLowerCase();renderAdminTareas(f);}
+}
+
+async function adminDeleteColab(ced,nombre){
+  if(!confirm(`¿Borrar a ${nombre} (${ced}) y todas sus tareas? Esta acción no se puede deshacer.`))return;
+  try{
+    await fetch(`${SB}/rest/v1/tareas?cedula=eq.${ced}`,{method:'DELETE',headers:SH});
+    await fetch(`${SB}/rest/v1/welcome_profiles?cedula=eq.${ced}`,{method:'DELETE',headers:SH});
+    await fetch(`${SB}/rest/v1/colaboradores?cedula=eq.${ced}`,{method:'DELETE',headers:SH});
+    await loadAdminData();
+    showSync('ok',`✓ ${nombre} eliminado`);
+  }catch(e){showSync('err','⚠ Error al borrar');}
+}
+
+async function adminDeleteLider(ced,nombre){
+  if(!confirm(`¿Borrar al líder ${nombre} (${ced})?`))return;
+  try{
+    await fetch(`${SB}/rest/v1/lideres?cedula=eq.${ced}`,{method:'DELETE',headers:SH});
+    await loadAdminData();
+    showSync('ok',`✓ Líder eliminado`);
+  }catch(e){showSync('err','⚠ Error al borrar');}
+}
+
+async function adminDeleteTask(id){
+  if(!confirm('¿Borrar esta tarea?'))return;
+  try{
+    await fetch(`${SB}/rest/v1/tareas?id=eq.${id}`,{method:'DELETE',headers:SH});
+    await loadAdminData();
+    showSync('ok','✓ Tarea eliminada');
+  }catch(e){showSync('err','⚠ Error al borrar');}
+}
+
+async function adminMarkTask(id,estado){
+  try{
+    await fetch(`${SB}/rest/v1/tareas?id=eq.${id}`,{method:'PATCH',headers:SH,body:JSON.stringify({estado,fecha:new Date().toISOString()})});
+    await loadAdminData();
+    showSync('ok',`✓ Tarea marcada como ${estado}`);
+  }catch(e){showSync('err','⚠ Error al actualizar');}
 }
 
 /* ══ END ══ */
