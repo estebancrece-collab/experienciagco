@@ -92,7 +92,7 @@ header::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;he
 #particles-canvas{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.55;}
 .hdr{max-width:980px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;position:relative;z-index:1;}
 .hdr-left{display:flex;align-items:center;gap:14px;}
-.gco-svg{width:78px;height:auto;display:block;flex-shrink:0;}
+.gco-svg{width:96px;height:auto;display:block;flex-shrink:0;overflow:visible;}
 .hdr-title{font-family:'Nunito',sans-serif;font-size:clamp(1rem,2.5vw,1.5rem);font-weight:900;color:#fff;line-height:1.15;}
 .hdr-right{display:flex;align-items:center;gap:8px;}
 .hdr-btn{background:rgba(255,255,255,.12);border:none;color:rgba(255,255,255,.75);font-family:'Nunito Sans',sans-serif;font-size:.72rem;font-weight:700;padding:6px 14px;border-radius:99px;cursor:pointer;transition:all .2s;}
@@ -103,17 +103,23 @@ header::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;he
 
 /* Hero card */
 .hero-card{background:var(--purple);border-radius:var(--r);padding:26px 24px;box-shadow:0 8px 36px rgba(56,44,84,.22);margin-bottom:18px;display:flex;align-items:center;gap:22px;flex-wrap:wrap;position:relative;overflow:hidden;}
-.hero-card::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;border-radius:50%;background:rgba(88,106,232,.15);}
-.hero-card::after{content:'';position:absolute;bottom:-30px;left:15%;width:150px;height:150px;border-radius:50%;background:rgba(255,185,1,.08);}
+/* Orbes animados */
+.hero-card .orb{position:absolute;border-radius:50%;pointer-events:none;animation:orbFloat linear infinite;}
+@keyframes orbFloat{
+  0%{transform:translateY(0) translateX(0) scale(1);opacity:.18;}
+  33%{transform:translateY(-22px) translateX(12px) scale(1.12);opacity:.32;}
+  66%{transform:translateY(10px) translateX(-10px) scale(.9);opacity:.14;}
+  100%{transform:translateY(0) translateX(0) scale(1);opacity:.18;}
+}
 
 /* Avatar with day ring */
 .hero-av-wrap{position:relative;flex-shrink:0;z-index:1;}
-.day-ring-svg{position:absolute;top:-6px;left:-6px;width:112px;height:112px;pointer-events:none;z-index:2;}
-.day-ring-bg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:4;}
-.day-ring-fill{fill:none;stroke-width:4;stroke-linecap:round;transform:rotate(-90deg);transform-origin:56px 56px;transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1),stroke .6s;}
-.hero-av{width:100px;height:100px;border-radius:50%;border:3px solid rgba(255,255,255,.28);background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:2.4rem;overflow:hidden;cursor:pointer;}
+.day-ring-svg{position:absolute;top:-8px;left:-8px;width:136px;height:136px;pointer-events:none;z-index:2;}
+.day-ring-bg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:6;}
+.day-ring-fill{fill:none;stroke-width:6;stroke-linecap:round;transform:rotate(-90deg);transform-origin:56px 56px;transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1),stroke .6s;}
+.hero-av{width:120px;height:120px;border-radius:50%;border:3px solid rgba(255,255,255,.28);background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:2.8rem;overflow:hidden;cursor:pointer;}
 .hero-av img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:none;}
-.hero-av-btn{position:absolute;bottom:0;right:0;width:26px;height:26px;background:var(--yellow);border:2px solid var(--purple);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--purple);font-weight:900;}
+.hero-av-btn{position:absolute;bottom:2px;right:2px;width:28px;height:28px;background:var(--yellow);border:2px solid var(--purple);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--purple);font-weight:900;}
 #av-input{display:none;}
 
 /* Hero info */
@@ -665,10 +671,10 @@ header::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;he
     <canvas id="particles-canvas"></canvas>
     <div class="hdr">
       <div class="hdr-left">
-        <svg class="gco-svg" viewBox="0 0 120 75" xmlns="http://www.w3.org/2000/svg">
-          <text x="2" y="54" font-family="'Nunito',sans-serif" font-weight="900" font-size="58" fill="rgba(255,255,255,.88)" letter-spacing="-3">GCO</text>
-          <circle cx="20" cy="67" r="4.5" fill="#586AE8"/><circle cx="34" cy="67" r="4.5" fill="#FFB901"/>
-          <circle cx="48" cy="67" r="4.5" fill="#C0EE5A"/><circle cx="62" cy="67" r="4.5" fill="#FD636B"/>
+        <svg class="gco-svg" viewBox="0 0 160 90" xmlns="http://www.w3.org/2000/svg">
+          <text x="4" y="66" font-family="'Nunito',sans-serif" font-weight="900" font-size="68" fill="rgba(255,255,255,.92)" letter-spacing="-3">GCO</text>
+          <circle cx="22" cy="80" r="5" fill="#586AE8"/><circle cx="38" cy="80" r="5" fill="#FFB901"/>
+          <circle cx="54" cy="80" r="5" fill="#C0EE5A"/><circle cx="70" cy="80" r="5" fill="#FD636B"/>
         </svg>
         <h1 class="hdr-title">Experiencia Inmersión Retail</h1>
       </div>
@@ -682,11 +688,18 @@ header::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;he
 
     <!-- HERO CARD -->
     <div class="hero-card fade-up">
+      <!-- Orbes GCO -->
+      <div class="orb" style="width:90px;height:90px;background:#586AE8;top:-20px;right:18%;animation-duration:7s;animation-delay:0s;"></div>
+      <div class="orb" style="width:55px;height:55px;background:#FFB901;bottom:-10px;right:8%;animation-duration:9s;animation-delay:-2s;"></div>
+      <div class="orb" style="width:38px;height:38px;background:#C0EE5A;top:30%;right:3%;animation-duration:6s;animation-delay:-4s;"></div>
+      <div class="orb" style="width:70px;height:70px;background:#FD636B;bottom:5px;right:28%;animation-duration:11s;animation-delay:-1s;"></div>
+      <div class="orb" style="width:28px;height:28px;background:#6DC7CC;top:10px;right:42%;animation-duration:8s;animation-delay:-3s;"></div>
+      <div class="orb" style="width:50px;height:50px;background:#586AE8;top:-15px;right:55%;animation-duration:10s;animation-delay:-5s;"></div>
       <div class="hero-av-wrap">
-        <svg class="day-ring-svg" viewBox="0 0 112 112">
-          <circle class="day-ring-bg" cx="56" cy="56" r="50"/>
-          <circle class="day-ring-fill" id="day-ring" cx="56" cy="56" r="50"
-            stroke="#C0EE5A" stroke-dasharray="314" stroke-dashoffset="314"/>
+        <svg class="day-ring-svg" viewBox="0 0 136 136">
+          <circle class="day-ring-bg" cx="68" cy="68" r="60"/>
+          <circle class="day-ring-fill" id="day-ring" cx="68" cy="68" r="60"
+            stroke="#C0EE5A" stroke-dasharray="377" stroke-dashoffset="377"/>
         </svg>
         <div class="hero-av" id="hero-av" onclick="document.getElementById('av-input').click()">
           <span id="av-emoji">👤</span><img id="av-img" alt="">
@@ -852,12 +865,12 @@ const LEVELS=[
   {id:1,num:'NIVEL 1',name:'Bienvenida GCO',cmp:'Formación GCO',phc:'ph-n1',buc:'bu-n1',sc:'sc-n1',mid:1,
    badge:'Explorador GCO',story:'Acabas de llegar. Tu primera misión es entender el territorio: quiénes somos, cómo funciona este mundo y qué reglas lo gobiernan.',badgeMsg:'¡Bienvenido/a al universo GCO! Ya nada será igual.',
    tasks:[{txt:'Conoce el grupo y la compañía',type:'self'},{txt:'Entiende la industria del comercio de moda',type:'self'},{txt:'Identifica las temporadas del calendario comercial',type:'self'},{txt:'Reconoce los actores clave en tienda',type:'self'},{txt:'Comprende los indicadores clave de desempeño',type:'self'},{txt:'Realiza los cursos legales y normativos',type:'self'}]},
-  {id:2,num:'NIVEL 2',name:'Experto de Marca',cmp:'Formación Marca',phc:'ph-n2',buc:'bu-n2',sc:'sc-n2',mid:2,
-   badge:'Embajador de Marca',story:'Ya conoces el mundo. Ahora es momento de encontrar tu lugar en él. Tu marca es tu identidad — aprende a hablar su lenguaje y representarla con orgullo.',badgeMsg:'La marca te eligió. Ahora tú la representas.',
-   tasks:[{txt:'Conoce tu marca',type:'self'},{txt:'Aplica conceptos de styling y outfits',type:'self'},{txt:'Interpreta el visual de la marca',type:'self'},{txt:'Entiende el plan de fidelización',type:'self'},{txt:'Ejecuta el protocolo de servicio de la marca',type:'leader'}]},
-  {id:3,num:'NIVEL 3',name:'Inmersión en Tienda',cmp:'Formación Tienda',phc:'ph-n3',buc:'bu-n3',sc:'sc-n3',mid:3,
+  {id:2,num:'NIVEL 2',name:'Inmersión en Tienda',cmp:'Formación Tienda',phc:'ph-n2',buc:'bu-n2',sc:'sc-n2',mid:2,
    badge:'Experto en Tienda',story:'Tu territorio ya tiene nombre y dirección. Cada rincón de esta tienda tiene una historia. Tu equipo será tu mayor aliado.',badgeMsg:'Esta tienda ya te conoce. Y tú ya la conoces a ella.',
    tasks:[{txt:'Conoce tu tienda y tu equipo',type:'leader'},{txt:'Entiende la dinámica de la bodega',type:'leader'},{txt:'Profundiza en los indicadores del negocio',type:'self'},{txt:'Participa en la apertura de tienda',type:'leader'},{txt:'Aprende de tus compañeros en el día a día',type:'leader'},{txt:'Aplica técnicas de despinado, doblado y cuidado de prendas',type:'leader'}]},
+  {id:3,num:'NIVEL 3',name:'Experto de Marca',cmp:'Formación Marca',phc:'ph-n3',buc:'bu-n3',sc:'sc-n3',mid:3,
+   badge:'Embajador de Marca',story:'Ya conoces el mundo y la tienda. Ahora es momento de encontrar tu lugar en él. Tu marca es tu identidad — aprende a hablar su lenguaje y representarla con orgullo.',badgeMsg:'La marca te eligió. Ahora tú la representas.',
+   tasks:[{txt:'Conoce tu marca',type:'self'},{txt:'Aplica conceptos de styling y outfits',type:'self'},{txt:'Interpreta el visual de la marca',type:'self'},{txt:'Entiende el plan de fidelización',type:'self'},{txt:'Ejecuta el protocolo de servicio de la marca',type:'leader'}]},
 ];
 const TOTAL=LEVELS.reduce((s,l)=>s+l.tasks.length,0);
 const PROG_MSGS=[
@@ -1182,7 +1195,7 @@ function renderSidebar(){
   else if(d<=27){dl.textContent='· Aprieta el paso 🟡';dd.className='day-dot y';}
   else{dl.textContent='· ¡Último empuje! 🔴';dd.className='day-dot r';}
   const ring=document.getElementById('day-ring');
-  if(ring){const c=314,off=c-(Math.min(d/30,1)*c);ring.style.strokeDashoffset=off;ring.style.stroke=d<=20?'#C0EE5A':d<=27?'#FFB901':'#FD636B';}
+  if(ring){const c=377,off=c-(Math.min(d/30,1)*c);ring.style.strokeDashoffset=off;ring.style.stroke=d<=20?'#C0EE5A':d<=27?'#FFB901':'#FD636B';}
 }
 
 function render(){
@@ -1201,6 +1214,9 @@ function toggleSelf(lvId,idx){
 async function sendToLeader(lvId,idx){
   const k=tk(lvId,idx);TS[k]='enviada';render();
   showSync('saving','Enviando al líder...');await saveTaskDirect(lvId,idx,'enviada',null);showSync('ok','✓ Enviado al líder');
+  // Notificar al líder por correo
+  const tarea_txt=LEVELS.find(l=>l.id===lvId)?.tasks[idx]?.txt||'';
+  notifyEmail({tipo:'tarea-enviada',cedula:U.cedula,nivel_id:lvId,tarea_index:idx,tarea_txt});
 }
 async function saveTaskDirect(lvId,idx,estado,obs){
   if(!U)return;
@@ -1422,6 +1438,9 @@ async function validateTask(ced,lvId,idx,ci,ns){
     const c=ldrC[ci];const k=tk(lvId,idx);c._t[k]=ns;if(obs)c._o[k]=obs;
     c._pend=LEVELS.reduce((s,lv)=>s+lv.tasks.filter((t,i)=>t.type==='leader'&&(c._t[tk(lv.id,i)]||'pendiente')==='enviada').length,0);
     renderLeaderPanel();showSync('ok','✓ Validación guardada');
+    // Notificar al colaborador por correo
+    const tarea_txt=LEVELS.find(l=>l.id===lvId)?.tasks[idx]?.txt||'';
+    notifyEmail({tipo:ns==='validada'?'tarea-validada':'tarea-devuelta',cedula:ced,nivel_id:lvId,tarea_index:idx,tarea_txt,observacion:obs||null});
   }catch(e){showSync('err','⚠ Error al guardar');}
 }
 
@@ -1737,6 +1756,21 @@ async function adminMarkTask(id,estado){
     await loadAdminData();
     showSync('ok',`✓ Tarea marcada como ${estado}`);
   }catch(e){showSync('err','⚠ Error al actualizar');}
+}
+
+/* ══════════════════════════════════════════
+   EMAIL NOTIFICATIONS via Supabase Edge Function
+══════════════════════════════════════════ */
+const EDGE_URL='https://vjvdtbmuiltoqvsuufei.supabase.co/functions/v1/notify-email';
+
+async function notifyEmail(payload){
+  try{
+    await fetch(EDGE_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${SK}`},
+      body:JSON.stringify(payload)
+    });
+  }catch(e){console.warn('Email notify error',e);}
 }
 
 /* ══ END ══ */
