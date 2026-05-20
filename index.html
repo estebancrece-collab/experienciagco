@@ -191,11 +191,182 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
 .prog-fill::after{content:'';position:absolute;top:0;left:-60px;width:60px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:sheen 2.4s ease-in-out infinite;}
 @keyframes sheen{0%{left:-60px;}100%{left:110%;}}
 
-/* ── LEVELS ACCORDION ── */
-.levels-ttl{font-family:'Nunito',sans-serif;font-weight:800;font-size:.7rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--text3);margin-bottom:12px;}
-.levels-grid{display:grid;gap:12px;}
-.lv-card{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;transition:box-shadow .2s,transform .2s,border-color .2s;}
-.lv-card:not(.locked):hover{box-shadow:0 0 24px rgba(88,106,232,.18);transform:translateY(-2px);border-color:var(--border3);}
+/* ══════════════════════════════════════════
+   JOURNEY GAMIFICADO — CARD NODES + DETAIL PANEL
+══════════════════════════════════════════ */
+
+.journey-wrap{margin-bottom:22px;}
+.journey-section-ttl{font-family:'Nunito',sans-serif;font-weight:800;font-size:.68rem;letter-spacing:1.8px;text-transform:uppercase;color:var(--text3);margin-bottom:16px;display:flex;align-items:center;gap:7px;}
+
+/* ── MAP ROW ── */
+.journey-map{display:flex;align-items:center;padding:20px 14px 22px;background:linear-gradient(135deg,#0f0d24 0%,#13112a 60%,#0f0d24 100%);border:1px solid var(--border2);border-radius:20px 20px 0 0;position:relative;overflow:hidden;gap:0;}
+.journey-map::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 120%,rgba(88,106,232,.09),transparent 65%);pointer-events:none;}
+
+/* ── LEVEL CARD NODE ── */
+.jm-node{flex:1;min-width:0;cursor:pointer;position:relative;transition:transform .22s;}
+.jm-node:not(.locked):hover{transform:translateY(-3px);}
+.jm-node.locked{opacity:.45;pointer-events:none;filter:grayscale(.6);}
+
+/* card shell */
+.jm-card{border-radius:16px;border:1.5px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);padding:16px 14px 14px;display:flex;align-items:center;gap:13px;transition:border-color .3s,box-shadow .3s;position:relative;overflow:hidden;}
+
+/* ── DONE — Opción A: plata/blanco brillante + shimmer en bucle ── */
+.jm-node.done .jm-card{
+  border:2px solid rgba(255,255,255,.5);
+  background:rgba(255,255,255,.07);
+  box-shadow:0 0 24px rgba(255,255,255,.1),0 0 48px rgba(255,255,255,.04),inset 0 0 20px rgba(255,255,255,.04);
+}
+/* shimmer plateado continuo */
+.jm-node.done .jm-card::before{
+  content:'';position:absolute;top:0;left:-100%;
+  width:55%;height:100%;
+  background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.13) 50%,transparent 65%);
+  animation:jmDoneShimmer 3s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes jmDoneShimmer{
+  0%{left:-100%;}
+  60%,100%{left:160%;}
+}
+
+/* active states */
+.jm-node.active.n1 .jm-card{border-color:rgba(88,106,232,.6);background:rgba(88,106,232,.07);box-shadow:0 0 32px rgba(88,106,232,.22),inset 0 0 24px rgba(88,106,232,.06);}
+.jm-node.active.n2 .jm-card{border-color:rgba(255,185,1,.7);background:rgba(255,185,1,.06);box-shadow:0 0 36px rgba(255,185,1,.28),inset 0 0 24px rgba(255,185,1,.06);}
+.jm-node.active.n3 .jm-card{border-color:rgba(0,201,122,.55);background:rgba(0,201,122,.06);box-shadow:0 0 28px rgba(0,201,122,.2);}
+
+/* selected (panel open) — accent border + flash */
+.jm-node.selected .jm-card{border-width:2px;animation:jmCardFlash .5s ease forwards;}
+.jm-node.selected.n1 .jm-card{border-style:solid;border-color:rgba(88,106,232,.95);box-shadow:0 0 48px rgba(88,106,232,.45),inset 0 0 30px rgba(88,106,232,.08);}
+.jm-node.selected.n2 .jm-card{border-style:solid;border-color:rgba(255,185,1,.95);box-shadow:0 0 52px rgba(255,185,1,.5),inset 0 0 30px rgba(255,185,1,.08);}
+.jm-node.selected.n3 .jm-card{border-style:solid;border-color:rgba(0,201,122,.95);box-shadow:0 0 48px rgba(0,201,122,.45),inset 0 0 30px rgba(0,201,122,.08);}
+.jm-node.selected.done .jm-card{border-style:solid;border-color:rgba(255,255,255,.8);box-shadow:0 0 52px rgba(255,255,255,.2),inset 0 0 30px rgba(255,255,255,.06);}
+@keyframes jmCardFlash{
+  0%{box-shadow:0 0 0 0 rgba(255,255,255,.0);}
+  30%{box-shadow:0 0 60px 8px rgba(255,255,255,.22),inset 0 0 40px rgba(255,255,255,.06);}
+  100%{box-shadow:inherit;}
+}
+/* sweep shine on selected */
+.jm-node.selected .jm-card::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.12) 50%,transparent 60%);animation:jmSweep .6s ease forwards;}
+@keyframes jmSweep{0%{left:-100%;}100%{left:150%;}}
+.jm-node.active .jm-card::after,.jm-node.selected .jm-card::after{content:'';position:absolute;top:-40px;left:-40px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.06),transparent 70%);pointer-events:none;}
+
+/* ── BADGE WRAP ── */
+.jm-badge-wrap{position:relative;flex-shrink:0;width:62px;height:62px;transition:width .3s,height .3s;}
+.jm-badge-ring{position:absolute;inset:-5px;border-radius:50%;border:2px solid transparent;transition:all .3s;}
+
+/* done ring — plata sutil pulsante */
+.jm-node.done .jm-badge-ring{
+  border:2px solid rgba(255,255,255,.4);
+  box-shadow:0 0 10px rgba(255,255,255,.2),0 0 20px rgba(255,255,255,.08);
+  animation:jmDoneRing 3s ease-in-out infinite;
+}
+@keyframes jmDoneRing{0%,100%{box-shadow:0 0 8px rgba(255,255,255,.2),0 0 16px rgba(255,255,255,.06);}50%{box-shadow:0 0 16px rgba(255,255,255,.35),0 0 32px rgba(255,255,255,.12);}}
+
+.jm-node.n1.active .jm-badge-ring{border-color:rgba(88,106,232,.8);box-shadow:0 0 14px rgba(88,106,232,.6);animation:jmPulse 2s ease-in-out infinite;}
+.jm-node.n2.active .jm-badge-ring{border-color:rgba(255,185,1,.9);box-shadow:0 0 18px rgba(255,185,1,.7),0 0 36px rgba(255,185,1,.3);animation:jmPulse 1.8s ease-in-out infinite;}
+.jm-node.n2.active .jm-badge-ring::before{content:'';position:absolute;inset:-6px;border-radius:50%;border:1.5px solid rgba(255,185,1,.25);animation:jmPulse2 2s ease-in-out .4s infinite;}
+@keyframes jmPulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.08);opacity:.75;}}
+@keyframes jmPulse2{0%,100%{transform:scale(1);opacity:.5;}50%{transform:scale(1.15);opacity:0;}}
+
+/* SELECTED — bigger badge */
+.jm-node.selected .jm-badge-wrap{width:74px;height:74px;}
+.jm-node.selected .jm-badge-inner{width:74px;height:74px;}
+.jm-node.selected .jm-badge-inner img{width:60px;}
+.jm-node.selected .jm-badge-ring{inset:-8px;border-width:3px;border-style:solid;animation:jmSelectedRing 1.2s ease-in-out infinite!important;}
+.jm-node.selected.n1 .jm-badge-ring{border-color:rgba(88,106,232,.9);box-shadow:0 0 20px rgba(88,106,232,.8),0 0 40px rgba(88,106,232,.35);}
+.jm-node.selected.n2 .jm-badge-ring{border-color:rgba(255,185,1,1);box-shadow:0 0 24px rgba(255,185,1,.9),0 0 48px rgba(255,185,1,.4);}
+.jm-node.selected.n3 .jm-badge-ring{border-color:rgba(0,201,122,.9);box-shadow:0 0 20px rgba(0,201,122,.8),0 0 40px rgba(0,201,122,.35);}
+.jm-node.selected.done .jm-badge-ring{border-color:rgba(255,255,255,.9);box-shadow:0 0 20px rgba(255,255,255,.6),0 0 40px rgba(255,255,255,.2);}
+@keyframes jmSelectedRing{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
+
+/* ── BADGE INNER ── */
+.jm-badge-inner{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.1);transition:width .3s,height .3s,box-shadow .3s;position:relative;}
+.jm-badge-inner img{width:50px;height:auto;display:block;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5));transition:width .3s;}
+
+/* done badge inner — plata sutil */
+.jm-node.done .jm-badge-inner{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.35);box-shadow:0 0 12px rgba(255,255,255,.15);}
+
+.jm-node.n1.active .jm-badge-inner{background:rgba(88,106,232,.14);border-color:rgba(88,106,232,.45);box-shadow:0 0 16px rgba(88,106,232,.35);}
+.jm-node.n2.active .jm-badge-inner{background:rgba(255,185,1,.12);border-color:rgba(255,185,1,.5);box-shadow:0 0 20px rgba(255,185,1,.4);}
+.jm-badge-lock{font-size:1.45rem;color:rgba(255,255,255,.22);}
+
+/* ── GOLD STAR SEAL — esquina inferior derecha del badge ── */
+.jm-star-seal{
+  position:absolute;
+  bottom:-2px;right:-2px;
+  width:22px;height:22px;
+  background:radial-gradient(circle at 40% 35%,#ffe066,#f5c842 55%,#d4a017);
+  border-radius:50%;
+  border:2px solid var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;line-height:1;
+  box-shadow:0 0 8px rgba(245,200,66,.7),0 0 16px rgba(245,200,66,.3);
+  animation:jmStarPulse 2.5s ease-in-out infinite;
+  z-index:5;
+}
+@keyframes jmStarPulse{
+  0%,100%{box-shadow:0 0 6px rgba(245,200,66,.6),0 0 12px rgba(245,200,66,.25);transform:scale(1);}
+  50%{box-shadow:0 0 14px rgba(245,200,66,.9),0 0 28px rgba(245,200,66,.45);transform:scale(1.12);}
+}
+
+/* ── TEXT BESIDE BADGE ── */
+.jm-node-info{flex:1;min-width:0;}
+.jm-node-num{font-size:.58rem;font-weight:900;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:3px;}
+.jm-node.n1 .jm-node-num{color:rgba(88,106,232,.85);}
+.jm-node.n2 .jm-node-num{color:rgba(255,185,1,.9);}
+.jm-node.n3 .jm-node-num{color:rgba(61,186,94,.8);}
+.jm-node.locked .jm-node-num{color:var(--text3);}
+.jm-node-status{font-size:.68rem;font-weight:800;padding:2px 9px;border-radius:99px;display:inline-block;margin-bottom:5px;}
+/* DONE = plata/blanco pill */
+.jm-node.done .jm-node-status{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);}
+.jm-node.n1.active .jm-node-status{background:rgba(88,106,232,.2);color:var(--blue2);}
+.jm-node.n2.active .jm-node-status{background:rgba(255,185,1,.2);color:var(--gold);}
+.jm-node.locked .jm-node-status{background:rgba(255,255,255,.06);color:var(--text3);}
+.jm-node-name{font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:800;color:var(--text2);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.jm-node.active .jm-node-name{color:#fff;}
+/* DONE = blanco */
+.jm-node.done .jm-node-name{color:rgba(255,255,255,.8);}
+
+/* ── CONNECTOR ── */
+.jm-connector{flex-shrink:0;width:40px;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;}
+.jm-connector-line{width:100%;height:2px;border-radius:99px;background:rgba(255,255,255,.1);}
+.jm-connector.done .jm-connector-line{background:linear-gradient(90deg,rgba(255,255,255,.35),rgba(255,255,255,.15));box-shadow:0 0 4px rgba(255,255,255,.12);}
+.jm-connector.active .jm-connector-line{background:linear-gradient(90deg,rgba(88,106,232,.5),rgba(255,255,255,.08));animation:jmConnFlow 2s linear infinite;}
+@keyframes jmConnFlow{0%{background-position:0 0;}100%{background-position:40px 0;}}
+.jm-connector-dot{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--bg2);border:2px solid rgba(255,255,255,.15);}
+.jm-connector.done .jm-connector-dot{border-color:rgba(255,255,255,.6);background:rgba(255,255,255,.12);box-shadow:0 0 6px rgba(255,255,255,.3);}
+.jm-connector.active .jm-connector-dot{border-color:var(--blue);background:var(--blue);box-shadow:0 0 8px rgba(88,106,232,.7);}
+
+/* ── DETAIL PANEL ── */
+.journey-detail{background:var(--bg2);border:1px solid var(--border2);border-top:none;border-radius:0 0 20px 20px;overflow:hidden;}
+.jd-panel{display:none;padding:0 20px 20px;animation:fadeUp .35s ease both;}
+.jd-panel.open{display:block;}
+.jd-hdr{display:flex;align-items:flex-start;gap:16px;padding:20px 0 16px;border-bottom:1px solid var(--border);margin-bottom:16px;}
+.jd-hdr-ico{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.jd-hdr-ico img{width:44px;height:auto;}
+.jd-hdr-info{flex:1;}
+.jd-hdr-num{font-size:.6rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:3px;}
+.jd-hdr-name{font-family:'Nunito',sans-serif;font-size:1.3rem;font-weight:900;color:#fff;line-height:1.2;margin-bottom:10px;}
+.jd-prog-wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.jd-prog-lbl{font-size:.72rem;font-weight:700;color:var(--text3);white-space:nowrap;flex-shrink:0;}
+.jd-prog-track{flex:1;min-width:80px;height:8px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;}
+.jd-prog-fill{height:100%;border-radius:99px;transition:width .8s cubic-bezier(.4,0,.2,1);}
+.jd-prog-pct{font-size:.8rem;font-weight:900;white-space:nowrap;flex-shrink:0;}
+.jd-story{font-family:'Nunito',sans-serif;font-size:.83rem;color:var(--text2);line-height:1.65;margin-bottom:16px;}
+.ck-list{display:flex;flex-direction:column;gap:8px;}
+.lv-unlock{margin-top:14px;padding:12px 15px;border-radius:12px;display:flex;align-items:center;gap:11px;opacity:0;transform:translateY(6px);transition:opacity .4s,transform .4s;pointer-events:none;}
+.lv-unlock.show{opacity:1;transform:translateY(0);pointer-events:auto;}
+.bu-n1{background:rgba(88,106,232,.1);border:1px solid rgba(88,106,232,.25);}
+.bu-n2{background:rgba(245,200,66,.07);border:1px solid rgba(245,200,66,.2);}
+.bu-n3{background:rgba(0,201,122,.07);border:1px solid rgba(0,201,122,.2);}
+.bu-img{width:44px;flex-shrink:0;}
+.bu-inf strong{font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:900;color:#fff;display:block;}
+.bu-inf span{font-size:.72rem;color:var(--text2);}
+.bu-em{font-family:'Nunito',sans-serif;font-size:.74rem;font-style:italic;font-weight:700;color:var(--gold);margin-top:3px;display:block;}
+
+/* legacy kept for leader panel */
+.levels-ttl{display:none;}.levels-grid{display:none;}
+.lv-card{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;}
 .lv-card.locked{opacity:.38;pointer-events:none;filter:grayscale(.5);}
 .lv-hdr{padding:14px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;}
 .ph-n1{background:linear-gradient(135deg,rgba(88,106,232,.55),rgba(58,80,212,.7));}
@@ -204,50 +375,85 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
 .ph-done{background:linear-gradient(135deg,rgba(0,201,122,.4),rgba(0,150,90,.55));}
 .lv-ico{width:48px;height:48px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
 .lv-ico img{width:48px;height:auto;}
-.lv-inf{flex:1;}
-.lv-num{font-size:.6rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:2px;}
+.lv-inf{flex:1;}.lv-num{font-size:.6rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:2px;}
 .lv-nm{font-family:'Nunito',sans-serif;font-size:.93rem;font-weight:900;color:#fff;line-height:1.2;}
 .lv-cmp{font-size:.68rem;color:rgba(255,255,255,.5);margin-top:2px;}
 .lv-st{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
 .lv-mbar{width:62px;height:4px;background:rgba(255,255,255,.15);border-radius:99px;overflow:hidden;}
-.lv-mfil{height:100%;background:rgba(255,255,255,.9);border-radius:99px;transition:width .4s;box-shadow:0 0 6px rgba(255,255,255,.5);}
+.lv-mfil{height:100%;background:rgba(255,255,255,.9);border-radius:99px;transition:width .4s;}
 .lv-pt{font-size:.66rem;color:rgba(255,255,255,.7);font-weight:700;}
 .lv-chapter{padding:14px 18px 0;font-family:'Nunito',sans-serif;font-style:italic;font-size:.85rem;font-weight:700;color:var(--text2);line-height:1.55;border-left:3px solid;margin-bottom:2px;}
 .sc-n1{border-color:var(--blue);}.sc-n2{border-color:var(--gold);}.sc-n3{border-color:var(--green);}
 .lv-body{max-height:0;overflow:hidden;padding:0 18px;transition:max-height .48s cubic-bezier(.4,0,.2,1),padding .3s,opacity .35s;opacity:0;background:var(--card);}
 .lv-body.open{max-height:1400px;padding:0 18px 18px;opacity:1;}
-.ck-list{display:flex;flex-direction:column;gap:8px;margin-top:13px;}
 
-/* ── TASKS ── */
-.task{display:flex;align-items:flex-start;gap:9px;padding:11px 13px;border-radius:12px;background:var(--bg2);border:1px solid var(--border);transition:background .15s,transform .1s,border-color .2s;}
+/* responsive */
+@media(max-width:600px){
+  .journey-map{padding:14px 10px 16px;}
+  .jm-connector{width:18px;}
+  .jm-badge-wrap,.jm-badge-inner{width:48px;height:48px;}
+  .jm-badge-inner img{width:38px;}
+  .jm-badge-ring{inset:-4px;}
+  .jm-card{padding:12px 10px 10px;gap:9px;}
+  .jm-node-name{font-size:.72rem;}
+  .jm-node-status{font-size:.6rem;}
+}
+
+/* ══════════════════════════════════════════
+   TASKS — CARD STYLE (reference image)
+══════════════════════════════════════════ */
+.ck-list{display:flex;flex-direction:column;gap:6px;}
+
+.task{display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:12px;background:var(--bg2);border:1px solid var(--border);transition:background .15s,transform .1s,border-color .2s;cursor:default;}
 .task.self-task{cursor:pointer;}
-.task.self-task:hover{background:var(--card2);transform:translateX(3px);border-color:var(--border2);}
-.task.status-completada,.task.status-validada{background:rgba(0,201,122,.06);border-color:rgba(0,201,122,.3);}
-.task.status-completada .t-txt,.task.status-validada .t-txt{color:var(--green);opacity:.8;}
-.task.status-enviada{background:rgba(245,200,66,.06);border-color:rgba(245,200,66,.3);animation:pRing 2.2s ease-out infinite;}
-.task.status-enviada .t-txt{color:var(--gold);}
-.task.status-devuelta{background:rgba(253,99,107,.06);border-color:rgba(253,99,107,.3);}
-.task.status-devuelta .t-txt{color:var(--coral);}
+.task:hover{background:var(--card2);border-color:var(--border2);}
+
+/* estados */
+.task.status-completada,.task.status-validada{background:rgba(0,201,122,.07);border-color:rgba(0,201,122,.28);}
+.task.status-completada:hover,.task.status-validada:hover{background:rgba(0,201,122,.11);}
+.task.status-enviada{background:rgba(245,200,66,.06);border-color:rgba(245,200,66,.28);animation:pRing 2.2s ease-out infinite;}
+.task.status-devuelta{background:rgba(253,99,107,.06);border-color:rgba(253,99,107,.28);}
 @keyframes pRing{0%{box-shadow:0 0 0 0 rgba(245,200,66,.4);}65%{box-shadow:0 0 0 7px rgba(245,200,66,0);}100%{box-shadow:0 0 0 0 rgba(245,200,66,0);}}
-.t-cb{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .18s;margin-top:1px;font-size:.74rem;background:rgba(255,255,255,.04);}
-.task.status-completada .t-cb,.task.status-validada .t-cb{background:var(--green);border-color:var(--green);color:#000;box-shadow:var(--glow-green);}
-.task.status-enviada .t-cb{background:var(--gold);border-color:var(--gold);color:#000;}
-.task.status-devuelta .t-cb{background:var(--coral);border-color:var(--coral);color:#fff;}
+
+/* icono izquierdo */
+.t-ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem;border:1px solid var(--border2);background:rgba(255,255,255,.04);}
+.task.status-completada .t-ico,.task.status-validada .t-ico{background:rgba(0,201,122,.15);border-color:rgba(0,201,122,.3);font-size:.95rem;}
+.task.status-enviada .t-ico{background:rgba(245,200,66,.12);border-color:rgba(245,200,66,.3);}
+.task.status-devuelta .t-ico{background:rgba(253,99,107,.1);border-color:rgba(253,99,107,.28);}
+
+/* texto central */
 .t-body{flex:1;min-width:0;}
-.t-txt-wrap{position:relative;}
-.t-txt{font-size:.86rem;line-height:1.4;color:var(--text);}
-.task.status-completada .t-txt,.task.status-validada .t-txt{text-decoration:line-through;text-decoration-color:rgba(0,201,122,.5);}
-.t-strike{position:absolute;left:0;top:50%;height:1.5px;background:linear-gradient(90deg,var(--green),transparent);border-radius:2px;width:0;transition:width .42s cubic-bezier(.4,0,.2,1);pointer-events:none;}
-.task.status-completada .t-strike,.task.status-validada .t-strike{width:100%;}
-.t-badge{display:inline-flex;align-items:center;gap:3px;margin-top:4px;padding:2px 8px;border-radius:99px;font-size:.62rem;font-weight:800;letter-spacing:.4px;text-transform:uppercase;}
-.tb-self{background:rgba(88,106,232,.15);color:var(--blue2);}
-.tb-val{background:rgba(124,58,237,.15);color:#a78bfa;}
-.tb-vd{background:rgba(0,201,122,.12);color:var(--green);}
-.tb-vw{background:rgba(245,200,66,.12);color:var(--gold);}
-.tb-vb{background:rgba(253,99,107,.12);color:var(--coral);}
+.t-title{font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:800;color:var(--text);line-height:1.3;margin-bottom:2px;}
+.task.status-completada .t-title,.task.status-validada .t-title{color:var(--green);}
+.task.status-enviada .t-title{color:var(--gold);}
+.task.status-devuelta .t-title{color:var(--coral);}
+.t-sub{font-size:.73rem;color:var(--text3);line-height:1.4;}
+.task.status-completada .t-sub,.task.status-validada .t-sub{color:rgba(0,201,122,.6);}
 .t-obs{margin-top:5px;font-size:.74rem;color:var(--coral);font-style:italic;background:rgba(253,99,107,.08);padding:5px 10px;border-radius:7px;border-left:2px solid var(--coral);}
-.t-send-btn{margin-top:6px;padding:5px 13px;border-radius:99px;border:none;background:linear-gradient(90deg,#7c3aed,var(--blue));color:#fff;font-size:.69rem;font-weight:800;cursor:pointer;transition:opacity .18s,transform .15s;}
+.t-validated-by{display:flex;align-items:center;gap:6px;margin-top:4px;font-size:.72rem;color:var(--text2);}
+.t-validated-by strong{color:#fff;}
+.t-val-av{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:.55rem;color:#fff;font-weight:900;flex-shrink:0;overflow:hidden;}
+.t-val-av img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+
+/* derecha: pill estado + chevron */
+.t-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.t-pill{font-size:.68rem;font-weight:800;padding:4px 11px;border-radius:99px;white-space:nowrap;}
+.tp-pend{background:rgba(255,185,1,.15);color:var(--gold);border:1px solid rgba(255,185,1,.25);}
+.tp-done{background:rgba(0,201,122,.18);color:var(--green);border:1px solid rgba(0,201,122,.3);}
+.tp-sent{background:rgba(88,106,232,.15);color:var(--blue2);border:1px solid rgba(88,106,232,.25);}
+.tp-ret{background:rgba(253,99,107,.12);color:var(--coral);border:1px solid rgba(253,99,107,.25);}
+.tp-val{background:rgba(0,201,122,.18);color:var(--green);border:1px solid rgba(0,201,122,.3);}
+.t-chevron{color:var(--text3);font-size:.75rem;flex-shrink:0;}
+.task.status-completada .t-chevron,.task.status-validada .t-chevron{color:var(--green);}
+.t-send-btn{padding:5px 13px;border-radius:99px;border:none;background:linear-gradient(90deg,#7c3aed,var(--blue));color:#fff;font-size:.69rem;font-weight:800;cursor:pointer;transition:opacity .18s,transform .15s;white-space:nowrap;}
 .t-send-btn:hover{opacity:.82;transform:scale(1.04);}
+
+/* legacy kept — not displayed but kept for JS compat */
+.t-cb{display:none;}
+.t-txt{display:none;}
+.t-txt-wrap{display:none;}
+.t-strike{display:none;}
+.t-badge{display:none;}
 
 /* ── BADGE UNLOCK STRIP ── */
 .lv-unlock{margin-top:12px;padding:12px 15px;border-radius:12px;display:flex;align-items:center;gap:11px;opacity:0;transform:translateY(6px);transition:opacity .4s,transform .4s;pointer-events:none;}
@@ -792,12 +998,17 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
       </div>
     </div>
 
-    <!-- LEVELS ACCORDION -->
-    <div class="levels-ttl">🗺️ Tu Journey</div>
-    <div class="levels-grid" id="journey-scroll"></div>
+    <!-- JOURNEY GAMIFICADO -->
+    <div class="journey-wrap fade-up">
+      <div class="journey-section-ttl">🗺️ Tu Journey</div>
+      <!-- Mapa horizontal — renderizado por JS -->
+      <div class="journey-map" id="journey-scroll"></div>
+      <!-- Panel de detalle del nivel activo -->
+      <div class="journey-detail" id="journey-detail"></div>
+    </div>
 
-    <!-- BADGES TRAY -->
-    <div class="bdg-section fade-up">
+    <!-- BADGES TRAY — oculto (info duplicada del journey) -->
+    <div class="bdg-section fade-up" style="display:none;">
       <div class="bdg-ttl">🏅 Mis Badges</div>
       <div class="bdg-tray" id="mob-badge-mini"></div>
     </div>
@@ -1097,21 +1308,72 @@ function skipSurvey(){
    RENDER JOURNEY
 ══════════════════════════════════════════ */
 function renderJourney(){
-  const grid=document.getElementById('journey-scroll');
-  if(!grid)return;
-  grid.innerHTML='';
-  // Find which level should be open by default
-  const openId=LEVELS.find(l=>isUnlock(l.id)&&!isDone(l.id))?.id || LEVELS[LEVELS.length-1].id;
+  const map=document.getElementById('journey-scroll');
+  const detail=document.getElementById('journey-detail');
+  if(!map||!detail)return;
 
+  const openId=LEVELS.find(l=>isUnlock(l.id)&&!isDone(l.id))?.id||LEVELS[LEVELS.length-1].id;
+  const nc={1:'n1',2:'n2',3:'n3'};
+  const pc={1:'var(--blue)',2:'var(--gold)',3:'var(--green)'};
+
+  // ── MAP ──
+  map.innerHTML='';
+  LEVELS.forEach((lv,idx)=>{
+    const ul=isUnlock(lv.id),dn=isDone(lv.id),isActive=ul&&!dn;
+    const cls=`jm-node ${nc[lv.id]||'n1'}${dn?' done':isActive?' active':''}${ul?'':' locked'}`;
+    const statusLabel=dn?'✓ Completado':isActive?'En progreso':'Bloqueado';
+
+    const node=document.createElement('div');
+    node.className=cls;
+    node.setAttribute('data-lvid',lv.id);
+    node.onclick=()=>ul&&toggleLv(lv.id,node);
+
+    // Badge image or lock icon
+    const badgeInner=ul
+      ?`<img src="${MI[lv.mid]}" alt="${lv.badge}">`
+      :`<span class="jm-badge-lock">🔒</span>`;
+
+    // Gold star seal for completed levels
+    const starSeal=dn?`<div class="jm-star-seal">⭐</div>`:'';
+
+    node.innerHTML=`
+      <div class="jm-card">
+        <div class="jm-badge-wrap">
+          <div class="jm-badge-ring"></div>
+          <div class="jm-badge-inner">${badgeInner}</div>
+          ${starSeal}
+        </div>
+        <div class="jm-node-info">
+          <div class="jm-node-num">${lv.num}</div>
+          <div class="jm-node-status">${statusLabel}</div>
+          <div class="jm-node-name">${lv.name}</div>
+        </div>
+      </div>`;
+    map.appendChild(node);
+
+    // Connector (not after last)
+    if(idx<LEVELS.length-1){
+      const nextDn=isDone(LEVELS[idx+1].id);
+      const nextUl=isUnlock(LEVELS[idx+1].id);
+      const connCls='jm-connector'+(dn?' done':isActive?' active':'');
+      const conn=document.createElement('div');
+      conn.className=connCls;
+      conn.innerHTML='<div class="jm-connector-line"></div><div class="jm-connector-dot"></div>';
+      map.appendChild(conn);
+    }
+  });
+
+  // ── DETAIL PANELS ──
+  detail.innerHTML='';
   LEVELS.forEach(lv=>{
     const ul=isUnlock(lv.id),dn=isDone(lv.id);
     const done=lv.tasks.filter((_,i)=>['completada','validada'].includes(getSt(lv.id,i))).length;
     const t=lv.tasks.length,p=Math.round(done/t*100);
-    const hc=dn?'ph-done':lv.phc;
-    const isOpen=lv.id===openId;
+    const color=pc[lv.id]||'var(--blue)';
 
-    const card=document.createElement('div');
-    card.className='lv-card'+(ul?'':' locked');
+    const panel=document.createElement('div');
+    panel.className=`jd-panel jd-${nc[lv.id]||'n1'}${lv.id===openId?' open':''}`;
+    panel.id=`jd-${lv.id}`;
 
     const tasksHtml=lv.tasks.map((task,i)=>buildTask(lv.id,task,i)).join('');
     const stripHtml=`<div class="lv-unlock ${lv.buc}${dn?' show':''}">
@@ -1123,32 +1385,31 @@ function renderJourney(){
       </div>
     </div>`;
 
-    card.innerHTML=`
-      <div class="lv-hdr ${hc}" onclick="toggleLv(${lv.id},this)">
-        <div class="lv-ico">${mImg(lv.mid,48,!ul)}</div>
-        <div class="lv-inf">
-          <div class="lv-num">${lv.num}${dn?' · ✓ Completado':''}</div>
-          <div class="lv-nm">${lv.name}</div>
-          <div class="lv-cmp">${lv.cmp}</div>
+    panel.innerHTML=`
+      <div class="jd-hdr">
+        <div class="jd-hdr-ico" style="background:${color}18;border:1.5px solid ${color}44;box-shadow:0 0 16px ${color}22;">
+          ${mImg(lv.mid,38,!ul)}
         </div>
-        <div class="lv-st">
-          ${ul
-            ? `<div class="lv-mbar"><div class="lv-mfil" style="width:${p}%"></div></div>
-               <div class="lv-pt">${done}/${t} · ${p}%</div>`
-            : `<span style="font-size:1.1rem;opacity:.6">🔒</span>`
-          }
+        <div class="jd-hdr-info">
+          <div class="jd-hdr-num">${lv.num}</div>
+          <div class="jd-hdr-name">${lv.name}</div>
+          <div class="jd-prog-wrap">
+            <div class="jd-prog-lbl">Progreso del nivel</div>
+            <div class="jd-prog-track">
+              <div class="jd-prog-fill" style="width:${p}%;background:linear-gradient(90deg,${color},${color}aa);box-shadow:0 0 8px ${color}55;"></div>
+            </div>
+            <div class="jd-prog-pct" style="color:${color};">${p}%</div>
+          </div>
         </div>
       </div>
-      <div class="lv-body${isOpen?' open':''}">
-        <div class="lv-chapter ${lv.sc}">${lv.story}</div>
-        <div class="ck-list">${tasksHtml}</div>
-        ${stripHtml}
-      </div>`;
+      <div class="jd-story">${lv.story}</div>
+      <div class="ck-list">${tasksHtml}</div>
+      ${stripHtml}`;
 
-    grid.appendChild(card);
+    detail.appendChild(panel);
   });
 
-  // Badges tray
+  // Badges tray (hidden — duplicated info removed via bdg-section display:none below)
   const tray=document.getElementById('mob-badge-mini');
   if(tray) tray.innerHTML=LEVELS.map(lv=>{
     const e=isDone(lv.id);
@@ -1160,27 +1421,81 @@ function renderJourney(){
   }).join('');
 }
 
-function toggleLv(id,hdrEl){
+function toggleLv(id){
   if(!isUnlock(id))return;
-  const body=hdrEl.closest('.lv-card').querySelector('.lv-body');
-  const isOpen=body.classList.contains('open');
-  // Close all
-  document.querySelectorAll('.lv-body').forEach(b=>b.classList.remove('open'));
-  if(!isOpen)body.classList.add('open');
+  const target=document.getElementById(`jd-${id}`);
+  const wasOpen=target&&target.classList.contains('open');
+  // close all panels + clear selected
+  document.querySelectorAll('.jd-panel').forEach(p=>p.classList.remove('open'));
+  document.querySelectorAll('.jm-node').forEach(n=>n.classList.remove('selected'));
+  if(!wasOpen&&target){
+    target.classList.add('open');
+    // mark node as selected
+    const node=document.querySelector(`.jm-node[data-lvid="${id}"]`);
+    if(node)node.classList.add('selected');
+    const detail=document.getElementById('journey-detail');
+    if(detail)setTimeout(()=>detail.scrollIntoView({behavior:'smooth',block:'nearest'}),60);
+  }
 }
 
 function buildTask(lvId,task,idx){
-  const st=getSt(lvId,idx),obs=TO[tk(lvId,idx)]||'',isSelf=task.type==='self';
-  let cb='';if(st==='completada'||st==='validada')cb='✓';else if(st==='enviada')cb='⏳';else if(st==='devuelta')cb='↩';
-  let badge='';
-  if(isSelf)badge=`<span class="t-badge tb-self">👤 Autogestión</span>`;
-  else{if(st==='pendiente')badge=`<span class="t-badge tb-val">👨‍💼 Validación líder</span>`;if(st==='enviada')badge=`<span class="t-badge tb-vw">⏳ Enviada al líder</span>`;if(st==='validada')badge=`<span class="t-badge tb-vd">✓ Validada</span>`;if(st==='devuelta')badge=`<span class="t-badge tb-vb">↩ Devuelta</span>`;}
-  const click=isSelf?`onclick="toggleSelf(${lvId},${idx})"`:' ';
-  const sendBtn=(!isSelf&&st==='pendiente')?`<button class="t-send-btn" onclick="sendToLeader(${lvId},${idx})">Enviar al líder</button>`:'';
+  const st=getSt(lvId,idx);
+  const obs=TO[tk(lvId,idx)]||'';
+  const isSelf=task.type==='self';
+
+  // Icon by state
+  const icons={pendiente:'📋',completada:'✓',validada:'✓',enviada:'⏳',devuelta:'↩'};
+  const ico=icons[st]||'📋';
+
+  // Status pill
+  const pills={
+    pendiente:`<span class="t-pill tp-pend">Pendiente</span>`,
+    completada:`<span class="t-pill tp-done">Completado</span>`,
+    validada:`<span class="t-pill tp-val">Validado</span>`,
+    enviada:`<span class="t-pill tp-sent">Enviada</span>`,
+    devuelta:`<span class="t-pill tp-ret">Devuelta</span>`,
+  };
+  const pill=pills[st]||pills.pendiente;
+
+  // Subtitle: show date if completed/validated, type otherwise
+  const dateStr=new Date().toLocaleDateString('es-CO',{day:'numeric',month:'long',year:'numeric'});
+  let sub='';
+  if(st==='completada')sub=`Completado el ${dateStr}`;
+  else if(st==='validada')sub=`Completado el ${dateStr}`;
+  else if(isSelf)sub='Autogestión';
+  else sub='Requiere validación del líder';
+
+  // "Validado por" row
+  let validatedBy='';
+  if(st==='validada'){
+    validatedBy=`<div class="t-validated-by">
+      Validado por: <strong>Tu Líder</strong>
+      <div class="t-val-av">L</div>
+    </div>`;
+  }
+
+  // Observation
   const obsHtml=obs?`<div class="t-obs">💬 ${obs}</div>`:'';
+
+  // Send button for leader tasks pending
+  const sendBtn=(!isSelf&&st==='pendiente')
+    ?`<button class="t-send-btn" onclick="event.stopPropagation();sendToLeader(${lvId},${idx})">Enviar al líder →</button>`
+    :'';
+
+  const click=isSelf?`onclick="toggleSelf(${lvId},${idx})"`:' ';
+
   return `<div class="task ${isSelf?'self-task':'val-task'} status-${st}" ${click}>
-    <div class="t-cb">${cb}</div>
-    <div class="t-body"><div class="t-txt-wrap"><div class="t-txt">${task.txt}</div><div class="t-strike"></div></div>${badge}${sendBtn}${obsHtml}</div>
+    <div class="t-ico">${ico}</div>
+    <div class="t-body">
+      <div class="t-title">${task.txt}</div>
+      <div class="t-sub">${sub}</div>
+      ${validatedBy}${obsHtml}
+      ${sendBtn}
+    </div>
+    <div class="t-right">
+      ${pill}
+      <span class="t-chevron">${st==='completada'||st==='validada'?'▾':'›'}</span>
+    </div>
   </div>`;
 }
 
