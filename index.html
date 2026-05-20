@@ -317,23 +317,89 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
 .jm-connector.done .jm-connector-dot{border-color:rgba(255,255,255,.6);background:rgba(255,255,255,.12);box-shadow:0 0 6px rgba(255,255,255,.3);}
 .jm-connector.active .jm-connector-dot{border-color:var(--blue);background:var(--blue);box-shadow:0 0 8px rgba(88,106,232,.7);}
 
-/* ── DETAIL PANEL ── */
-.journey-detail{background:var(--bg2);border:1px solid var(--border2);border-top:none;border-radius:0 0 20px 20px;overflow:hidden;}
-.jd-panel{display:none;padding:0 20px 20px;animation:fadeUp .35s ease both;}
+/* ── DETAIL PANEL — Premium redesign ── */
+.journey-detail{background:var(--bg);border:1px solid var(--border2);border-top:none;border-radius:0 0 20px 20px;overflow:hidden;}
+.jd-panel{display:none;animation:fadeUp .4s ease both;}
 .jd-panel.open{display:block;}
-.jd-hdr{display:flex;align-items:flex-start;gap:16px;padding:20px 0 16px;border-bottom:1px solid var(--border);margin-bottom:16px;}
-.jd-hdr-ico{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.jd-hdr-ico img{width:44px;height:auto;}
-.jd-hdr-info{flex:1;}
-.jd-hdr-num{font-size:.6rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:3px;}
-.jd-hdr-name{font-family:'Nunito',sans-serif;font-size:1.3rem;font-weight:900;color:#fff;line-height:1.2;margin-bottom:10px;}
-.jd-prog-wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.jd-prog-lbl{font-size:.72rem;font-weight:700;color:var(--text3);white-space:nowrap;flex-shrink:0;}
-.jd-prog-track{flex:1;min-width:80px;height:10px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;border:1px solid rgba(255,255,255,.05);}
-.jd-prog-fill{height:100%;border-radius:99px;transition:width 1s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden;}
-.jd-prog-fill::after{content:'';position:absolute;top:0;left:-60px;width:60px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);animation:sheen 2.2s ease-in-out infinite;}
-.jd-prog-pct{font-size:.8rem;font-weight:900;white-space:nowrap;flex-shrink:0;}
-.jd-story{font-family:'Nunito',sans-serif;font-size:.83rem;color:var(--text2);line-height:1.65;margin-bottom:16px;}
+
+/* outer card with colored border + glow */
+.jd-card{margin:0;padding:22px 24px 24px;position:relative;border-bottom:1px solid var(--border);}
+.jd-card::before{content:'';position:absolute;inset:0;border-radius:0;pointer-events:none;}
+.jd-n1 .jd-card{border-top:2px solid rgba(88,106,232,.6);background:linear-gradient(160deg,rgba(88,106,232,.07) 0%,rgba(13,11,26,.98) 55%);}
+.jd-n2 .jd-card{border-top:2px solid rgba(255,185,1,.65);background:linear-gradient(160deg,rgba(255,185,1,.07) 0%,rgba(13,11,26,.98) 55%);}
+.jd-n3 .jd-card{border-top:2px solid rgba(0,201,122,.6);background:linear-gradient(160deg,rgba(0,201,122,.07) 0%,rgba(13,11,26,.98) 55%);}
+
+/* ── TOP ROW: badge | info | circle-pct ── */
+.jd-top{display:flex;align-items:center;gap:20px;margin-bottom:20px;}
+
+/* badge square */
+.jd-badge-box{width:88px;height:88px;border-radius:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative;}
+.jd-n1 .jd-badge-box{background:linear-gradient(135deg,rgba(88,106,232,.25),rgba(58,80,212,.4));border:1.5px solid rgba(88,106,232,.5);box-shadow:0 0 24px rgba(88,106,232,.3),inset 0 0 20px rgba(88,106,232,.1);}
+.jd-n2 .jd-badge-box{background:linear-gradient(135deg,rgba(255,185,1,.2),rgba(217,143,0,.35));border:1.5px solid rgba(255,185,1,.5);box-shadow:0 0 24px rgba(255,185,1,.28),inset 0 0 20px rgba(255,185,1,.1);}
+.jd-n3 .jd-badge-box{background:linear-gradient(135deg,rgba(0,201,122,.2),rgba(0,150,90,.35));border:1.5px solid rgba(0,201,122,.5);box-shadow:0 0 24px rgba(0,201,122,.28),inset 0 0 20px rgba(0,201,122,.1);}
+.jd-badge-box img{width:64px;height:auto;filter:drop-shadow(0 4px 12px rgba(0,0,0,.6));}
+
+/* center info */
+.jd-info{flex:1;min-width:0;}
+.jd-num-pill{display:inline-flex;align-items:center;gap:6px;padding:3px 12px;border-radius:99px;font-family:'Nunito',sans-serif;font-size:.65rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;}
+.jd-n1 .jd-num-pill{background:rgba(88,106,232,.18);border:1px solid rgba(88,106,232,.4);color:var(--blue2);}
+.jd-n2 .jd-num-pill{background:rgba(255,185,1,.15);border:1px solid rgba(255,185,1,.4);color:var(--gold);}
+.jd-n3 .jd-num-pill{background:rgba(0,201,122,.13);border:1px solid rgba(0,201,122,.4);color:#4ade80;}
+.jd-num-pill-star{font-size:.65rem;opacity:.7;}
+.jd-name{font-family:'Nunito',sans-serif;font-size:clamp(1.3rem,3vw,1.75rem);font-weight:900;line-height:1.1;margin-bottom:6px;color:#fff;}
+.jd-n1 .jd-name span{color:var(--blue2);}
+.jd-n2 .jd-name span{color:var(--gold);}
+.jd-n3 .jd-name span{color:#4ade80;}
+.jd-subtitle{font-size:.82rem;color:var(--text2);line-height:1.5;}
+
+/* circle percentage */
+.jd-circle-wrap{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:5px;}
+.jd-circle{width:72px;height:72px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;}
+.jd-n1 .jd-circle{background:rgba(88,106,232,.12);border:2px solid rgba(88,106,232,.5);box-shadow:0 0 18px rgba(88,106,232,.3);}
+.jd-n2 .jd-circle{background:rgba(255,185,1,.1);border:2px solid rgba(255,185,1,.5);box-shadow:0 0 18px rgba(255,185,1,.28);}
+.jd-n3 .jd-circle{background:rgba(0,201,122,.1);border:2px solid rgba(0,201,122,.5);box-shadow:0 0 18px rgba(0,201,122,.28);}
+.jd-circle-check{font-size:1rem;line-height:1;margin-bottom:1px;}
+.jd-circle-pct{font-family:'Nunito',sans-serif;font-size:1.2rem;font-weight:900;line-height:1;color:#fff;}
+.jd-circle-lbl{font-size:.52rem;font-weight:800;letter-spacing:.8px;text-transform:uppercase;text-align:center;line-height:1.2;}
+.jd-n1 .jd-circle-lbl{color:var(--blue2);}
+.jd-n2 .jd-circle-lbl{color:var(--gold);}
+.jd-n3 .jd-circle-lbl{color:#4ade80;}
+
+/* ── PROGRESS BAR ROW ── */
+.jd-prog-row{margin-bottom:20px;}
+.jd-prog-label-row{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
+.jd-prog-label-icon{font-size:.82rem;}
+.jd-prog-label-txt{font-family:'Nunito',sans-serif;font-size:.68rem;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;}
+.jd-n1 .jd-prog-label-txt{color:var(--blue2);}
+.jd-n2 .jd-prog-label-txt{color:var(--gold);}
+.jd-n3 .jd-prog-label-txt{color:#4ade80;}
+.jd-prog-bar-row{display:flex;align-items:center;gap:12px;}
+.jd-prog-track{flex:1;height:20px;background:rgba(255,255,255,.05);border-radius:99px;overflow:hidden;border:1px solid rgba(255,255,255,.06);}
+.jd-prog-fill{height:100%;border-radius:99px;transition:width 1.1s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden;}
+.jd-n1 .jd-prog-fill{background:linear-gradient(90deg,#3b4fd4,#586AE8,#7c8ff0);box-shadow:0 0 16px rgba(88,106,232,.6),0 0 32px rgba(88,106,232,.2);}
+.jd-n2 .jd-prog-fill{background:linear-gradient(90deg,#d98f00,#FFB901,#ffd04d);box-shadow:0 0 16px rgba(255,185,1,.65),0 0 32px rgba(255,185,1,.2);}
+.jd-n3 .jd-prog-fill{background:linear-gradient(90deg,#00a060,#00c97a,#4ade80);box-shadow:0 0 16px rgba(0,201,122,.6),0 0 32px rgba(0,201,122,.2);}
+.jd-prog-fill::after{content:'';position:absolute;top:0;left:-80px;width:80px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);animation:sheen 2s ease-in-out infinite;}
+.jd-prog-pct-txt{font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:900;flex-shrink:0;min-width:38px;text-align:right;}
+.jd-n1 .jd-prog-pct-txt{color:var(--blue2);}
+.jd-n2 .jd-prog-pct-txt{color:var(--gold);}
+.jd-n3 .jd-prog-pct-txt{color:#4ade80;}
+
+/* tasks area */
+.jd-tasks-wrap{padding:0 24px 24px;}
+
+/* responsive */
+@media(max-width:600px){
+  .jd-card{padding:16px 14px 18px;}
+  .jd-top{gap:12px;}
+  .jd-badge-box{width:64px;height:64px;border-radius:14px;}
+  .jd-badge-box img{width:46px;}
+  .jd-name{font-size:1.15rem;}
+  .jd-circle{width:58px;height:58px;}
+  .jd-circle-pct{font-size:1rem;}
+  .jd-prog-track{height:14px;}
+  .jd-tasks-wrap{padding:0 14px 18px;}
+}
 .ck-list{display:flex;flex-direction:column;gap:8px;}
 .lv-unlock{margin-top:14px;padding:12px 15px;border-radius:12px;display:flex;align-items:center;gap:11px;opacity:0;transform:translateY(6px);transition:opacity .4s,transform .4s;pointer-events:none;}
 .lv-unlock.show{opacity:1;transform:translateY(0);pointer-events:auto;}
@@ -1470,26 +1536,53 @@ function renderJourney(){
       </div>
     </div>`;
 
+    // Split level name for two-color rendering (last word gets level color)
+    const nameParts=lv.name.split(' ');
+    const nameHtml=nameParts.length>1
+      ?`${nameParts.slice(0,-1).join(' ')} <span>${nameParts[nameParts.length-1]}</span>`
+      :`<span>${lv.name}</span>`;
+
+    const stateLabel=dn?'COMPLETADO':ul?'EN PROGRESO':'BLOQUEADO';
+    const stateIcon=dn?'✓':ul?'◎':'🔒';
+
     panel.innerHTML=`
-      <div class="jd-hdr">
-        <div class="jd-hdr-ico" style="background:${color.s};border:1.5px solid ${color.g};box-shadow:0 0 16px ${color.s};">
-          ${mImg(lv.mid,38,!ul)}
-        </div>
-        <div class="jd-hdr-info">
-          <div class="jd-hdr-num">${lv.num}</div>
-          <div class="jd-hdr-name">${lv.name}</div>
-          <div class="jd-prog-wrap">
-            <div class="jd-prog-lbl">Progreso del nivel</div>
-            <div class="jd-prog-track">
-              <div class="jd-prog-fill" id="jd-fill-${lv.id}" style="width:0%;background:linear-gradient(90deg,${color.c},${color.g});box-shadow:0 0 10px ${color.s};"></div>
+      <div class="jd-card">
+        <div class="jd-top">
+          <div class="jd-badge-box">
+            ${mImg(lv.mid,64,!ul)}
+          </div>
+          <div class="jd-info">
+            <div class="jd-num-pill">
+              <span class="jd-num-pill-star">✦</span>${lv.num}<span class="jd-num-pill-star">✦</span>
             </div>
-            <div class="jd-prog-pct" style="color:${color.c};">${p}%</div>
+            <div class="jd-name">${nameHtml}</div>
+            <div class="jd-subtitle">${lv.story}</div>
+          </div>
+          <div class="jd-circle-wrap">
+            <div class="jd-circle">
+              <div class="jd-circle-check">${stateIcon}</div>
+              <div class="jd-circle-pct">${p}%</div>
+            </div>
+            <div class="jd-circle-lbl">${stateLabel}</div>
+          </div>
+        </div>
+        <div class="jd-prog-row">
+          <div class="jd-prog-label-row">
+            <span class="jd-prog-label-icon">📈</span>
+            <span class="jd-prog-label-txt">Progreso del nivel</span>
+          </div>
+          <div class="jd-prog-bar-row">
+            <div class="jd-prog-track">
+              <div class="jd-prog-fill" id="jd-fill-${lv.id}" style="width:0%;"></div>
+            </div>
+            <div class="jd-prog-pct-txt">${p}%</div>
           </div>
         </div>
       </div>
-      <div class="jd-story">${lv.story}</div>
-      <div class="ck-list">${tasksHtml}</div>
-      ${stripHtml}`;
+      <div class="jd-tasks-wrap">
+        <div class="ck-list">${tasksHtml}</div>
+        ${stripHtml}
+      </div>`;
 
     detail.appendChild(panel);
   });
