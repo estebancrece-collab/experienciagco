@@ -289,19 +289,6 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
 .jm-node.n2.active .jm-node-status{background:rgba(255,185,1,.18);color:var(--gold);}
 .jm-node.n3.active .jm-node-status{background:rgba(61,186,94,.15);color:#4ade80;}
 .jm-node.locked .jm-node-status{background:rgba(255,255,255,.05);color:var(--text3);}
-.jm-node-name{font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:800;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text2);}
-.jm-node.active .jm-node-name{color:#fff;font-size:.88rem;}
-.jm-node.done .jm-node-name{color:rgba(255,255,255,.5);}
-  display:flex;align-items:center;justify-content:center;
-  font-size:.75rem;line-height:1;
-  box-shadow:0 0 8px rgba(245,200,66,.7),0 0 16px rgba(245,200,66,.3);
-  animation:jmStarPulse 2.5s ease-in-out infinite;
-  z-index:5;
-}
-@keyframes jmStarPulse{
-  0%,100%{box-shadow:0 0 6px rgba(245,200,66,.6),0 0 12px rgba(245,200,66,.25);transform:scale(1);}
-  50%{box-shadow:0 0 14px rgba(245,200,66,.9),0 0 28px rgba(245,200,66,.45);transform:scale(1.12);}
-}
 
 /* ── TEXT BESIDE BADGE ── */
 .jm-node-info{flex:1;min-width:0;}
@@ -311,15 +298,14 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
 .jm-node.n3 .jm-node-num{color:rgba(61,186,94,.8);}
 .jm-node.locked .jm-node-num{color:var(--text3);}
 .jm-node-status{font-size:.68rem;font-weight:800;padding:2px 9px;border-radius:99px;display:inline-block;margin-bottom:5px;}
-/* DONE = plata/blanco pill */
 .jm-node.done .jm-node-status{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);}
 .jm-node.n1.active .jm-node-status{background:rgba(88,106,232,.2);color:var(--blue2);}
 .jm-node.n2.active .jm-node-status{background:rgba(255,185,1,.2);color:var(--gold);}
 .jm-node.locked .jm-node-status{background:rgba(255,255,255,.06);color:var(--text3);}
 .jm-node-name{font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:800;color:var(--text2);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.jm-node.active .jm-node-name{color:#fff;}
-/* DONE = blanco */
+.jm-node.active .jm-node-name{color:#fff;font-size:.88rem;}
 .jm-node.done .jm-node-name{color:rgba(255,255,255,.8);}
+.jm-node.selected .jm-node-name{white-space:normal;overflow:visible;}
 
 /* ── CONNECTOR ── */
 .jm-connector{flex-shrink:0;width:40px;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;}
@@ -384,23 +370,66 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
 
 /* responsive */
 @media(max-width:600px){
-  /* Journey map — tarjetas más compactas pero HORIZONTAL (badge izq + texto der) */
-  .journey-map{padding:14px 8px 18px;gap:0;}
-  .jm-connector{width:10px;flex-shrink:0;}
-  .jm-card{padding:11px 9px;gap:9px;min-height:68px;}
-  .jm-badge-wrap,.jm-badge-inner{width:44px;height:44px;}
-  .jm-badge-inner img{width:34px;}
+  /* ── JOURNEY: vertical en móvil ── */
+  .journey-map{
+    flex-direction:column;
+    padding:14px 12px 16px;
+    gap:0;
+    border-radius:16px 16px 0 0;
+  }
+  /* nodo ocupa ancho completo */
+  .jm-node{flex:none;width:100%;}
+  .jm-node:not(.locked):hover{transform:none;}
+
+  /* tarjeta full width, badge izq + texto der, sin truncar */
+  .jm-card{
+    padding:13px 14px;
+    gap:13px;
+    min-height:64px;
+    border-radius:12px;
+  }
+  .jm-badge-wrap,.jm-badge-inner{width:48px;height:48px;}
+  .jm-badge-inner img{width:38px;}
   .jm-badge-ring{inset:-4px;}
-  .jm-node.selected .jm-badge-wrap,.jm-node.selected .jm-badge-inner{width:52px;height:52px;}
-  .jm-node.selected .jm-badge-inner img{width:42px;}
-  .jm-node-num{font-size:.48rem;letter-spacing:.7px;}
-  .jm-node-status{font-size:.52rem;padding:1px 5px;margin-bottom:3px;}
-  .jm-node-name{font-size:.68rem;white-space:normal;line-height:1.2;}
+  .jm-node.selected .jm-badge-wrap,.jm-node.selected .jm-badge-inner{width:56px;height:56px;}
+  .jm-node.selected .jm-badge-inner img{width:44px;}
+  /* texto sin cortar */
+  .jm-node-info{min-width:0;flex:1;}
+  .jm-node-num{font-size:.6rem;letter-spacing:1px;margin-bottom:2px;}
+  .jm-node-status{font-size:.65rem;padding:2px 8px;margin-bottom:3px;}
+  .jm-node-name{
+    font-size:.84rem;
+    white-space:normal;
+    overflow:visible;
+    text-overflow:unset;
+    line-height:1.25;
+  }
+
+  /* conector vertical entre tarjetas */
+  .jm-connector{
+    width:100%;
+    height:24px;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+  }
+  .jm-connector-line{
+    width:2px;
+    height:100%;
+    border-radius:99px;
+  }
+  .jm-connector-dot{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+  }
+
   /* Detail panel */
-  .jd-panel{padding:0 12px 16px;}
-  .jd-hdr{gap:10px;padding:13px 0 10px;}
-  .jd-hdr-name{font-size:.9rem;}
-  .jd-story{font-size:.78rem;padding:8px 10px;}
+  .jd-panel{padding:0 14px 18px;}
+  .jd-hdr{gap:12px;padding:14px 0 12px;}
+  .jd-hdr-name{font-size:.95rem;}
+  .jd-story{font-size:.8rem;padding:9px 12px;}
 }
 
 @media(max-width:600px){
@@ -1393,15 +1422,11 @@ function renderJourney(){
       ?`<img src="${MI[lv.mid]}" alt="${lv.badge}">`
       :`<span class="jm-badge-lock">🔒</span>`;
 
-    // Gold star seal for completed levels
-    const starSeal=dn?`<div class="jm-star-seal">⭐</div>`:'';
-
     node.innerHTML=`
       <div class="jm-card">
         <div class="jm-badge-wrap">
           <div class="jm-badge-ring"></div>
           <div class="jm-badge-inner">${badgeInner}</div>
-          ${starSeal}
         </div>
         <div class="jm-node-info">
           <div class="jm-node-num">${lv.num}</div>
@@ -1469,7 +1494,32 @@ function renderJourney(){
     detail.appendChild(panel);
   });
 
-  // Animate level progress bars after DOM insert
+  // Apply mobile vertical layout via JS (cache-proof)
+  function applyJourneyLayout(){
+    const isMobile=window.innerWidth<=600;
+    if(!map)return;
+    map.style.flexDirection=isMobile?'column':'row';
+    map.querySelectorAll('.jm-node').forEach(n=>{
+      n.style.flex=isMobile?'none':'1';
+      n.style.width=isMobile?'100%':'';
+    });
+    map.querySelectorAll('.jm-connector').forEach(c=>{
+      c.style.width=isMobile?'100%':'40px';
+      c.style.height=isMobile?'20px':'auto';
+      c.style.flexShrink=isMobile?'0':'0';
+      const line=c.querySelector('.jm-connector-line');
+      if(line){line.style.width=isMobile?'2px':'100%';line.style.height=isMobile?'100%':'2px';}
+    });
+    // Ensure node names don't truncate
+    map.querySelectorAll('.jm-node-name').forEach(n=>{
+      n.style.whiteSpace=isMobile?'normal':'nowrap';
+      n.style.overflow=isMobile?'visible':'hidden';
+      n.style.textOverflow=isMobile?'unset':'ellipsis';
+    });
+  }
+  applyJourneyLayout();
+  window.removeEventListener('resize',applyJourneyLayout);
+  window.addEventListener('resize',applyJourneyLayout);
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
     LEVELS.forEach(lv=>{
       const bar=document.getElementById(`jd-fill-${lv.id}`);
