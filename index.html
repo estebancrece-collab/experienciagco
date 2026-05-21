@@ -5,7 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Pasaporte GCO · Experiencia Inmersión Retail</title>
 
-<!-- PWA -->
+<!-- v2.1 LEADER-DASH-001 -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0d0b1a">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -825,6 +828,20 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
   font-family:'Nunito',sans-serif;font-size:.7rem;font-weight:900;color:#7c8ff0;
   display:flex;align-items:center;gap:7px;text-transform:uppercase;letter-spacing:.8px;
 }
+.lp-tip-img-wrap{
+  width:100%;border-radius:14px;overflow:hidden;
+  margin:10px 0 4px;
+  position:relative;
+  background:rgba(88,60,200,.08);
+  min-height:140px;
+  display:flex;align-items:center;justify-content:center;
+}
+.lp-tip-img{
+  width:100%;height:auto;display:block;border-radius:14px;
+  filter:drop-shadow(0 0 20px rgba(120,80,255,.4));
+  transition:transform .4s ease;
+}
+.lp-tip-img:hover{transform:scale(1.03);}
 .lp-tip-txt{font-size:.83rem;color:rgba(200,195,235,.75);line-height:1.65;font-style:italic;}
 
 /* ── SECTION HEADER ── */
@@ -1697,6 +1714,9 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
       </div>
       <div class="lp-tip">
         <div class="lp-tip-title">💡 Tip para líderes</div>
+        <div class="lp-tip-img-wrap">
+          <img src="img-tip.png" alt="" class="lp-tip-img" onerror="this.style.display='none'">
+        </div>
         <div class="lp-tip-txt" id="lp-tip-txt">Pequeñas conversaciones generan grandes transformaciones. Acompaña con intención.</div>
       </div>
     </div>
