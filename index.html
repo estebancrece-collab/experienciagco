@@ -673,60 +673,155 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
 /* ── RESPONSIVE ── */
 /* responsive handled above */
 
-/* ── LEADER PANEL ── */
+/* ══════════════════════════════════════════
+   LEADER PANEL — PREMIUM REDESIGN
+══════════════════════════════════════════ */
 #leader-panel{display:none;position:fixed;inset:0;z-index:1500;background:var(--bg);overflow-y:auto;}
-.lp-wrap{max-width:980px;margin:0 auto;padding:20px 14px 60px;}
-.lp-hdr{background:var(--card);border:1px solid var(--border2);border-radius:18px;padding:17px 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:9px;}
-.lp-title{font-family:'Nunito',sans-serif;font-size:1rem;font-weight:900;color:#fff;}
-.lp-title span{color:var(--text3);font-size:.76rem;font-weight:600;display:block;margin-top:2px;}
-.lp-acts{display:flex;gap:7px;flex-wrap:wrap;}
-.lp-btn{padding:7px 14px;border-radius:10px;border:none;font-family:'Nunito',sans-serif;font-size:.74rem;font-weight:800;cursor:pointer;transition:all .2s;}
-.lp-btn-ex{background:var(--green);color:#000;}.lp-btn-ex:hover{transform:translateY(-1px);box-shadow:var(--glow-green);}
-.lp-btn-cl{background:rgba(255,255,255,.08);color:var(--text2);border:1px solid var(--border2);}.lp-btn-cl:hover{border-color:var(--coral);color:var(--coral);}
-.lp-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:9px;margin-bottom:15px;}
-.lp-stat{background:var(--card);border:1px solid var(--border2);border-radius:13px;padding:12px 15px;}
-.lp-sl{font-size:.63rem;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px;}
-.lp-sv{font-family:'Nunito',sans-serif;font-size:1.4rem;font-weight:900;color:#fff;}
-.lp-sv.b{color:var(--blue2);text-shadow:var(--glow-blue);}.lp-sv.y{color:var(--gold);}.lp-sv.r{color:var(--coral);}
+.lp-wrap{max-width:1100px;margin:0 auto;padding:20px 16px 80px;}
+
+/* ── HEADER ── */
+.lp-hdr{background:linear-gradient(135deg,rgba(88,106,232,.18),rgba(56,44,84,.6));border:1px solid rgba(88,106,232,.3);border-radius:20px;padding:20px 22px;display:flex;align-items:center;gap:16px;margin-bottom:18px;flex-wrap:wrap;box-shadow:0 0 40px rgba(88,106,232,.1);}
+.lp-hdr-crown{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,rgba(255,185,1,.25),rgba(255,185,1,.1));border:1.5px solid rgba(255,185,1,.4);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;box-shadow:0 0 16px rgba(255,185,1,.2);}
+.lp-hdr-info{flex:1;}
+.lp-title{font-family:'Nunito',sans-serif;font-size:1.3rem;font-weight:900;color:#fff;line-height:1.1;}
+.lp-title span{color:var(--text2);font-size:.78rem;font-weight:600;display:block;margin-top:3px;}
+.lp-acts{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto;}
+.lp-btn{padding:8px 16px;border-radius:11px;border:none;font-family:'Nunito',sans-serif;font-size:.76rem;font-weight:800;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;}
+.lp-btn-ex{background:var(--green);color:#000;box-shadow:0 2px 12px rgba(0,201,122,.3);}.lp-btn-ex:hover{transform:translateY(-1px);box-shadow:0 4px 18px rgba(0,201,122,.45);}
+.lp-btn-ref{background:rgba(255,255,255,.08);color:var(--text2);border:1px solid var(--border2);}.lp-btn-ref:hover{background:rgba(255,255,255,.14);color:#fff;}
+.lp-btn-cl{background:rgba(253,99,107,.1);color:var(--coral);border:1px solid rgba(253,99,107,.25);}.lp-btn-cl:hover{background:var(--coral);color:#fff;}
+
+/* ── 6 STATS GRID ── */
+.lp-stats{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:16px;}
+@media(max-width:900px){.lp-stats{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:500px){.lp-stats{grid-template-columns:repeat(2,1fr);}}
+.lp-stat{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:14px 16px;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;}
+.lp-stat:hover{transform:translateY(-2px);}
+.lp-stat-ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:10px;}
+.lp-stat.s-blue .lp-stat-ico{background:rgba(88,106,232,.18);box-shadow:0 0 10px rgba(88,106,232,.2);}
+.lp-stat.s-purple .lp-stat-ico{background:rgba(124,58,237,.18);}
+.lp-stat.s-gold .lp-stat-ico{background:rgba(255,185,1,.15);}
+.lp-stat.s-red .lp-stat-ico{background:rgba(253,99,107,.15);}
+.lp-stat.s-teal .lp-stat-ico{background:rgba(109,199,204,.15);}
+.lp-stat.s-green .lp-stat-ico{background:rgba(0,201,122,.15);}
+.lp-sl{font-size:.58rem;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--text3);margin-bottom:4px;}
+.lp-sv{font-family:'Nunito',sans-serif;font-size:1.8rem;font-weight:900;line-height:1;color:#fff;}
+.lp-sv.b{color:var(--blue2);text-shadow:var(--glow-blue);}
+.lp-sv.y{color:var(--gold);}
+.lp-sv.r{color:var(--coral);}
+.lp-sv.g{color:var(--green);}
+.lp-sv.t{color:var(--teal);}
+.lp-stat-sub{font-size:.62rem;color:var(--text3);margin-top:3px;}
+/* ghost icon background */
+.lp-stat::after{content:attr(data-ghost);position:absolute;right:8px;bottom:4px;font-size:2.8rem;opacity:.06;pointer-events:none;line-height:1;}
+
+/* ── ALERTS + TIP ROW ── */
+.lp-alerts-row{display:grid;grid-template-columns:1fr 280px;gap:12px;margin-bottom:18px;}
+@media(max-width:700px){.lp-alerts-row{grid-template-columns:1fr;}}
+.lp-alerts{background:rgba(253,99,107,.06);border:1px solid rgba(253,99,107,.2);border-radius:16px;padding:16px 18px;}
+.lp-alerts-title{font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:900;color:var(--coral);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.lp-alert-items{display:flex;flex-direction:column;gap:8px;}
+.lp-alert-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);}
+.lp-alert-ico{font-size:1rem;flex-shrink:0;margin-top:1px;}
+.lp-alert-body{flex:1;}
+.lp-alert-label{font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:800;margin-bottom:1px;}
+.lp-alert-label.red{color:var(--coral);}
+.lp-alert-label.gold{color:var(--gold);}
+.lp-alert-label.blue{color:var(--blue2);}
+.lp-alert-desc{font-size:.7rem;color:var(--text3);line-height:1.4;}
+.lp-alert-link{font-size:.68rem;font-weight:800;color:var(--blue2);cursor:pointer;margin-top:2px;display:inline-block;}
+.lp-alert-link:hover{text-decoration:underline;}
+.lp-no-alerts{font-size:.82rem;color:var(--green);padding:8px 0;display:flex;align-items:center;gap:8px;}
+.lp-tip{background:linear-gradient(135deg,rgba(88,106,232,.12),rgba(124,58,237,.1));border:1px solid rgba(88,106,232,.25);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:8px;}
+.lp-tip-title{font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:900;color:var(--blue2);display:flex;align-items:center;gap:6px;}
+.lp-tip-txt{font-size:.82rem;color:var(--text2);line-height:1.6;font-style:italic;}
+
+/* ── COLLABORATORS SECTION ── */
+.lp-sect-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;}
+.lp-sect-title{font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:900;color:#fff;}
+.lp-search{padding:8px 14px;border-radius:99px;border:1px solid var(--border2);background:var(--card);color:#fff;font-family:'Nunito Sans',sans-serif;font-size:.78rem;outline:none;width:200px;transition:border-color .2s;}
+.lp-search:focus{border-color:var(--blue);}
 .lp-list{display:grid;gap:10px;}
-.lp-cc{background:var(--card);border:1px solid var(--border2);border-radius:15px;overflow:hidden;}
-.lp-ch{padding:13px 17px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}
-.lp-av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;flex-shrink:0;overflow:hidden;}
+
+/* ── COLLABORATOR CARD ── */
+.lp-cc{background:var(--card);border:1px solid var(--border2);border-radius:16px;overflow:hidden;transition:box-shadow .2s,border-color .2s;}
+.lp-cc:hover{border-color:rgba(88,106,232,.3);box-shadow:0 0 20px rgba(88,106,232,.08);}
+.lp-cc.has-pending{border-color:rgba(253,99,107,.25);}
+.lp-cc.at-risk{border-color:rgba(253,99,107,.4);background:rgba(253,99,107,.02);}
+.lp-ch{padding:14px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;user-select:none;}
+.lp-av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;flex-shrink:0;overflow:hidden;border:2px solid rgba(255,255,255,.1);}
 .lp-av img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
-.lp-ci{flex:1;}
-.lp-cn{font-family:'Nunito',sans-serif;font-weight:900;font-size:.9rem;color:#fff;}
-.lp-cm{font-size:.68rem;color:var(--text3);margin-top:1px;}
-.lp-cr{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
-.lp-pct{font-family:'Nunito',sans-serif;font-weight:900;font-size:.92rem;color:var(--blue2);}
-.lp-pb{background:rgba(253,99,107,.12);border:1px solid rgba(253,99,107,.25);color:var(--coral);font-size:.64rem;font-weight:800;padding:2px 8px;border-radius:99px;}
-.lp-pb.ok{background:rgba(0,201,122,.1);border-color:rgba(0,201,122,.25);color:var(--green);}
-.lp-cb{max-height:0;overflow:hidden;padding:0 17px;transition:max-height .4s cubic-bezier(.4,0,.2,1),padding .3s;}
-.lp-cb.open{max-height:2000px;padding:0 17px 17px;}
-.lp-tab-bar{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:14px;margin-top:4px;}
-.lp-tab{padding:8px 14px;font-family:'Nunito',sans-serif;font-size:.76rem;font-weight:800;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.lp-ci{flex:1;min-width:0;}
+.lp-cn{font-family:'Nunito',sans-serif;font-weight:900;font-size:.9rem;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lp-cm{font-size:.68rem;color:var(--text3);margin-top:2px;}
+.lp-cm-tags{display:flex;gap:5px;margin-top:4px;flex-wrap:wrap;}
+.lp-cm-tag{font-size:.6rem;font-weight:700;padding:1px 7px;border-radius:99px;background:rgba(255,255,255,.06);color:var(--text2);}
+/* mini progress bar in card */
+.lp-mini-prog{margin-top:5px;height:3px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;width:100%;}
+.lp-mini-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--teal));transition:width .8s;}
+/* right side of card */
+.lp-cr{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;}
+.lp-pct{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;color:var(--blue2);}
+.lp-pb{font-size:.64rem;font-weight:800;padding:3px 9px;border-radius:99px;}
+.lp-pb.pend{background:rgba(253,99,107,.12);border:1px solid rgba(253,99,107,.3);color:var(--coral);}
+.lp-pb.ok{background:rgba(0,201,122,.1);border:1px solid rgba(0,201,122,.25);color:var(--green);}
+.lp-pb.risk{background:rgba(253,99,107,.2);border:1px solid rgba(253,99,107,.4);color:#fff;}
+.lp-day-tag{font-size:.6rem;color:var(--text3);font-weight:600;}
+
+/* ── DETAIL ACCORDION (desktop) ── */
+.lp-cb{max-height:0;overflow:hidden;padding:0 18px;transition:max-height .45s cubic-bezier(.4,0,.2,1),padding .3s;border-top:0px solid var(--border);}
+.lp-cb.open{max-height:3000px;padding:0 18px 18px;border-top:1px solid var(--border);}
+.lp-tab-bar{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:14px;margin-top:12px;overflow-x:auto;}
+.lp-tab{padding:9px 15px;font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:800;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;white-space:nowrap;}
 .lp-tab.active{color:var(--blue2);border-bottom-color:var(--blue);}
 .lp-tab-content{display:none;}.lp-tab-content.active{display:block;}
+
+/* ── DETAIL MOBILE SCREEN ── */
+#lp-detail-screen{display:none;position:fixed;inset:0;z-index:1600;background:var(--bg);overflow-y:auto;}
+.lpd-wrap{max-width:700px;margin:0 auto;padding:16px 14px 80px;}
+.lpd-back{display:flex;align-items:center;gap:8px;color:var(--blue2);font-size:.82rem;font-weight:800;cursor:pointer;margin-bottom:16px;padding:8px 0;}
+.lpd-back:hover{color:#fff;}
+
+/* ── VALIDATION ITEMS ── */
 .lp-vttl{font-family:'Nunito',sans-serif;font-size:.66rem;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
-.lp-vl{display:flex;flex-direction:column;gap:7px;}
-.lp-vi{padding:10px 12px;border-radius:9px;background:var(--bg2);border:1px solid var(--border);}
+.lp-vl{display:flex;flex-direction:column;gap:8px;}
+.lp-vi{padding:12px 14px;border-radius:11px;background:var(--bg2);border:1px solid var(--border);}
 .lp-vi.pend{border-color:rgba(245,200,66,.3);background:rgba(245,200,66,.04);}
 .lp-vi.val{border-color:rgba(0,201,122,.3);background:rgba(0,201,122,.04);}
 .lp-vi.ret{border-color:rgba(253,99,107,.3);background:rgba(253,99,107,.04);}
-.lp-vn{font-family:'Nunito',sans-serif;font-size:.81rem;font-weight:800;color:#fff;margin-bottom:4px;}
+.lp-vn{font-family:'Nunito',sans-serif;font-size:.84rem;font-weight:800;color:#fff;margin-bottom:4px;}
 .lp-vl2{font-size:.64rem;color:var(--text3);margin-bottom:4px;}
-.lp-vs{display:inline-flex;align-items:center;gap:3px;font-size:.66rem;font-weight:800;padding:2px 8px;border-radius:99px;}
+.lp-vs{display:inline-flex;align-items:center;gap:3px;font-size:.66rem;font-weight:800;padding:2px 9px;border-radius:99px;}
 .vsp{background:rgba(245,200,66,.12);color:var(--gold);}
 .vsv{background:rgba(0,201,122,.12);color:var(--green);}
 .vsr{background:rgba(253,99,107,.12);color:var(--coral);}
-.lp-va{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center;}
-.lp-oi{flex:1;min-width:130px;padding:5px 9px;border-radius:7px;border:1px solid var(--border2);background:var(--bg);color:#fff;font-family:'Nunito Sans',sans-serif;font-size:.76rem;outline:none;}
+.lp-va{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;align-items:center;}
+.lp-oi{flex:1;min-width:130px;padding:7px 11px;border-radius:9px;border:1px solid var(--border2);background:var(--bg);color:#fff;font-family:'Nunito Sans',sans-serif;font-size:.78rem;outline:none;}
 .lp-oi:focus{border-color:var(--blue);}
-.lp-vb{padding:5px 12px;border-radius:99px;border:none;font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:800;cursor:pointer;transition:all .15s;}
+.lp-vb{padding:7px 14px;border-radius:99px;border:none;font-family:'Nunito',sans-serif;font-size:.74rem;font-weight:800;cursor:pointer;transition:all .15s;}
 .lp-vb.a{background:var(--green);color:#000;}.lp-vb.a:hover{box-shadow:var(--glow-green);}
 .lp-vb.r{background:var(--coral);color:#fff;}.lp-vb.r:hover{box-shadow:var(--glow-coral);}
-.lp-oe{font-size:.7rem;color:var(--coral);font-style:italic;margin-top:3px;}
-.lp-np{padding:13px;text-align:center;color:var(--text3);font-size:.82rem;}
-.lp-load{text-align:center;padding:24px;color:var(--text3);font-size:.84rem;}
+.lp-oe{font-size:.72rem;color:var(--coral);font-style:italic;margin-top:4px;padding:4px 9px;background:rgba(253,99,107,.06);border-radius:6px;border-left:2px solid var(--coral);}
+.lp-np{padding:16px;text-align:center;color:var(--text3);font-size:.84rem;}
+.lp-load{text-align:center;padding:28px;color:var(--text3);font-size:.84rem;}
+
+/* ── COLLABORATOR SUMMARY CARD (detail) ── */
+.lpd-profile{background:linear-gradient(135deg,rgba(88,106,232,.15),rgba(56,44,84,.5));border:1px solid rgba(88,106,232,.3);border-radius:18px;padding:18px;margin-bottom:14px;display:flex;gap:14px;align-items:flex-start;}
+.lpd-av{width:64px;height:64px;border-radius:50%;flex-shrink:0;overflow:hidden;border:2px solid rgba(88,106,232,.4);}
+.lpd-av img,.lpd-av-ini{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+.lpd-av-ini{background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:1.4rem;}
+.lpd-info{flex:1;}
+.lpd-name{font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:900;color:#fff;margin-bottom:3px;}
+.lpd-meta{font-size:.72rem;color:var(--text3);margin-bottom:10px;}
+.lpd-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.lpd-stat{background:rgba(0,0,0,.2);border-radius:10px;padding:9px 11px;}
+.lpd-stat-lbl{font-size:.58rem;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;}
+.lpd-stat-val{font-family:'Nunito',sans-serif;font-size:1rem;font-weight:900;color:#fff;}
+.lpd-stat-val.b{color:var(--blue2);}
+.lpd-stat-val.g{color:var(--green);}
+.lpd-stat-val.r{color:var(--coral);}
+
+/* welcome profile */
 .wf-summary-card{background:linear-gradient(135deg,rgba(88,106,232,.2),rgba(56,44,84,.5));border:1px solid var(--border3);border-radius:14px;padding:18px;margin-bottom:12px;}
 .wf-sum-title{font-family:'Nunito',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:12px;}
 .wf-sum-item{display:flex;align-items:flex-start;gap:9px;margin-bottom:8px;}
@@ -1198,21 +1293,87 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
 ════════════════════════════════════ -->
 <div id="leader-panel">
   <div class="lp-wrap">
+    <!-- HEADER -->
     <div class="lp-hdr">
-      <div class="lp-title">Panel de Líder<span id="lp-lname">—</span></div>
+      <div class="lp-hdr-crown">👑</div>
+      <div class="lp-hdr-info">
+        <div class="lp-title">Panel de Líder<span id="lp-lname">—</span></div>
+      </div>
       <div class="lp-acts">
-        <button class="lp-btn lp-btn-ex" onclick="exportExcel()">⬇ Excel</button>
-        <button class="lp-btn" onclick="loadLeaderData()" style="background:rgba(255,255,255,.14);color:#fff;">↺ Actualizar</button>
-        <button class="lp-btn lp-btn-cl" onclick="logoutLeader()">Salir</button>
+        <button class="lp-btn lp-btn-ex" onclick="exportExcel()">📊 Excel</button>
+        <button class="lp-btn lp-btn-ref" onclick="loadLeaderData()">↺ Actualizar</button>
+        <button class="lp-btn lp-btn-cl" onclick="logoutLeader()">→ Salir</button>
       </div>
     </div>
+
+    <!-- 6 STATS -->
     <div class="lp-stats">
-      <div class="lp-stat"><div class="lp-sl">Colaboradores</div><div class="lp-sv b" id="lp-total">0</div></div>
-      <div class="lp-stat"><div class="lp-sl">Avance prom.</div><div class="lp-sv" id="lp-avg">0%</div></div>
-      <div class="lp-stat"><div class="lp-sl">Completaron N3</div><div class="lp-sv y" id="lp-done">0</div></div>
-      <div class="lp-stat"><div class="lp-sl">Por validar</div><div class="lp-sv r" id="lp-pending">0</div></div>
+      <div class="lp-stat s-blue" data-ghost="👥">
+        <div class="lp-stat-ico">👥</div>
+        <div class="lp-sl">Colaboradores</div>
+        <div class="lp-sv b" id="lp-total">0</div>
+        <div class="lp-stat-sub">activos</div>
+      </div>
+      <div class="lp-stat s-purple" data-ghost="📈">
+        <div class="lp-stat-ico">📈</div>
+        <div class="lp-sl">Avance prom.</div>
+        <div class="lp-sv" id="lp-avg">0%</div>
+        <div class="lp-stat-sub" id="lp-avg-trend"></div>
+      </div>
+      <div class="lp-stat s-gold" data-ghost="⏳">
+        <div class="lp-stat-ico">⏳</div>
+        <div class="lp-sl">Por validar</div>
+        <div class="lp-sv y" id="lp-pending">0</div>
+        <div class="lp-stat-sub">tareas pendientes</div>
+      </div>
+      <div class="lp-stat s-red" data-ghost="⚠️">
+        <div class="lp-stat-ico">⚠️</div>
+        <div class="lp-sl">En riesgo</div>
+        <div class="lp-sv r" id="lp-risk">0</div>
+        <div class="lp-stat-sub">colaboradores</div>
+      </div>
+      <div class="lp-stat s-teal" data-ghost="📋">
+        <div class="lp-stat-ico">📋</div>
+        <div class="lp-sl">Fichas completas</div>
+        <div class="lp-sv t" id="lp-fichas">0</div>
+        <div class="lp-stat-sub" id="lp-fichas-sub"></div>
+      </div>
+      <div class="lp-stat s-green" data-ghost="🏆">
+        <div class="lp-stat-ico">🏆</div>
+        <div class="lp-sl">Completaron N3</div>
+        <div class="lp-sv g" id="lp-done">0</div>
+        <div class="lp-stat-sub">de <span id="lp-done-total">0</span></div>
+      </div>
+    </div>
+
+    <!-- ALERTS + TIP -->
+    <div class="lp-alerts-row">
+      <div class="lp-alerts">
+        <div class="lp-alerts-title">⚠️ Alertas importantes</div>
+        <div class="lp-alert-items" id="lp-alert-items">
+          <div class="lp-no-alerts">✓ Todo en orden — no hay alertas activas</div>
+        </div>
+      </div>
+      <div class="lp-tip">
+        <div class="lp-tip-title">💡 Tip para líderes</div>
+        <div class="lp-tip-txt" id="lp-tip-txt">Pequeñas conversaciones generan grandes transformaciones. Acompaña con intención.</div>
+      </div>
+    </div>
+
+    <!-- COLLABORATORS LIST -->
+    <div class="lp-sect-hdr">
+      <div class="lp-sect-title">Colaboradores</div>
+      <input class="lp-search" id="lp-search" placeholder="🔍 Buscar..." oninput="filterLpList()">
     </div>
     <div id="lp-cont"><div class="lp-load">Cargando colaboradores...</div></div>
+  </div>
+</div>
+
+<!-- DETAIL SCREEN (mobile) -->
+<div id="lp-detail-screen">
+  <div class="lpd-wrap">
+    <div class="lpd-back" onclick="closeLpDetail()">← Volver al panel</div>
+    <div id="lpd-content"></div>
   </div>
 </div>
 
@@ -1911,39 +2072,235 @@ async function loadLeaderData(){
   }catch(e){document.getElementById('lp-cont').innerHTML='<div class="lp-load" style="color:var(--coral)">⚠ Error al cargar.</div>';}
 }
 
+const LP_TIPS=[
+  'Pequeñas conversaciones generan grandes transformaciones. Acompaña con intención.',
+  'Un colaborador que se siente visto, rinde más y se queda más tiempo.',
+  'Valida rápido — cada tarea pendiente es un colaborador esperando feedback.',
+  'La ficha de bienvenida te dice cómo acompañar, no solo qué enseñar.',
+  'El onboarding no termina en el día 30 — termina cuando el colaborador se siente parte.',
+];
+
 function renderLeaderPanel(){
-  const total=ldrC.length;let totPct=0,done3=0,totPend=0;
-  ldrC.forEach(c=>{let comp=0;LEVELS.forEach(lv=>lv.tasks.forEach((_,i)=>{if(['completada','validada'].includes(c._t[tk(lv.id,i)]||'pendiente'))comp++;}));c._pct=Math.round(comp/TOTAL*100);totPct+=c._pct;if(LEVELS[2].tasks.every((_,i)=>['completada','validada'].includes(c._t[tk(3,i)]||'pendiente')))done3++;let pend=0;LEVELS.forEach(lv=>lv.tasks.forEach((t,i)=>{if(t.type==='leader'&&(c._t[tk(lv.id,i)]||'pendiente')==='enviada')pend++;}));c._pend=pend;totPend+=pend;});
-  document.getElementById('lp-total').textContent=total;document.getElementById('lp-avg').textContent=total?Math.round(totPct/total)+'%':'0%';document.getElementById('lp-done').textContent=done3;document.getElementById('lp-pending').textContent=totPend;
+  const total=ldrC.length;
+  let totPct=0,done3=0,totPend=0,atRisk=0,fichas=0;
+
+  ldrC.forEach(c=>{
+    let comp=0;
+    LEVELS.forEach(lv=>lv.tasks.forEach((_,i)=>{
+      if(['completada','validada'].includes(c._t[tk(lv.id,i)]||'pendiente'))comp++;
+    }));
+    c._pct=Math.round(comp/TOTAL*100);
+    totPct+=c._pct;
+
+    // Done N3
+    if(LEVELS[2].tasks.every((_,i)=>['completada','validada'].includes(c._t[tk(3,i)]||'pendiente')))done3++;
+
+    // Pending validations
+    let pend=0;
+    LEVELS.forEach(lv=>lv.tasks.forEach((t,i)=>{
+      if(t.type==='leader'&&(c._t[tk(lv.id,i)]||'pendiente')==='enviada')pend++;
+    }));
+    c._pend=pend;
+    totPend+=pend;
+
+    // At risk: >20 days and <50%
+    const dias=c.fecha_inicio?Math.ceil((Date.now()-new Date(c.fecha_inicio).getTime())/86400000):0;
+    c._dias=dias;
+    c._risk=dias>20&&c._pct<50;
+    if(c._risk)atRisk++;
+    if(c._wp)fichas++;
+  });
+
+  // Update stats
+  document.getElementById('lp-total').textContent=total;
+  document.getElementById('lp-avg').textContent=total?Math.round(totPct/total)+'%':'0%';
+  document.getElementById('lp-pending').textContent=totPend;
+  document.getElementById('lp-risk').textContent=atRisk;
+  document.getElementById('lp-fichas').textContent=fichas;
+  document.getElementById('lp-fichas-sub').textContent=total?`${Math.round(fichas/total*100)}% completadas`:'';
+  document.getElementById('lp-done').textContent=done3;
+  document.getElementById('lp-done-total').textContent=total;
+
+  // Tip rotation
+  const tip=LP_TIPS[Math.floor(Date.now()/86400000)%LP_TIPS.length];
+  document.getElementById('lp-tip-txt').textContent=tip;
+
+  // Alerts
+  const alertEl=document.getElementById('lp-alert-items');
+  const alerts=[];
+  if(atRisk>0)alerts.push({cls:'red',ico:'🔴',label:`${atRisk} colaborador${atRisk>1?'es en riesgo':' en riesgo'}`,desc:'Más de 20 días con menos del 50% de avance'});
+  if(totPend>0)alerts.push({cls:'gold',ico:'🟡',label:`${totPend} validaciones pendientes`,desc:'Tienes tareas esperando tu revisión'});
+  const inact=ldrC.filter(c=>c._dias>3&&c._pct<100).length;
+  if(inact>0)alerts.push({cls:'blue',ico:'🔵',label:`${inact} sin avance reciente`,desc:'No registran actividad en más de 3 días'});
+  alertEl.innerHTML=alerts.length
+    ?alerts.map(a=>`<div class="lp-alert-item">
+        <div class="lp-alert-ico">${a.ico}</div>
+        <div class="lp-alert-body">
+          <div class="lp-alert-label ${a.cls}">${a.label}</div>
+          <div class="lp-alert-desc">${a.desc}</div>
+        </div>
+      </div>`).join('')
+    :'<div class="lp-no-alerts">✓ Todo en orden — no hay alertas activas</div>';
+
   if(!total){document.getElementById('lp-cont').innerHTML='<div class="lp-load">No hay colaboradores en esta tienda.</div>';return;}
-  ldrC.sort((a,b)=>b._pend-a._pend);
+
+  // Sort: pending first, then by risk, then by progress
+  ldrC.sort((a,b)=>b._pend-a._pend||b._risk-a._risk||a._pct-b._pct);
+
   const html=ldrC.map((c,ci)=>{
     const ini=c.nombre.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
     const avHtml=c.avatar?`<div class="lp-av"><img src="${c.avatar}" alt="${c.nombre}"></div>`:`<div class="lp-av">${ini}</div>`;
-    const pb=c._pend>0?`<span class="lp-pb">${c._pend} por validar</span>`:`<span class="lp-pb ok">Al día ✓</span>`;
+    const lvActual=LEVELS.findLast(lv=>lv.tasks.some((_,i)=>['completada','validada','enviada'].includes(c._t[tk(lv.id,i)]||'pendiente')))||LEVELS[0];
+    const pbCls=c._risk?'risk':c._pend>0?'pend':'ok';
+    const pbTxt=c._risk?'⚠ En riesgo':c._pend>0?`${c._pend} por validar`:'Al día ✓';
     const hasFicha=!!c._wp;
-    // Validation tab
-    let vItems='';LEVELS.forEach(lv=>{lv.tasks.forEach((t,i)=>{if(t.type!=='leader')return;const st=c._t[tk(lv.id,i)]||'pendiente';const obs=c._o[tk(lv.id,i)]||'';if(st==='pendiente')return;const sc=st==='enviada'?'pend':st==='validada'?'val':'ret';const sl=st==='enviada'?'⏳ Enviada':st==='validada'?'✓ Validada':'↩ Devuelta';const sbc=st==='enviada'?'vsp':st==='validada'?'vsv':'vsr';vItems+=`<div class="lp-vi ${sc}"><div class="lp-vl2">${lv.num}</div><div class="lp-vn">${t.txt}</div><span class="lp-vs ${sbc}">${sl}</span>${obs?`<div class="lp-oe">Obs: ${obs}</div>`:''}${st==='enviada'?`<div class="lp-va"><input class="lp-oi" id="oi_${ci}_${lv.id}_${i}" placeholder="Observación (opcional)"><button class="lp-vb a" onclick="validateTask('${c.cedula}',${lv.id},${i},${ci},'validada')">✓ Validar</button><button class="lp-vb r" onclick="validateTask('${c.cedula}',${lv.id},${i},${ci},'devuelta')">↩ Devolver</button></div>`:''}</div>`;});});
-    if(!vItems)vItems='<div class="lp-np">No hay momentos enviados a validación.</div>';
-    // Welcome profile tab
+
+    // Build validation items
+    let vItems='';
+    LEVELS.forEach(lv=>{lv.tasks.forEach((t,i)=>{
+      if(t.type!=='leader')return;
+      const st=c._t[tk(lv.id,i)]||'pendiente';
+      if(st==='pendiente')return;
+      const obs=c._o[tk(lv.id,i)]||'';
+      const sc=st==='enviada'?'pend':st==='validada'?'val':'ret';
+      const sl=st==='enviada'?'⏳ Enviada':st==='validada'?'✓ Validada':'↩ Devuelta';
+      const sbc=st==='enviada'?'vsp':st==='validada'?'vsv':'vsr';
+      vItems+=`<div class="lp-vi ${sc}">
+        <div class="lp-vl2">${lv.num}</div>
+        <div class="lp-vn">${t.txt}</div>
+        <span class="lp-vs ${sbc}">${sl}</span>
+        ${obs?`<div class="lp-oe">💬 ${obs}</div>`:''}
+        ${st==='enviada'?`<div class="lp-va">
+          <input class="lp-oi" id="oi_${ci}_${lv.id}_${i}" placeholder="Observación (opcional)">
+          <button class="lp-vb a" onclick="validateTask('${c.cedula}',${lv.id},${i},${ci},'validada')">✓ Validar</button>
+          <button class="lp-vb r" onclick="validateTask('${c.cedula}',${lv.id},${i},${ci},'devuelta')">↩ Devolver</button>
+        </div>`:''}
+      </div>`;
+    });});
+    if(!vItems)vItems='<div class="lp-np">No hay tareas enviadas a validación.</div>';
+
     const wfHtml=hasFicha?buildWelcomeProfile(c._wp):`<div class="wf-no-profile">📋 Este colaborador aún no ha completado su Ficha de Bienvenida.</div>`;
-    return`<div class="lp-cc">
-      <div class="lp-ch" onclick="toggleCC(${ci})">${avHtml}<div class="lp-ci"><div class="lp-cn">${c.nombre}</div><div class="lp-cm">CC ${c.cedula} · ${c.marca||'—'} · Tienda ${c.tienda}${hasFicha?' · 📋 Ficha completada':''}</div></div><div class="lp-cr"><div class="lp-pct">${c._pct}%</div>${pb}</div></div>
+
+    return`<div class="lp-cc${c._pend>0?' has-pending':''}${c._risk?' at-risk':''}" id="lp-cc-${ci}">
+      <div class="lp-ch" onclick="openCollabDetail(${ci})">
+        ${avHtml}
+        <div class="lp-ci">
+          <div class="lp-cn">${c.nombre}</div>
+          <div class="lp-cm">CC ${c.cedula} · ${c.marca||'—'}</div>
+          <div class="lp-cm-tags">
+            <span class="lp-cm-tag">🏪 ${c.tienda}</span>
+            ${hasFicha?'<span class="lp-cm-tag">📋 Ficha</span>':''}
+            <span class="lp-cm-tag">Día ${c._dias} de 30</span>
+            <span class="lp-cm-tag">${lvActual.name}</span>
+          </div>
+          <div class="lp-mini-prog"><div class="lp-mini-fill" style="width:${c._pct}%"></div></div>
+        </div>
+        <div class="lp-cr">
+          <div class="lp-pct">${c._pct}%</div>
+          <span class="lp-pb ${pbCls}">${pbTxt}</span>
+        </div>
+      </div>
       <div class="lp-cb" id="lp-cb-${ci}">
         <div class="lp-tab-bar">
-          <div class="lp-tab active" id="tab-val-${ci}" onclick="switchTab(${ci},'val')">✓ Validaciones</div>
-          <div class="lp-tab" id="tab-ficha-${ci}" onclick="switchTab(${ci},'ficha')">📋 Ficha de Bienvenida</div>
-          <div class="lp-tab" id="tab-pdf-${ci}" onclick="downloadCV(${ci})" style="color:#16a34a;margin-left:auto;">⬇ PDF</div>
+          <div class="lp-tab active" id="tab-val-${ci}" onclick="switchTab(${ci},'val')">✓ Validaciones${c._pend>0?` <span style='background:var(--coral);color:#fff;border-radius:99px;padding:0 5px;font-size:.6rem;'>${c._pend}</span>`:''}</div>
+          <div class="lp-tab" id="tab-ficha-${ci}" onclick="switchTab(${ci},'ficha')">📋 Ficha</div>
+          <div class="lp-tab" id="tab-pdf-${ci}" onclick="downloadCV(${ci})" style="color:var(--green);margin-left:auto;">⬇ PDF</div>
         </div>
         <div class="lp-tab-content active" id="tc-val-${ci}">
-          <div class="lp-vttl">Momentos por validar</div>
+          <div class="lp-vttl">Tareas enviadas a validación</div>
           <div class="lp-vl">${vItems}</div>
         </div>
         <div class="lp-tab-content" id="tc-ficha-${ci}">${wfHtml}</div>
       </div>
     </div>`;
   }).join('');
+
   document.getElementById('lp-cont').innerHTML=`<div class="lp-list">${html}</div>`;
+}
+
+function filterLpList(){
+  const q=(document.getElementById('lp-search')?.value||'').toLowerCase();
+  document.querySelectorAll('[id^="lp-cc-"]').forEach(el=>{
+    const txt=el.textContent.toLowerCase();
+    el.style.display=txt.includes(q)?'':'none';
+  });
+}
+
+function openCollabDetail(ci){
+  const isMobile=window.innerWidth<=700;
+  if(isMobile){
+    // Open full screen detail
+    const c=ldrC[ci];
+    const ini=c.nombre.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    const avHtml=c.avatar?`<img src="${c.avatar}" alt="${c.nombre}">`:`<div class="lpd-av-ini">${ini}</div>`;
+    const lvActual=LEVELS.findLast(lv=>lv.tasks.some((_,i)=>['completada','validada','enviada'].includes(c._t[tk(lv.id,i)]||'pendiente')))||LEVELS[0];
+
+    let vItems='';
+    LEVELS.forEach(lv=>{lv.tasks.forEach((t,i)=>{
+      if(t.type!=='leader')return;
+      const st=c._t[tk(lv.id,i)]||'pendiente';
+      if(st==='pendiente')return;
+      const obs=c._o[tk(lv.id,i)]||'';
+      const sc=st==='enviada'?'pend':st==='validada'?'val':'ret';
+      const sl=st==='enviada'?'⏳ Enviada':st==='validada'?'✓ Validada':'↩ Devuelta';
+      const sbc=st==='enviada'?'vsp':st==='validada'?'vsv':'vsr';
+      vItems+=`<div class="lp-vi ${sc}">
+        <div class="lp-vl2">${lv.num}</div>
+        <div class="lp-vn">${t.txt}</div>
+        <span class="lp-vs ${sbc}">${sl}</span>
+        ${obs?`<div class="lp-oe">💬 ${obs}</div>`:''}
+        ${st==='enviada'?`<div class="lp-va">
+          <input class="lp-oi" id="oi_${ci}_${lv.id}_${i}" placeholder="Observación (opcional)">
+          <button class="lp-vb a" onclick="validateTask('${c.cedula}',${lv.id},${i},${ci},'validada')">✓ Validar</button>
+          <button class="lp-vb r" onclick="validateTask('${c.cedula}',${lv.id},${i},${ci},'devuelta')">↩ Devolver</button>
+        </div>`:''}
+      </div>`;
+    });});
+    if(!vItems)vItems='<div class="lp-np">No hay tareas enviadas a validación.</div>';
+    const wfHtml=c._wp?buildWelcomeProfile(c._wp):`<div class="wf-no-profile">📋 Ficha de bienvenida no completada.</div>`;
+
+    document.getElementById('lpd-content').innerHTML=`
+      <div class="lpd-profile">
+        <div class="lpd-av">${avHtml}</div>
+        <div class="lpd-info">
+          <div class="lpd-name">${c.nombre}</div>
+          <div class="lpd-meta">CC ${c.cedula} · ${c.marca||'—'} · ${c.tienda}</div>
+          <div class="lpd-stats">
+            <div class="lpd-stat"><div class="lpd-stat-lbl">Avance</div><div class="lpd-stat-val b">${c._pct}%</div></div>
+            <div class="lpd-stat"><div class="lpd-stat-lbl">Nivel</div><div class="lpd-stat-val">${lvActual.num}</div></div>
+            <div class="lpd-stat"><div class="lpd-stat-lbl">Por validar</div><div class="lpd-stat-val r">${c._pend}</div></div>
+            <div class="lpd-stat"><div class="lpd-stat-lbl">Día</div><div class="lpd-stat-val">${c._dias} / 30</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="lp-tab-bar">
+        <div class="lp-tab active" id="dtab-val" onclick="switchDTab('val')">✓ Validaciones${c._pend>0?` <span style='background:var(--coral);color:#fff;border-radius:99px;padding:0 5px;font-size:.6rem;margin-left:3px;'>${c._pend}</span>`:''}</div>
+        <div class="lp-tab" id="dtab-ficha" onclick="switchDTab('ficha')">📋 Ficha</div>
+        <div class="lp-tab" id="dtab-pdf" onclick="downloadCV(${ci})" style="color:var(--green);margin-left:auto;">⬇ PDF</div>
+      </div>
+      <div id="dtab-val-content">
+        <div class="lp-vttl">Tareas enviadas a validación</div>
+        <div class="lp-vl">${vItems}</div>
+      </div>
+      <div id="dtab-ficha-content" style="display:none">${wfHtml}</div>`;
+
+    document.getElementById('lp-detail-screen').style.display='block';
+    document.getElementById('lp-detail-screen').scrollTop=0;
+  } else {
+    // Desktop: toggle accordion
+    toggleCC(ci);
+  }
+}
+
+function closeLpDetail(){
+  document.getElementById('lp-detail-screen').style.display='none';
+}
+
+function switchDTab(tab){
+  ['val','ficha'].forEach(t=>{
+    document.getElementById(`dtab-${t}`).classList.toggle('active',t===tab);
+    document.getElementById(`dtab-${t}-content`).style.display=t===tab?'block':'none';
+  });
 }
 
 function switchTab(ci,tab){
