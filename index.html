@@ -2,8 +2,26 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Pasaporte GCO · Experiencia Inmersión Retail</title>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d0b1a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pasaporte GCO">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="description" content="Experiencia de inmersión retail gamificada para colaboradores GCO">
+
+<!-- Icons -->
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="shortcut icon" href="favicon.ico">
+
+<!-- iOS splash screen -->
+<meta name="apple-touch-startup-image" content="icon-512.png">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,800&family=Nunito+Sans:wght@300;400;600;700&display=swap');
 
@@ -2339,6 +2357,17 @@ async function notifyEmail(payload){
 }
 
 /* ══ END ══ */
+</script>
+
+<!-- Service Worker registration -->
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('sw.js')
+      .then(r=>console.log('SW registrado:',r.scope))
+      .catch(e=>console.warn('SW error:',e));
+  });
+}
 </script>
 </body>
 </html>
