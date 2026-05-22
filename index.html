@@ -824,24 +824,36 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
   padding:18px 20px;display:flex;flex-direction:column;gap:10px;
   box-shadow:0 20px 60px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.05);
 }
+.lp-tip{
+  background:linear-gradient(150deg,rgba(88,60,200,.14) 0%,rgba(20,15,55,.9) 100%);
+  backdrop-filter:blur(20px);border:1px solid rgba(130,100,255,.3);border-radius:18px;
+  padding:20px 22px;
+  display:flex;align-items:center;gap:0;
+  box-shadow:0 20px 60px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.05);
+  position:relative;overflow:hidden;min-height:110px;
+}
+.lp-tip-text-side{flex:1;z-index:2;padding-right:10px;}
 .lp-tip-title{
   font-family:'Nunito',sans-serif;font-size:.7rem;font-weight:900;color:#7c8ff0;
   display:flex;align-items:center;gap:7px;text-transform:uppercase;letter-spacing:.8px;
+  margin-bottom:10px;
 }
+.lp-tip-txt{font-size:.83rem;color:rgba(200,195,235,.82);line-height:1.65;font-style:italic;}
 .lp-tip-img-wrap{
-  width:100%;border-radius:14px;overflow:hidden;
-  margin:10px 0 4px;
-  position:relative;
-  background:rgba(88,60,200,.08);
-  min-height:140px;
-  display:flex;align-items:center;justify-content:center;
+  position:absolute;right:-10px;top:50%;transform:translateY(-50%);
+  width:160px;height:160px;
+  flex-shrink:0;z-index:1;
+  pointer-events:none;
 }
 .lp-tip-img{
-  width:100%;height:auto;display:block;border-radius:14px;
-  filter:drop-shadow(0 0 20px rgba(120,80,255,.4));
-  transition:transform .4s ease;
+  width:100%;height:100%;object-fit:contain;
+  mix-blend-mode:screen;
+  filter:brightness(1.05) saturate(1.15);
+  mask-image:radial-gradient(ellipse 75% 80% at 65% 50%, black 30%, transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse 75% 80% at 65% 50%, black 30%, transparent 75%);
+  transition:filter .3s;
 }
-.lp-tip-img:hover{transform:scale(1.03);}
+.lp-tip:hover .lp-tip-img{filter:brightness(1.2) saturate(1.3);}
 .lp-tip-txt{font-size:.83rem;color:rgba(200,195,235,.75);line-height:1.65;font-style:italic;}
 
 /* ── SECTION HEADER ── */
@@ -1713,11 +1725,13 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
         </div>
       </div>
       <div class="lp-tip">
-        <div class="lp-tip-title">💡 Tip para líderes</div>
+        <div class="lp-tip-text-side">
+          <div class="lp-tip-title">💡 Tip para líderes</div>
+          <div class="lp-tip-txt" id="lp-tip-txt">Pequeñas conversaciones generan grandes transformaciones. Acompaña con intención.</div>
+        </div>
         <div class="lp-tip-img-wrap">
           <img src="img-tip.png" alt="" class="lp-tip-img" onerror="this.style.display='none'">
         </div>
-        <div class="lp-tip-txt" id="lp-tip-txt">Pequeñas conversaciones generan grandes transformaciones. Acompaña con intención.</div>
       </div>
     </div>
 
