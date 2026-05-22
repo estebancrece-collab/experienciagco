@@ -706,13 +706,30 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
   background:radial-gradient(ellipse at 0% 50%,rgba(120,80,255,.12),transparent 60%);
   pointer-events:none;
 }
-.lp-hdr-crown{
-  width:56px;height:56px;border-radius:16px;
-  background:linear-gradient(135deg,rgba(255,185,1,.22),rgba(200,130,0,.12));
-  border:1px solid rgba(255,185,1,.45);
+.lp-hdr-av-wrap{
+  position:relative;flex-shrink:0;cursor:pointer;
+}
+.lp-hdr-av{
+  width:58px;height:58px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(88,106,232,.3),rgba(56,44,84,.5));
+  border:2px solid rgba(130,100,255,.45);
   display:flex;align-items:center;justify-content:center;
-  font-size:1.6rem;flex-shrink:0;
-  box-shadow:0 0 20px rgba(255,185,1,.2),0 4px 16px rgba(0,0,0,.4);
+  font-size:1.5rem;overflow:hidden;
+  box-shadow:0 0 0 3px rgba(88,106,232,.12),0 4px 16px rgba(0,0,0,.4);
+  transition:border-color .2s,box-shadow .2s;
+}
+.lp-hdr-av-wrap:hover .lp-hdr-av{
+  border-color:rgba(130,100,255,.8);
+  box-shadow:0 0 0 3px rgba(88,106,232,.2),0 0 20px rgba(88,106,232,.3);
+}
+.lp-hdr-av img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+.lp-hdr-av-btn{
+  position:absolute;bottom:0;right:0;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--gold);border:2px solid rgba(8,6,22,.9);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.55rem;color:#1a1200;font-weight:900;
+  box-shadow:0 2px 8px rgba(0,0,0,.4);
 }
 .lp-hdr-info{flex:1;}
 .lp-title{
@@ -1314,7 +1331,26 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
 .wp-skip a{color:rgba(255,255,255,.35);font-size:.72rem;cursor:pointer;text-decoration:underline;}
 .wp-skip a:hover{color:rgba(255,255,255,.65);}
 
-/* ── ANIMATIONS ── */
+/* DISC */
+.wp-disc-scale-legend{display:flex;justify-content:space-between;font-size:.68rem;color:#888;margin-bottom:16px;padding:8px 12px;background:#f0f1f8;border-radius:8px;}
+.wp-disc-section{margin-bottom:22px;}
+.wp-disc-section-title{font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:900;color:#382C54;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #e8eaf0;}
+.wp-disc-questions{display:flex;flex-direction:column;gap:12px;}
+.wp-disc-q{background:#f7f8fb;border-radius:11px;padding:12px 14px;border:1px solid #e8eaf0;}
+.wp-disc-q-txt{font-size:.84rem;color:#382C54;line-height:1.5;margin-bottom:10px;font-weight:600;}
+.wp-disc-scale{display:flex;gap:8px;justify-content:space-between;}
+.wp-ds-opt{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;cursor:pointer;}
+.wp-ds-opt input{display:none;}
+.wp-ds-opt span{width:36px;height:36px;border-radius:50%;border:2px solid #e0e2f0;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:800;color:#aaa;transition:all .18s;}
+.wp-ds-opt input:checked + span{background:#586AE8;border-color:#586AE8;color:#fff;box-shadow:0 0 0 3px rgba(88,106,232,.2);}
+.wp-ds-opt:hover span{border-color:#586AE8;color:#586AE8;}
+/* familiaridad scale */
+.wp-scale-row{display:flex;gap:10px;margin-top:10px;}
+.wp-scale-opt{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;cursor:pointer;}
+.wp-scale-opt input{display:none;}
+.wp-scale-opt span{width:40px;height:40px;border-radius:10px;border:2px solid #e0e2f0;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:800;color:#aaa;transition:all .18s;}
+.wp-scale-opt input:checked + span{background:#586AE8;border-color:#586AE8;color:#fff;box-shadow:0 0 0 3px rgba(88,106,232,.2);}
+.wp-scale-opt:hover span{border-color:#586AE8;color:#586AE8;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
 .fade-up{animation:fadeUp .5s ease both;}
 @keyframes popIn{0%{transform:scale(.4);opacity:0;}60%{transform:scale(1.22);}100%{transform:scale(1);opacity:1;}}
@@ -1366,7 +1402,8 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
   <div class="sc-form hide" id="cf-s2">
     <div style="background:rgba(255,255,255,.09);border-radius:11px;padding:10px 13px;margin-bottom:2px;"><div style="color:rgba(255,255,255,.5);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Nuevo colaborador</div><div style="color:#fff;font-family:'Nunito',sans-serif;font-weight:800;font-size:.88rem;margin-top:2px;">Completa tu perfil</div></div>
     <div><label class="sc-lbl">Nombre completo</label><input class="sc-inp" id="c-nom" type="text" placeholder="Tu nombre completo"></div>
-    <div><label class="sc-lbl">Marca</label><select class="sc-sel" id="c-marca"><option value="">Selecciona tu marca</option><option>Americanino</option><option>Esprit</option><option>Chevignon</option><option>Mango</option><option>American Eagle</option><option>Rifle</option></select></div>
+    <div><label class="sc-lbl">Marca</label><select class="sc-sel" id="c-marca"><option value="">Selecciona tu marca</option><option>Americanino</option><option>Chevignon</option><option>Esprit</option><option>Naf Naf</option><option>Rifle</option><option>MNG</option><option>Outlet</option><option>Otra</option></select></div>
+    <div><label class="sc-lbl">Ciudad</label><input class="sc-inp" id="c-ciudad" type="text" placeholder="Ej: Medellín, Bogotá..."></div>
     <div><label class="sc-lbl">Tienda</label><select class="sc-sel" id="c-tienda"><option value="">Selecciona tu tienda</option><option>001</option><option>002</option><option>003</option></select></div>
     <div class="sc-err" id="c-err2"></div>
     <button class="sc-btn" onclick="colabRegister()">Crear mi pasaporte 🚀</button>
@@ -1428,20 +1465,20 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
   <div class="wp-wrap">
     <div class="wp-header">
       <div class="wp-header-logo"><svg viewBox="0 0 140 80" xmlns="http://www.w3.org/2000/svg"><text x="2" y="60" font-family="'Nunito',sans-serif" font-weight="900" font-size="64" fill="rgba(255,255,255,.88)" letter-spacing="-3">GCO</text><circle cx="22" cy="73" r="5" fill="#586AE8"/><circle cx="38" cy="73" r="5" fill="#FFB901"/><circle cx="54" cy="73" r="5" fill="#C0EE5A"/><circle cx="70" cy="73" r="5" fill="#FD636B"/></svg></div>
-      <div class="wp-header-title">Ficha de Bienvenida 👋</div>
-      <div class="wp-header-sub">Queremos conocerte de verdad — responde con total libertad, no hay respuestas incorrectas</div>
+      <div class="wp-header-title">Ficha de Acompañamiento</div>
+      <div class="wp-header-sub">Tu información ayuda a tu líder a acompañarte mejor durante tus primeros 30 días en GCO</div>
     </div>
 
-    <div class="wp-steps">
+    <div class="wp-steps" id="wp-steps-bar">
       <div class="wp-step active" id="wps-0"><div class="wp-step-dot">1</div><div class="wp-step-lbl">Quién eres</div></div>
       <div class="wp-step" id="wps-1"><div class="wp-step-dot">2</div><div class="wp-step-lbl">Tu mundo</div></div>
-      <div class="wp-step" id="wps-2"><div class="wp-step-dot">3</div><div class="wp-step-lbl">Motivación</div></div>
-      <div class="wp-step" id="wps-3"><div class="wp-step-dot">4</div><div class="wp-step-lbl">Cómo acompañarte</div></div>
+      <div class="wp-step" id="wps-2"><div class="wp-step-dot">3</div><div class="wp-step-lbl">Perfil</div></div>
+      <div class="wp-step" id="wps-3"><div class="wp-step-dot">4</div><div class="wp-step-lbl">Acompañamiento</div></div>
+      <div class="wp-step" id="wps-4"><div class="wp-step-dot">5</div><div class="wp-step-lbl">Autorización</div></div>
     </div>
 
-    <!-- PASO 1 -->
+    <!-- PASO 1: Quién eres -->
     <div class="wp-card active" id="wp-step-0">
-      <span class="wp-card-ico">😊</span>
       <div class="wp-card-title">¿Quién eres?</div>
       <div class="wp-card-sub">Empecemos por lo básico. Tu líder usará esto para recibirte de manera más cercana.</div>
       <div class="wp-field">
@@ -1450,20 +1487,38 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
         <div class="wp-err-msg" id="wp-err-pn">Este campo es obligatorio</div>
       </div>
       <div class="wp-field">
-        <label class="wp-lbl">¿Cuándo es tu cumpleaños? <span class="req">*</span></label>
+        <label class="wp-lbl">¿Cuándo es tu cumpleaños? <span style="color:#bbb;font-weight:600;font-size:.7rem;">(opcional)</span></label>
         <div class="wp-bday">
           <select class="wp-inp" id="wp-bday-day"><option value="">Día</option></select>
           <select class="wp-inp" id="wp-bday-month"><option value="">Mes</option><option value="1">Enero</option><option value="2">Febrero</option><option value="3">Marzo</option><option value="4">Abril</option><option value="5">Mayo</option><option value="6">Junio</option><option value="7">Julio</option><option value="8">Agosto</option><option value="9">Septiembre</option><option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option></select>
         </div>
-        <div class="wp-err-msg" id="wp-err-bd">Selecciona día y mes</div>
       </div>
       <div class="wp-field">
-        <label class="wp-lbl">¿Con quién vives? <span style="color:#bbb;font-weight:600;font-size:.7rem;">(opcional)</span></label>
-        <input class="wp-inp" id="wp-living" type="text" placeholder="Ej: con mi familia, con mi pareja, solo/a...">
+        <label class="wp-lbl">¿Con quién vives actualmente? <span style="color:#bbb;font-weight:600;font-size:.7rem;">(opcional)</span></label>
+        <select class="wp-inp" id="wp-living">
+          <option value="">Selecciona una opción</option>
+          <option>Solo/a</option>
+          <option>Con mis padres o familiares</option>
+          <option>Con mi pareja</option>
+          <option>Con mi pareja e hijos</option>
+          <option>Con mis hijos</option>
+          <option>Con amigos o compañeros</option>
+          <option>Prefiero no responder</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="wp-field">
+        <label class="wp-lbl">Tu rol en tienda <span class="req">*</span></label>
+        <select class="wp-inp" id="wp-rol-tienda">
+          <option value="">Selecciona tu rol</option>
+          <option>Asesor</option>
+          <option>Cajero</option>
+        </select>
+        <div class="wp-err-msg" id="wp-err-rol">Este campo es obligatorio</div>
       </div>
       <div class="wp-field">
         <label class="wp-lbl">Cuéntanos algo sobre ti que quisieras que tu equipo sepa <span class="req">*</span></label>
-        <div class="wp-hint">Tu personalidad, tu historia, lo que sea que quieras compartir. Sin filtros.</div>
+        <div class="wp-hint">Tu personalidad, tu historia, lo que sea que quieras compartir.</div>
         <textarea class="wp-ta" id="wp-about-me" placeholder="Escribe con tus propias palabras..."></textarea>
         <div class="wp-err-msg" id="wp-err-am">Este campo es obligatorio</div>
       </div>
@@ -1471,16 +1526,54 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
       <div class="wp-skip"><a onclick="skipSurvey()">Completar la ficha más tarde</a></div>
     </div>
 
-    <!-- PASO 2 -->
+    <!-- PASO 2: Tu mundo -->
     <div class="wp-card" id="wp-step-1">
-      <span class="wp-card-ico">🌍</span>
-      <div class="wp-card-title">Tu mundo fuera del trabajo</div>
-      <div class="wp-card-sub">Queremos conocer quién eres más allá del rol.</div>
+      <div class="wp-card-title">Tu mundo y tu experiencia</div>
+      <div class="wp-card-sub">Queremos conocer quién eres más allá del rol y qué traes contigo.</div>
       <div class="wp-field">
         <label class="wp-lbl">¿Qué te apasiona fuera del trabajo? <span class="req">*</span></label>
-        <div class="wp-hint">Hobbies, personas, lugares, lo que sea que te mueva. En tus propias palabras.</div>
+        <div class="wp-hint">Hobbies, personas, lugares, lo que sea que te mueva.</div>
         <textarea class="wp-ta" id="wp-free-time" placeholder="Escribe aquí..."></textarea>
         <div class="wp-err-msg" id="wp-err-ft">Este campo es obligatorio</div>
+      </div>
+      <div class="wp-field">
+        <label class="wp-lbl">¿Has trabajado antes en ventas, servicio al cliente o retail? <span class="req">*</span></label>
+        <select class="wp-inp" id="wp-experiencia" onchange="toggleExpDetalle()">
+          <option value="">Selecciona una opción</option>
+          <option value="Sí, en ventas">Sí, en ventas</option>
+          <option value="Sí, en servicio al cliente">Sí, en servicio al cliente</option>
+          <option value="Sí, en retail / tienda">Sí, en retail / tienda</option>
+          <option value="Sí, en áreas relacionadas">Sí, en áreas relacionadas</option>
+          <option value="No, esta es mi primera experiencia">No, esta es mi primera experiencia</option>
+        </select>
+        <div class="wp-err-msg" id="wp-err-exp">Este campo es obligatorio</div>
+      </div>
+      <div class="wp-field" id="wp-exp-detalle-wrap" style="display:none;">
+        <label class="wp-lbl">Cuéntanos brevemente en qué tipo de experiencia has trabajado</label>
+        <textarea class="wp-ta" id="wp-exp-detalle" placeholder="Ej: trabajé 1 año en atención al cliente en..."></textarea>
+      </div>
+      <div class="wp-field">
+        <label class="wp-lbl">¿Qué tan familiarizado/a estás con el mundo de la moda o el retail? <span class="req">*</span></label>
+        <div class="wp-hint">1 = Nada familiarizado/a · 5 = Muy familiarizado/a</div>
+        <div class="wp-scale-row" id="wp-familiaridad">
+          <label class="wp-scale-opt"><input type="radio" name="familiaridad" value="1"><span>1</span></label>
+          <label class="wp-scale-opt"><input type="radio" name="familiaridad" value="2"><span>2</span></label>
+          <label class="wp-scale-opt"><input type="radio" name="familiaridad" value="3"><span>3</span></label>
+          <label class="wp-scale-opt"><input type="radio" name="familiaridad" value="4"><span>4</span></label>
+          <label class="wp-scale-opt"><input type="radio" name="familiaridad" value="5"><span>5</span></label>
+        </div>
+        <div class="wp-err-msg" id="wp-err-fam">Selecciona una opción</div>
+      </div>
+      <div class="wp-field">
+        <label class="wp-lbl">¿Qué te motivó a ingresar a GCO? <span class="req">*</span></label>
+        <textarea class="wp-ta" id="wp-motivation-join" placeholder="Escribe aquí..."></textarea>
+        <div class="wp-err-msg" id="wp-err-mj">Este campo es obligatorio</div>
+      </div>
+      <div class="wp-field">
+        <label class="wp-lbl">¿Qué meta personal o laboral te gustaría avanzar en esta etapa? <span class="req">*</span></label>
+        <div class="wp-hint">Puede ser aprender, crecer, mejorar habilidades, ganar experiencia o alcanzar un objetivo personal.</div>
+        <textarea class="wp-ta" id="wp-goals" placeholder="Ej: aprender sobre visual, mejorar en ventas..."></textarea>
+        <div class="wp-err-msg" id="wp-err-gl">Este campo es obligatorio</div>
       </div>
       <div class="wp-nav">
         <button class="wp-back" onclick="wpBack(1)">← Atrás</button>
@@ -1488,65 +1581,129 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
       </div>
     </div>
 
-    <!-- PASO 3 -->
+    <!-- PASO 3: DISC -->
     <div class="wp-card" id="wp-step-2">
-      <span class="wp-card-ico">🚀</span>
-      <div class="wp-card-title">Motivación y metas</div>
-      <div class="wp-card-sub">Queremos entender qué te impulsa y a dónde quieres llegar.</div>
-      <div class="wp-field">
-        <label class="wp-lbl">¿Qué te motivó a ingresar a GCO? <span class="req">*</span></label>
-        <textarea class="wp-ta" id="wp-motivation-join" placeholder="Escribe aquí..."></textarea>
-        <div class="wp-err-msg" id="wp-err-mj">Este campo es obligatorio</div>
+      <div class="wp-card-title">Perfil Conductual de Acompañamiento</div>
+      <div class="wp-card-sub">A continuación encontrarás algunas afirmaciones sobre tu forma de aprender, relacionarte y trabajar. No hay respuestas buenas o malas. Responde de acuerdo con lo que más se parece a ti.</div>
+      <div class="wp-disc-scale-legend">
+        <span>1 = Casi nunca me describe</span>
+        <span>5 = Me describe mucho</span>
       </div>
-      <div class="wp-field">
-        <label class="wp-lbl">¿A dónde quieres llegar? Cuéntanos tus metas <span class="req">*</span></label>
-        <div class="wp-hint">Corto, mediano o largo plazo — personales o profesionales, como quieras contarlo.</div>
-        <textarea class="wp-ta" id="wp-goals" placeholder="Ej: En el corto plazo quiero aprender... A largo plazo sueño con..." style="min-height:96px;"></textarea>
-        <div class="wp-err-msg" id="wp-err-gl">Este campo es obligatorio</div>
+
+      <!-- D -->
+      <div class="wp-disc-section">
+        <div class="wp-disc-section-title">Orientación a resultados</div>
+        <div id="disc-D" class="wp-disc-questions">
+          <div class="wp-disc-q" data-dim="D" data-n="1"><div class="wp-disc-q-txt">Me motiva tener metas claras y saber qué se espera de mí.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="D1" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="D1" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="D1" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="D1" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="D1" value="5"><span>5</span></label></div></div>
+          <div class="wp-disc-q" data-dim="D" data-n="2"><div class="wp-disc-q-txt">Me siento cómodo/a tomando iniciativa cuando veo algo por hacer.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="D2" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="D2" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="D2" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="D2" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="D2" value="5"><span>5</span></label></div></div>
+          <div class="wp-disc-q" data-dim="D" data-n="3"><div class="wp-disc-q-txt">Me gusta avanzar rápido cuando ya tengo clara una tarea.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="D3" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="D3" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="D3" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="D3" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="D3" value="5"><span>5</span></label></div></div>
+          <div class="wp-disc-q" data-dim="D" data-n="4"><div class="wp-disc-q-txt">Me reta positivamente trabajar por objetivos o indicadores.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="D4" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="D4" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="D4" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="D4" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="D4" value="5"><span>5</span></label></div></div>
+          <div class="wp-disc-q" data-dim="D" data-n="5"><div class="wp-disc-q-txt">Prefiero recibir instrucciones concretas y luego tener espacio para actuar.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="D5" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="D5" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="D5" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="D5" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="D5" value="5"><span>5</span></label></div></div>
+        </div>
       </div>
+
+      <!-- I -->
+      <div class="wp-disc-section">
+        <div class="wp-disc-section-title">Conexión con personas</div>
+        <div id="disc-I" class="wp-disc-questions">
+          <div class="wp-disc-q" data-dim="I" data-n="1"><div class="wp-disc-q-txt">Me resulta fácil iniciar conversación con personas nuevas.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="I1" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="I1" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="I1" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="I1" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="I1" value="5"><span>5</span></label></div></div>
+          <div class="wp-disc-q" data-dim="I" data-n="2"><div class="wp-disc-q-txt">Disfruto interactuar con clientes y entender lo que necesitan.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="I2" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="I2" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="I2" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="I2" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="I2" value="5"><span>5</span></label></div></div>
+          <div class="wp-disc-q" data-dim="I" data-n="3"><div class="wp-disc-q-txt">Aprendo mejor cuando puedo conversar, preguntar y compartir ideas.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="I3" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="I3" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="I3" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="I3" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="I3" value="5"><span>5</span></label></div></div>
+          <div class="wp-disc-q" data-dim="I" data-n="4"><div class="wp-disc-q-txt">Me motiva sentir un buen ambiente con mi equipo.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="I4" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="I4" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="I4" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="I4" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="I4" value="5"><span>5</span></label></div></div>
+          <div class="wp-disc-q" data-dim="I" data-n="5"><div class="wp-disc-q-txt">Me gusta recibir reconocimiento cuando hago bien mi trabajo.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="I5" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="I5" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="I5" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="I5" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="I5" value="5"><span>5</span></label></div></div>
+        </div>
+      </div>
+
+      <!-- S -->
+      <div class="wp-disc-section">
+        <div class="wp-disc-section-title">Ritmo y acompañamiento</div>
+        <div id="disc-S" class="wp-disc-questions">
+          <div class="wp-disc-q" data-dim="S" data-n="1"><div class="wp-disc-q-txt">Me ayuda tener un líder o mentor cercano durante los primeros días.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="S1" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="S1" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="S1" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="S1" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="S1" value="5"><span>5</span></label></div></div>
+          <div class="wp-disc-q" data-dim="S" data-n="2"><div class="wp-disc-q-txt">Prefiero aprender paso a paso antes de asumir muchas tareas a la vez.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="S2" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="S2" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="S2" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="S2" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="S2" value="5"><span>5</span></label></div></div>
+          <div class="wp-disc-q" data-dim="S" data-n="3"><div class="wp-disc-q-txt">Me siento más seguro/a cuando conozco bien la rutina de trabajo.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="S3" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="S3" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="S3" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="S3" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="S3" value="5"><span>5</span></label></div></div>
+          <div class="wp-disc-q" data-dim="S" data-n="4"><div class="wp-disc-q-txt">Valoro que me expliquen con paciencia cuando estoy aprendiendo algo nuevo.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="S4" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="S4" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="S4" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="S4" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="S4" value="5"><span>5</span></label></div></div>
+          <div class="wp-disc-q" data-dim="S" data-n="5"><div class="wp-disc-q-txt">Me adapto mejor cuando sé a quién acudir si tengo dudas.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="S5" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="S5" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="S5" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="S5" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="S5" value="5"><span>5</span></label></div></div>
+        </div>
+      </div>
+
+      <!-- C -->
+      <div class="wp-disc-section">
+        <div class="wp-disc-section-title">Claridad y detalle</div>
+        <div id="disc-C" class="wp-disc-questions">
+          <div class="wp-disc-q" data-dim="C" data-n="1"><div class="wp-disc-q-txt">Me gusta tener instrucciones claras antes de ejecutar una tarea.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="C1" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="C1" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="C1" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="C1" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="C1" value="5"><span>5</span></label></div></div>
+          <div class="wp-disc-q" data-dim="C" data-n="2"><div class="wp-disc-q-txt">Me esfuerzo por seguir correctamente los protocolos y estándares.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="C2" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="C2" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="C2" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="C2" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="C2" value="5"><span>5</span></label></div></div>
+          <div class="wp-disc-q" data-dim="C" data-n="3"><div class="wp-disc-q-txt">Prefiero revisar bien la información antes de actuar.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="C3" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="C3" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="C3" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="C3" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="C3" value="5"><span>5</span></label></div></div>
+          <div class="wp-disc-q" data-dim="C" data-n="4"><div class="wp-disc-q-txt">Me siento cómodo/a usando listas, guías o checklists para aprender.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="C4" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="C4" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="C4" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="C4" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="C4" value="5"><span>5</span></label></div></div>
+          <div class="wp-disc-q" data-dim="C" data-n="5"><div class="wp-disc-q-txt">Me importa hacer las cosas con orden y cuidado.</div><div class="wp-disc-scale"><label class="wp-ds-opt"><input type="radio" name="C5" value="1"><span>1</span></label><label class="wp-ds-opt"><input type="radio" name="C5" value="2"><span>2</span></label><label class="wp-ds-opt"><input type="radio" name="C5" value="3"><span>3</span></label><label class="wp-ds-opt"><input type="radio" name="C5" value="4"><span>4</span></label><label class="wp-ds-opt"><input type="radio" name="C5" value="5"><span>5</span></label></div></div>
+        </div>
+      </div>
+
+      <div class="wp-err-msg" id="wp-err-disc">Responde todas las preguntas antes de continuar</div>
       <div class="wp-nav">
         <button class="wp-back" onclick="wpBack(2)">← Atrás</button>
         <button class="wp-next" onclick="wpNext(2)">Siguiente →</button>
       </div>
     </div>
 
-    <!-- PASO 4 -->
+    <!-- PASO 4: Cómo acompañarte -->
     <div class="wp-card" id="wp-step-3">
-      <span class="wp-card-ico">🤝</span>
-      <div class="wp-card-title">Cómo acompañarte mejor</div>
-      <div class="wp-card-sub">Las respuestas más valiosas para tu líder — y las más honestas que puedas dar.</div>
+      <div class="wp-card-title">Conozcámonos mejor</div>
+      <div class="wp-card-sub">Estas preguntas ayudarán a tu líder a entender cómo acompañarte mejor durante tu llegada al equipo. Responde de manera breve y sincera.</div>
       <div class="wp-field">
         <label class="wp-lbl">¿Cómo aprendes mejor cuando algo es nuevo para ti? <span class="req">*</span></label>
         <div class="wp-hint">Selecciona las que más te representen.</div>
         <div style="display:flex;flex-direction:column;gap:7px;margin-top:8px;" id="wp-learning-opts">
-          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Viendo cómo lo hace otra persona"><span>👀 Viendo cómo lo hace otra persona</span></label>
-          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Practicando directamente desde el inicio"><span>💪 Practicando directamente desde el inicio</span></label>
-          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Con explicación paso a paso antes de hacer"><span>📋 Con explicación paso a paso antes de hacer</span></label>
-          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Con acompañamiento cercano mientras aprendo"><span>🤝 Con acompañamiento cercano mientras aprendo</span></label>
-          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Con autonomía y feedback después de intentarlo"><span>🔄 Con autonomía y feedback después de intentarlo</span></label>
+          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Viendo cómo lo hace otra persona"><span>Viendo cómo lo hace otra persona</span></label>
+          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Practicando directamente desde el inicio"><span>Practicando directamente desde el inicio</span></label>
+          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Con explicación paso a paso antes de hacer"><span>Con explicación paso a paso antes de hacer</span></label>
+          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Con acompañamiento cercano mientras aprendo"><span>Con acompañamiento cercano mientras aprendo</span></label>
+          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Con autonomía y feedback después de intentarlo"><span>Con autonomía y feedback después de intentarlo</span></label>
         </div>
         <div class="wp-err-msg" id="wp-err-ls">Selecciona al menos una opción</div>
       </div>
       <div class="wp-field">
-        <label class="wp-lbl">¿Qué es lo que más te cuesta en situaciones nuevas? <span class="req">*</span></label>
-        <div class="wp-hint">Ser honesto/a aquí le permite a tu líder anticiparse y apoyarte mejor.</div>
+        <label class="wp-lbl">¿Qué se te facilita cuando estás aprendiendo algo nuevo? <span class="req">*</span></label>
+        <textarea class="wp-ta" id="wp-facilidades" placeholder="Escribe aquí..."></textarea>
+        <div class="wp-err-msg" id="wp-err-fac">Este campo es obligatorio</div>
+      </div>
+      <div class="wp-field">
+        <label class="wp-lbl">¿Qué suele ser más retador para ti cuando llegas a un equipo nuevo? <span class="req">*</span></label>
         <textarea class="wp-ta" id="wp-challenges" placeholder="Escribe aquí..."></textarea>
         <div class="wp-err-msg" id="wp-err-ch">Este campo es obligatorio</div>
       </div>
       <div class="wp-field">
-        <label class="wp-lbl">¿Qué tipo de líder saca lo mejor de ti? <span class="req">*</span></label>
-        <div class="wp-hint">Cómo se comunica, cómo acompaña, cómo te hace sentir...</div>
-        <textarea class="wp-ta" id="wp-leader-type" placeholder="Escribe aquí..."></textarea>
-        <div class="wp-err-msg" id="wp-err-lt">Este campo es obligatorio</div>
-      </div>
-      <div class="wp-field">
-        <label class="wp-lbl">¿Qué te gustaría que tu líder sepa para acompañarte mejor? <span class="req">*</span></label>
+        <label class="wp-lbl">¿Qué te gustaría que tu líder supiera de ti para acompañarte mejor? <span class="req">*</span></label>
         <textarea class="wp-ta" id="wp-leader-know" placeholder="Escribe aquí..."></textarea>
         <div class="wp-err-msg" id="wp-err-lk">Este campo es obligatorio</div>
       </div>
+      <div class="wp-field">
+        <label class="wp-lbl">¿Cómo prefieres recibir retroalimentación durante tu aprendizaje? <span class="req">*</span></label>
+        <textarea class="wp-ta" id="wp-feedback-pref" placeholder="Ej: de manera directa, con ejemplos concretos, en privado..."></textarea>
+        <div class="wp-err-msg" id="wp-err-fb">Este campo es obligatorio</div>
+      </div>
       <div class="wp-nav">
         <button class="wp-back" onclick="wpBack(3)">← Atrás</button>
-        <button class="wp-finish" onclick="submitSurvey()">¡Enviar mi ficha! 🎉</button>
+        <button class="wp-next" onclick="wpNext(3)">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- PASO 5: Autorización -->
+    <div class="wp-card" id="wp-step-4">
+      <div class="wp-card-title">Autorización de uso</div>
+      <div class="wp-card-sub">Antes de finalizar, necesitamos tu autorización.</div>
+      <div class="wp-field" style="background:#f7f8fb;border-radius:12px;padding:16px 18px;border:1px solid #e8eaf0;">
+        <p style="font-size:.84rem;color:#555;line-height:1.7;margin-bottom:14px;">
+          Entiendo que la información registrada en esta ficha será utilizada únicamente con fines de acompañamiento, bienvenida, formación y seguimiento durante mi proceso de ingreso a GCO. Esta información no representa una evaluación psicológica, clínica ni un criterio único para tomar decisiones laborales.
+        </p>
+        <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;">
+          <input type="checkbox" id="wp-autorizacion" style="width:18px;height:18px;margin-top:2px;accent-color:#586AE8;flex-shrink:0;">
+          <span style="font-size:.84rem;font-weight:700;color:#382C54;">Acepto el uso interno de mi información con los fines descritos.</span>
+        </label>
+        <div class="wp-err-msg" id="wp-err-auth">Debes aceptar para continuar</div>
+      </div>
+      <div class="wp-nav">
+        <button class="wp-back" onclick="wpBack(4)">← Atrás</button>
+        <button class="wp-finish" onclick="submitSurvey()">Enviar mi ficha</button>
       </div>
     </div>
 
@@ -1689,7 +1846,14 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
   <div class="lp-wrap">
     <!-- HEADER -->
     <div class="lp-hdr">
-      <div class="lp-hdr-crown">👑</div>
+      <div class="lp-hdr-av-wrap" onclick="document.getElementById('lp-av-input').click()" title="Cambiar foto">
+        <div class="lp-hdr-av" id="lp-hdr-av">
+          <span id="lp-hdr-av-ini">👤</span>
+          <img id="lp-hdr-av-img" src="" alt="" style="display:none;">
+        </div>
+        <div class="lp-hdr-av-btn">📷</div>
+        <input type="file" id="lp-av-input" accept="image/*" style="display:none;" onchange="handleLeaderAvatar(event)">
+      </div>
       <div class="lp-hdr-info">
         <div class="lp-title">Panel de Líder<span id="lp-lname">—</span></div>
       </div>
@@ -1937,16 +2101,18 @@ async function loadColabStart(c){
   startColabApp();
 }
 async function colabRegister(){
-  const ced=document.getElementById('c-ced').value.trim(),nom=document.getElementById('c-nom').value.trim(),marc=document.getElementById('c-marca').value,tiend=document.getElementById('c-tienda').value,err=document.getElementById('c-err2');
+  const ced=document.getElementById('c-ced').value.trim(),nom=document.getElementById('c-nom').value.trim(),marc=document.getElementById('c-marca').value,ciudad=document.getElementById('c-ciudad').value.trim(),tiend=document.getElementById('c-tienda').value,err=document.getElementById('c-err2');
   err.textContent='';
   if(!nom){err.textContent='Ingresa tu nombre.';return;}
   if(!marc){err.textContent='Selecciona tu marca.';return;}
+  if(!ciudad){err.textContent='Ingresa tu ciudad.';return;}
   if(!tiend){err.textContent='Selecciona tu tienda.';return;}
   document.querySelector('#cf-s2 .sc-btn').disabled=true;document.getElementById('c-load2').classList.add('show');
   try{
     const nc={cedula:ced,nombre:nom,marca:marc,tienda:tiend,fecha_inicio:new Date().toISOString()};
     await sbins('colaboradores',nc);TS={};TO={};U=nc;prevBdg=0;
-    // Show welcome survey for new collaborators
+    // Store ciudad temporarily for ficha
+    U._ciudad=ciudad;
     showWelcomeSurvey();
   }catch(e){err.textContent='Error al crear perfil.';}
   document.querySelector('#cf-s2 .sc-btn').disabled=false;document.getElementById('c-load2').classList.remove('show');
@@ -1984,7 +2150,7 @@ function showWelcomeSurvey(){
 
 function wpGoTo(step){
   wpStep=step;
-  const total=4;
+  const total=5;
   for(let i=0;i<total;i++){
     const card=document.getElementById(`wp-step-${i}`);
     const dot=document.getElementById(`wps-${i}`);
@@ -2002,6 +2168,12 @@ function wpGoTo(step){
 function wpNext(step){if(!wpValidate(step))return;wpGoTo(step+1);}
 function wpBack(step){wpGoTo(step-1);}
 
+function toggleExpDetalle(){
+  const v=document.getElementById('wp-experiencia')?.value||'';
+  const wrap=document.getElementById('wp-exp-detalle-wrap');
+  if(wrap)wrap.style.display=v.startsWith('Sí')?'block':'none';
+}
+
 function wpValidate(step){
   let ok=true;
   const req=(id,errId)=>{
@@ -2014,21 +2186,48 @@ function wpValidate(step){
   };
   if(step===0){
     req('wp-preferred-name','wp-err-pn');
-    const bd=document.getElementById('wp-bday-day').value;
-    const bm=document.getElementById('wp-bday-month').value;
-    showWpErr('wp-err-bd',!bd||!bm);
-    if(!bd||!bm)ok=false;
     req('wp-about-me','wp-err-am');
+    const rol=document.getElementById('wp-rol-tienda')?.value;
+    showWpErr('wp-err-rol',!rol);
+    if(!rol)ok=false;
   }
-  if(step===1){req('wp-free-time','wp-err-ft');}
-  if(step===2){req('wp-motivation-join','wp-err-mj');req('wp-goals','wp-err-gl');}
+  if(step===1){
+    req('wp-free-time','wp-err-ft');
+    req('wp-motivation-join','wp-err-mj');
+    req('wp-goals','wp-err-gl');
+    const exp=document.getElementById('wp-experiencia')?.value;
+    showWpErr('wp-err-exp',!exp);
+    if(!exp)ok=false;
+    const fam=document.querySelector('input[name="familiaridad"]:checked');
+    showWpErr('wp-err-fam',!fam);
+    if(!fam)ok=false;
+  }
+  if(step===2){
+    // Validate all 20 DISC questions answered
+    const dims=['D','I','S','C'];
+    let discOk=true;
+    dims.forEach(d=>{
+      for(let n=1;n<=5;n++){
+        const ans=document.querySelector(`input[name="${d}${n}"]:checked`);
+        if(!ans)discOk=false;
+      }
+    });
+    showWpErr('wp-err-disc',!discOk);
+    if(!discOk)ok=false;
+  }
   if(step===3){
     const ls=document.querySelectorAll('#wp-learning-opts input[type=checkbox]:checked');
     showWpErr('wp-err-ls',ls.length===0);
     if(ls.length===0)ok=false;
+    req('wp-facilidades','wp-err-fac');
     req('wp-challenges','wp-err-ch');
-    req('wp-leader-type','wp-err-lt');
     req('wp-leader-know','wp-err-lk');
+    req('wp-feedback-pref','wp-err-fb');
+  }
+  if(step===4){
+    const auth=document.getElementById('wp-autorizacion')?.checked;
+    showWpErr('wp-err-auth',!auth);
+    if(!auth)ok=false;
   }
   return ok;
 }
@@ -2037,28 +2236,182 @@ function showWpErr(id,show){const el=document.getElementById(id);if(el)el.classL
 const gVal=id=>document.getElementById(id)?.value?.trim()||null;
 const getChecked=grpId=>[...document.querySelectorAll(`#${grpId} input:checked`)].map(c=>c.value);
 
+// ── DISC CALCULATION — FULL ──
+function calcDISC(){
+  const getRaw=dim=>{
+    let s=0;
+    const vals={};
+    for(let n=1;n<=5;n++){
+      const v=parseInt(document.querySelector(`input[name="${dim}${n}"]:checked`)?.value)||0;
+      vals[`${dim.toLowerCase()}${n}`]=v;
+      s+=v;
+    }
+    return{sum:s,vals};
+  };
+
+  const rd=getRaw('D'),ri=getRaw('I'),rs=getRaw('S'),rc=getRaw('C');
+  const D=rd.sum,I=ri.sum,S=rs.sum,C=rc.sum;
+
+  // Niveles
+  const nivel=v=>v<=12?'Bajo':v<=19?'Medio':'Alto';
+
+  // Porcentajes
+  const pct=v=>Math.round((v/25)*100);
+
+  // Diferenciación
+  const vals=[D,I,S,C];
+  const diff=Math.max(...vals)-Math.min(...vals);
+  const nivel_dif=diff>=8?'Diferenciado alto':diff>=4?'Diferenciado medio':'Poco diferenciado';
+  const equilibrado=diff<=3;
+
+  // Ordenar para encontrar predominante y secundario
+  const sorted=[{d:'D',v:D},{d:'I',v:I},{d:'S',v:S},{d:'C',v:C}].sort((a,b)=>b.v-a.v);
+
+  // Manejo de empates
+  const top=sorted[0].v;
+  const sec=sorted[1].v;
+  const empatadosTOP=sorted.filter(x=>x.v===top);
+  const empatadosSEC=sorted.filter(x=>x.v===sec&&x.v<top);
+
+  let predominante,secundario,combinado;
+  if(equilibrado){
+    predominante='Equilibrado';secundario='—';combinado='Perfil equilibrado';
+  } else if(empatadosTOP.length>1){
+    predominante=empatadosTOP.map(x=>x.d).join('/');
+    secundario=empatadosSEC.length?empatadosSEC.map(x=>x.d).join('/'):'—';
+    combinado=`${predominante} + ${secundario}`;
+  } else {
+    predominante=sorted[0].d;
+    if(empatadosSEC.length>1){
+      secundario=empatadosSEC.map(x=>x.d).join('/');
+    } else {
+      secundario=sorted[1].d;
+    }
+    combinado=`${predominante}+${secundario}`;
+  }
+
+  return{
+    // Respuestas individuales
+    ...rd.vals,...ri.vals,...rs.vals,...rc.vals,
+    // Puntajes
+    puntaje_d:D,puntaje_i:I,puntaje_s:S,puntaje_c:C,
+    // Porcentajes
+    porcentaje_d:pct(D),porcentaje_i:pct(I),porcentaje_s:pct(S),porcentaje_c:pct(C),
+    // Niveles
+    nivel_d:nivel(D),nivel_i:nivel(I),nivel_s:nivel(S),nivel_c:nivel(C),
+    // Perfil
+    dimension_principal:predominante,
+    dimension_secundaria:secundario,
+    perfil_combinado:combinado,
+    nivel_diferenciacion:nivel_dif,
+    diferencia_perfil:diff,
+    perfil_equilibrado:equilibrado,
+  };
+}
+
 async function submitSurvey(){
-  if(!wpValidate(3))return;
+  if(!wpValidate(4))return;
   const btn=document.querySelector('.wp-finish');
   btn.disabled=true;btn.textContent='Guardando...';
-  const profile={
-    cedula:U.cedula,
-    preferred_name:gVal('wp-preferred-name'),
-    birthday_day:parseInt(document.getElementById('wp-bday-day').value)||null,
-    birthday_month:parseInt(document.getElementById('wp-bday-month').value)||null,
-    living_with:gVal('wp-living'),
-    about_me:gVal('wp-about-me'),
-    free_time:gVal('wp-free-time'),
-    motivation_join:gVal('wp-motivation-join'),
-    goals:gVal('wp-goals'),
-    learning_style:[...document.querySelectorAll('#wp-learning-opts input[type=checkbox]:checked')].map(c=>c.value).join(' · ')||null,
-    challenges:gVal('wp-challenges'),
-    leader_type:gVal('wp-leader-type'),
-    leader_should_know:gVal('wp-leader-know'),
-  };
-  try{await sbins('welcome_profiles',profile);}catch(e){console.warn('Survey err',e);}
-  btn.disabled=false;
-  startColabApp();
+
+  try{
+    const disc=calcDISC();
+    const ls=[...document.querySelectorAll('#wp-learning-opts input[type=checkbox]:checked')].map(c=>c.value).join(' · ')||null;
+
+    // Build unified ficha_acompanamiento record
+    const ficha={
+      cedula:U.cedula,
+      // Datos del colaborador
+      nombre_completo:U.nombre,
+      marca:U.marca,
+      ciudad:U._ciudad||null,
+      tienda:U.tienda,
+      fecha_ingreso:U.fecha_inicio?new Date(U.fecha_inicio).toISOString().split('T')[0]:null,
+      rol_tienda:gVal('wp-rol-tienda'),
+      // Paso 1 — quién eres
+      preferred_name:gVal('wp-preferred-name'),
+      fecha_cumpleanos_dia:parseInt(document.getElementById('wp-bday-day').value)||null,
+      fecha_cumpleanos_mes:parseInt(document.getElementById('wp-bday-month').value)||null,
+      convivencia:gVal('wp-living'),
+      about_me:gVal('wp-about-me'),
+      // Paso 2 — tu mundo
+      free_time:gVal('wp-free-time'),
+      experiencia_previa:gVal('wp-experiencia'),
+      experiencia_detalle:gVal('wp-exp-detalle'),
+      familiaridad_retail:parseInt(document.querySelector('input[name="familiaridad"]:checked')?.value)||null,
+      meta_personal:gVal('wp-goals'),
+      // Paso 3 — DISC respuestas individuales
+      d1:disc.d1,d2:disc.d2,d3:disc.d3,d4:disc.d4,d5:disc.d5,
+      i1:disc.i1,i2:disc.i2,i3:disc.i3,i4:disc.i4,i5:disc.i5,
+      s1:disc.s1,s2:disc.s2,s3:disc.s3,s4:disc.s4,s5:disc.s5,
+      c1:disc.c1,c2:disc.c2,c3:disc.c3,c4:disc.c4,c5:disc.c5,
+      // DISC calculado
+      puntaje_d:disc.puntaje_d,puntaje_i:disc.puntaje_i,
+      puntaje_s:disc.puntaje_s,puntaje_c:disc.puntaje_c,
+      porcentaje_d:disc.porcentaje_d,porcentaje_i:disc.porcentaje_i,
+      porcentaje_s:disc.porcentaje_s,porcentaje_c:disc.porcentaje_c,
+      nivel_d:disc.nivel_d,nivel_i:disc.nivel_i,
+      nivel_s:disc.nivel_s,nivel_c:disc.nivel_c,
+      dimension_principal:disc.dimension_principal,
+      dimension_secundaria:disc.dimension_secundaria,
+      perfil_combinado:disc.perfil_combinado,
+      nivel_diferenciacion:disc.nivel_diferenciacion,
+      diferencia_perfil:disc.diferencia_perfil,
+      perfil_equilibrado:disc.perfil_equilibrado,
+      // Paso 4 — conozcámonos mejor
+      learning_style:ls,
+      respuesta_facilidades:gVal('wp-facilidades'),
+      respuesta_retos:gVal('wp-challenges'),
+      respuesta_lider:gVal('wp-leader-know'),
+      respuesta_feedback:gVal('wp-feedback-pref'),
+      // Paso 5
+      autorizacion:true,
+    };
+
+    await sbins('ficha_acompanamiento',ficha);
+
+    // Also keep welcome_profiles for backwards compatibility with leader panel
+    const profile={
+      cedula:U.cedula,
+      preferred_name:ficha.preferred_name,
+      birthday_day:ficha.fecha_cumpleanos_dia,
+      birthday_month:ficha.fecha_cumpleanos_mes,
+      living_with:ficha.convivencia,
+      about_me:ficha.about_me,
+      free_time:ficha.free_time,
+      motivation_join:gVal('wp-motivation-join'),
+      goals:ficha.meta_personal,
+      learning_style:ls,
+      challenges:ficha.respuesta_retos,
+      leader_should_know:ficha.respuesta_lider,
+      experiencia_previa:ficha.experiencia_previa,
+      experiencia_detalle:ficha.experiencia_detalle,
+      familiaridad_moda:ficha.familiaridad_retail,
+      preferencia_feedback:ficha.respuesta_feedback,
+      facilidades_aprendizaje:ficha.respuesta_facilidades,
+      autorizacion:true,
+    };
+    try{await sbins('welcome_profiles',profile);}catch(e){console.warn('WP compat err',e);}
+
+    // Update rol_tienda in colaboradores
+    if(ficha.rol_tienda){
+      try{
+        await fetch(`${SB}/rest/v1/colaboradores?cedula=eq.${U.cedula}`,{
+          method:'PATCH',headers:SH,
+          body:JSON.stringify({rol_tienda:ficha.rol_tienda})
+        });
+      }catch(e){console.warn('Rol err',e);}
+    }
+
+    btn.textContent='¡Listo!';
+    setTimeout(()=>startColabApp(),800);
+
+  }catch(e){
+    console.error('Submit err',e);
+    btn.disabled=false;
+    btn.textContent='Reintentar';
+    alert('Hubo un error al guardar. Intenta de nuevo.');
+  }
 }
 
 function skipSurvey(){
@@ -2495,6 +2848,10 @@ async function loadLeaderData(){
       c._t={};c._o={};tasks.forEach(t=>{const k=tk(t.nivel_id,t.tarea_index);c._t[k]=t.estado;if(t.observacion)c._o[k]=t.observacion;});
       // Load welcome profile
       const wp=await sbq('welcome_profiles','cedula',c.cedula);c._wp=wp||null;
+      // Also load ficha_acompanamiento (richer data — use if available)
+      const fa=await sbq('ficha_acompanamiento','cedula',c.cedula);c._fa=fa||null;
+      // Prefer ficha_acompanamiento for display when available
+      if(c._fa&&!c._wp)c._wp=c._fa;
     }
     renderLeaderPanel();
   }catch(e){document.getElementById('lp-cont').innerHTML='<div class="lp-load" style="color:var(--coral)">⚠ Error al cargar.</div>';}
@@ -2545,6 +2902,9 @@ function renderLeaderPanel(){
   // Tip
   const tip=LP_TIPS[Math.floor(Date.now()/86400000)%LP_TIPS.length];
   document.getElementById('lp-tip-txt').textContent=tip;
+
+  // Load leader avatar
+  loadLeaderAvatar();
 
   // Action shortcuts (B: alerts as filters)
   const alertEl=document.getElementById('lp-alert-items');
@@ -2647,6 +3007,32 @@ function renderLpTable(data){
       </div>
       <div class="lp-table-body">${rows}</div>
     </div>`;
+}
+
+function handleLeaderAvatar(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const src=ev.target.result;
+    const img=document.getElementById('lp-hdr-av-img');
+    const ini=document.getElementById('lp-hdr-av-ini');
+    img.src=src;img.style.display='block';
+    if(ini)ini.style.display='none';
+    // Save to localStorage keyed by leader cedula
+    if(L&&L.cedula)localStorage.setItem(`gco_ldr_av_${L.cedula}`,src);
+  };
+  reader.readAsDataURL(file);
+}
+
+function loadLeaderAvatar(){
+  if(!L||!L.cedula)return;
+  const src=localStorage.getItem(`gco_ldr_av_${L.cedula}`);
+  if(!src)return;
+  const img=document.getElementById('lp-hdr-av-img');
+  const ini=document.getElementById('lp-hdr-av-ini');
+  if(img){img.src=src;img.style.display='block';}
+  if(ini)ini.style.display='none';
 }
 
 function quickFilter(state){
@@ -2827,61 +3213,175 @@ function switchTab(ci,tab){
   });
 }
 
-function buildWelcomeProfile(wp){
+// ── DISC CONTENT MAPS ──
+const DISC_NAMES={D:'Orientación a resultados',I:'Conexión con personas',S:'Ritmo y acompañamiento',C:'Claridad y detalle'};
+const DISC_LEVEL=v=>v<=12?'Bajo':v<=19?'Medio':'Alto';
+const DISC_COLOR={D:'#586AE8',I:'#FFB901',S:'#00c97a',C:'#6DC7CC'};
+
+const DISC_LECTURA={
+  D:{
+    lectura:'Este colaborador puede mostrar iniciativa, deseo de avanzar rápido y motivación por metas claras. Puede responder bien cuando entiende qué se espera de él y cuáles son los objetivos del rol.',
+    como:['Presentarle metas claras desde el inicio.','Explicarle cómo se mide el desempeño en tienda.','Darle retos progresivos.','Permitirle actuar con autonomía gradual.','Darle retroalimentación directa y enfocada en acciones concretas.'],
+    alerta:'Puede acelerarse sin comprender completamente los protocolos, el estándar de marca o la experiencia esperada para el cliente.',
+    frase:'Te voy a mostrar el estándar esperado y luego te daré un reto concreto para que lo practiques.'
+  },
+  I:{
+    lectura:'Este colaborador puede conectar fácilmente con clientes y equipo. Puede aprender bien conversando, preguntando, observando interacciones y participando en espacios prácticos.',
+    como:['Integrarlo rápidamente al equipo.','Usar conversaciones, ejemplos y role plays.','Reconocer sus avances.','Ayudarle a mantener foco en indicadores y protocolo.','Darle espacios para practicar atención al cliente.'],
+    alerta:'Puede quedarse en la relación y perder foco en cierre, seguimiento, detalle operativo o cumplimiento del protocolo.',
+    frase:'Aprovechemos tu facilidad para conectar con clientes y enfoquémosla en una atención que también genere resultados.'
+  },
+  S:{
+    lectura:'Este colaborador puede necesitar seguridad, cercanía y una curva de aprendizaje progresiva. Puede adaptarse mejor cuando tiene un referente claro, instrucciones paso a paso y acompañamiento durante los primeros días.',
+    como:['Explicarle el proceso paso a paso.','Asignarle un mentor visible.','Validar frecuentemente cómo se siente.','No saturarlo con demasiada información el primer día.','Reforzar confianza antes de exigir autonomía completa.'],
+    alerta:'Puede sentirse inseguro, depender demasiado del líder o tardar más en tomar iniciativa si no recibe confianza progresiva.',
+    frase:'Vamos paso a paso. Primero observas, luego practicamos juntos y después lo haces con retroalimentación.'
+  },
+  C:{
+    lectura:'Este colaborador puede valorar el orden, las instrucciones claras, los protocolos y el cuidado del estándar. Puede aprender mejor cuando entiende qué debe hacer, cómo hacerlo y cuáles son los criterios de calidad.',
+    como:['Entregar guías, checklists y criterios claros.','Explicar el porqué de los procesos.','Dar tiempo para revisar información clave.','Ser específico en la retroalimentación.','Evitar instrucciones ambiguas.'],
+    alerta:'Puede demorarse en actuar si siente que no tiene toda la información o si teme equivocarse.',
+    frase:'Te voy a dejar la guía clara y luego practicamos para que ganes seguridad en la ejecución.'
+  }
+};
+
+const DISC_COMBINADOS={
+  'D+I':{nombre:'Perfil comercial activo',lectura:'Este colaborador puede mostrar iniciativa, energía social y orientación a resultados. Puede sentirse motivado por metas, retos y contacto con clientes.',rec:'Darle retos comerciales progresivos, permitirle practicar con clientes y entregarle retroalimentación directa sobre cierre, protocolo y seguimiento.'},
+  'D+S':{nombre:'Perfil orientado a avanzar con acompañamiento',lectura:'Este colaborador puede querer avanzar y lograr resultados, pero también valorar un acompañamiento cercano mientras gana seguridad.',rec:'Dar metas claras, acompañamiento inicial y autonomía gradual. Evitar soltarlo demasiado rápido sin validar comprensión.'},
+  'D+C':{nombre:'Perfil orientado a ejecución con estándar',lectura:'Este colaborador puede enfocarse en resultados, pero también valorar claridad, procesos y calidad en la ejecución.',rec:'Darle metas claras, criterios de calidad, checklist de ejecución y seguimiento concreto sobre resultados y estándar.'},
+  'I+D':{nombre:'Perfil relacional con empuje comercial',lectura:'Este colaborador puede conectar con clientes y mostrar iniciativa para actuar. Puede aprender bien en escenarios prácticos y con interacción.',rec:'Usar role plays, retos de atención, metas visibles y retroalimentación breve después de interacciones reales.'},
+  'I+S':{nombre:'Perfil relacional y colaborativo',lectura:'Este colaborador puede integrarse bien al equipo, conectar con clientes y valorar un ambiente cercano y seguro.',rec:'Acompañarlo con mentoría, reconocimiento frecuente, integración al equipo y práctica guiada de atención al cliente.'},
+  'I+C':{nombre:'Perfil relacional con cuidado del estándar',lectura:'Este colaborador puede conectar con personas y, al mismo tiempo, valorar instrucciones claras para ejecutar bien.',rec:'Aprovechar su facilidad relacional, reforzando protocolo, checklist de atención y criterios claros para convertir la conexión en experiencia consistente.'},
+  'S+D':{nombre:'Perfil progresivo con orientación a metas',lectura:'Este colaborador puede necesitar acompañamiento inicial, pero responder bien cuando tiene metas claras y confianza progresiva.',rec:'Dar seguridad al inicio, explicar objetivos, acompañar la primera práctica y luego entregar retos graduales.'},
+  'S+I':{nombre:'Perfil cercano y de buena integración',lectura:'Este colaborador puede valorar el buen ambiente, la cercanía del equipo y el aprendizaje acompañado.',rec:'Facilitar integración, asignar mentor, reconocer avances y promover práctica con pares antes de asumir tareas completas.'},
+  'S+C':{nombre:'Perfil estructurado y cuidadoso',lectura:'Este colaborador puede aprender mejor con paso a paso, guías claras y acompañamiento cercano.',rec:'No saturarlo. Usar checklist, demostración, práctica acompañada y validación progresiva.'},
+  'C+D':{nombre:'Perfil estructurado con foco en resultados',lectura:'Este colaborador puede valorar el orden y la claridad, pero también responder bien a objetivos concretos.',rec:'Explicar estándares, mostrar indicadores, entregar criterios de éxito y permitir autonomía gradual con seguimiento.'},
+  'C+I':{nombre:'Perfil cuidadoso con orientación relacional',lectura:'Este colaborador puede cuidar el estándar y conectar con clientes cuando tiene claridad sobre cómo hacerlo.',rec:'Entregar guías de atención, practicar conversaciones con clientes y reforzar tanto la experiencia como el cumplimiento del protocolo.'},
+  'C+S':{nombre:'Perfil metódico y de aprendizaje gradual',lectura:'Este colaborador puede necesitar claridad, tiempo para comprender y acompañamiento cercano durante la curva inicial.',rec:'Usar instrucciones claras, mentoría, checklist y retroalimentación paciente. Evitar cambios bruscos o instrucciones poco precisas.'},
+};
+
+function buildWelcomeProfile(wp,disc){
   const months=['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   const bday=wp.birthday_day&&wp.birthday_month?`${wp.birthday_day} de ${months[wp.birthday_month]}`:null;
-  const blk=(ico,lbl,val)=>val?`<div class="wf-row"><div class="wf-lbl">${ico} ${lbl}</div><div class="wf-val">${val}</div></div>`:'';
+  const blk=(lbl,val)=>val?`<div class="wf-row"><div class="wf-lbl">${lbl}</div><div class="wf-val">${val}</div></div>`:'';
+  const famLabels=['','Nada familiarizado/a','Poco familiarizado/a','Algo familiarizado/a','Familiarizado/a','Muy familiarizado/a'];
 
-  // Resumen ejecutivo para el líder
+  // ── DISC BLOCK ──
+  let discHtml='';
+  if(disc){
+    const pd=disc.perfil_predominante;const ps=disc.perfil_secundario;
+    const comb=disc.perfil_combinado;
+    const lect=DISC_LECTURA[pd];
+    const combData=DISC_COMBINADOS[comb]||DISC_COMBINADOS[`${ps}+${pd}`]||null;
+    const scores=[
+      {dim:'D',val:disc.score_d},{dim:'I',val:disc.score_i},
+      {dim:'S',val:disc.score_s},{dim:'C',val:disc.score_c}
+    ];
+
+    discHtml=`
+    <div class="wf-disc-card">
+      <div class="wf-sec-title" style="margin-bottom:14px;">Perfil Conductual de Acompañamiento</div>
+      <!-- Scores -->
+      <div class="wf-disc-scores">
+        ${scores.map(s=>`
+          <div class="wf-disc-score-item">
+            <div class="wf-disc-score-lbl">${DISC_NAMES[s.dim]}</div>
+            <div class="wf-disc-bar-wrap">
+              <div class="wf-disc-bar" style="width:${Math.round(s.val/25*100)}%;background:${DISC_COLOR[s.dim]};"></div>
+            </div>
+            <div class="wf-disc-score-val" style="color:${DISC_COLOR[s.dim]};">${s.val}/25 <span class="wf-disc-level">${DISC_LEVEL(s.val)}</span></div>
+          </div>`).join('')}
+      </div>
+      <!-- Predominante -->
+      <div class="wf-disc-tag-row">
+        <span class="wf-disc-tag" style="background:${DISC_COLOR[pd]}22;border-color:${DISC_COLOR[pd]}66;color:${DISC_COLOR[pd]};">Predominante: ${DISC_NAMES[pd]}</span>
+        <span class="wf-disc-tag" style="background:${DISC_COLOR[ps]}15;border-color:${DISC_COLOR[ps]}44;color:${DISC_COLOR[ps]};">Secundario: ${DISC_NAMES[ps]}</span>
+      </div>
+      <!-- Lectura rápida -->
+      <div class="wf-disc-reading">
+        <div class="wf-disc-reading-title">Lectura rápida</div>
+        <p class="wf-disc-reading-txt">${lect.lectura}</p>
+      </div>
+      <!-- Cómo acompañar -->
+      <div class="wf-disc-reading" style="background:rgba(0,201,122,.04);border-color:rgba(0,201,122,.2);">
+        <div class="wf-disc-reading-title" style="color:#00c97a;">Cómo acompañarlo/a</div>
+        <ul style="margin:0;padding-left:16px;">
+          ${lect.como.map(c=>`<li style="font-size:.8rem;color:#555;margin-bottom:4px;line-height:1.4;">${c}</li>`).join('')}
+        </ul>
+      </div>
+      <!-- Alerta -->
+      <div class="wf-disc-reading" style="background:rgba(253,99,107,.04);border-color:rgba(253,99,107,.2);">
+        <div class="wf-disc-reading-title" style="color:#fd636b;">Alerta para el líder</div>
+        <p class="wf-disc-reading-txt">${lect.alerta}</p>
+      </div>
+      <!-- Frase -->
+      <div class="wf-disc-frase">
+        <span style="font-size:.7rem;font-weight:800;color:#586AE8;letter-spacing:.5px;text-transform:uppercase;">Frase útil</span>
+        <p style="font-size:.84rem;font-style:italic;color:#382C54;margin:5px 0 0;">"${lect.frase}"</p>
+      </div>
+      ${combData?`
+      <!-- Perfil combinado -->
+      <div class="wf-disc-reading" style="background:rgba(88,106,232,.04);border-color:rgba(88,106,232,.2);">
+        <div class="wf-disc-reading-title" style="color:#586AE8;">${combData.nombre}</div>
+        <p class="wf-disc-reading-txt">${combData.lectura}</p>
+        <p style="font-size:.78rem;color:#586AE8;font-weight:700;margin-top:6px;">Recomendación: ${combData.rec}</p>
+      </div>`:''}
+    </div>`;
+  }
+
+  // ── SUMMARY ──
   const si=[];
   if(wp.preferred_name)si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">😊</div><div class="wf-sum-txt">Prefiere que le digan <strong>${wp.preferred_name}</strong></div></div>`);
   if(bday)si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">🎂</div><div class="wf-sum-txt">Cumpleaños: <strong>${bday}</strong></div></div>`);
-  if(wp.free_time){const s=wp.free_time.length>80?wp.free_time.slice(0,80)+'...':wp.free_time;si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">🌍</div><div class="wf-sum-txt">Le apasiona: <strong>${s}</strong></div></div>`);}
-  if(wp.learning_style)si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">🧠</div><div class="wf-sum-txt">Aprende mejor: <strong>${wp.learning_style}</strong></div></div>`);
-  if(wp.leader_type){const s=wp.leader_type.length>80?wp.leader_type.slice(0,80)+'...':wp.leader_type;si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">🏆</div><div class="wf-sum-txt">El líder que lo impulsa: <strong>${s}</strong></div></div>`);}
-  if(wp.leader_should_know){const s=wp.leader_should_know.length>80?wp.leader_should_know.slice(0,80)+'...':wp.leader_should_know;si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">📝</div><div class="wf-sum-txt">Clave para ti como líder: <strong>${s}</strong></div></div>`);}
+  if(wp.experiencia_previa)si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">💼</div><div class="wf-sum-txt">Experiencia previa: <strong>${wp.experiencia_previa}</strong></div></div>`);
+  if(disc)si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">🧠</div><div class="wf-sum-txt">Perfil predominante: <strong>${DISC_NAMES[disc.perfil_predominante]}</strong></div></div>`);
+  if(wp.goals){const s=wp.goals.length>80?wp.goals.slice(0,80)+'...':wp.goals;si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">🎯</div><div class="wf-sum-txt">Meta: <strong>${s}</strong></div></div>`);}
 
-  // Preguntas sugeridas 100% personalizadas
+  // Preguntas sugeridas
   const qs=[];
   if(wp.free_time){const t=wp.free_time.split(/[,.\n]/).shift().trim();qs.push(`Mencionaste que te apasiona "${t.length>40?t.slice(0,40)+'...':t}". ¿Cómo eso te define como persona?`);}
   if(wp.motivation_join)qs.push(`Entraste a GCO porque "${wp.motivation_join.slice(0,55)}...". ¿Qué necesitarías ver para saber que fue la decisión correcta?`);
-  if(wp.goals)qs.push(`Tienes metas claras. ¿Cómo puede este rol ser un paso real hacia lo que quieres lograr?`);
   if(wp.challenges)qs.push(`Dijiste que te cuesta "${wp.challenges.slice(0,55)}...". ¿Qué podemos hacer juntos para que eso no sea una barrera?`);
-  if(wp.leader_type)qs.push(`El líder que saca lo mejor de ti "${wp.leader_type.slice(0,55)}...". ¿Cómo puedo ser ese tipo de líder contigo desde el primer día?`);
+  if(disc&&DISC_LECTURA[disc.perfil_predominante])qs.push(`Basado en tu perfil, ¿cómo prefieres que te acompañe en la primera semana?`);
   qs.push('¿Qué esperas de tu primera semana aquí?');
-  qs.push('¿Hay algo que te genere incertidumbre y quieras que conversemos antes de empezar?');
-  const qsHtml=qs.slice(0,6).map((q,i)=>`<div class="wf-q-item"><div class="wf-q-bullet">${i+1}</div><div class="wf-q-txt">"${q}"</div></div>`).join('');
+  const qsHtml=qs.slice(0,5).map((q,i)=>`<div class="wf-q-item"><div class="wf-q-bullet">${i+1}</div><div class="wf-q-txt">"${q}"</div></div>`).join('');
 
   return`
     <div class="wf-summary-card">
-      <div class="wf-sum-title">⭐ Resumen para la primera conversación</div>
+      <div class="wf-sum-title">Resumen para la primera conversación</div>
       ${si.join('')}
     </div>
     <div class="wf-section">
-      <div class="wf-sec-title">📋 Datos básicos</div>
-      ${blk('😊','Prefiere que le llamen',wp.preferred_name)}
-      ${blk('🎂','Cumpleaños',bday)}
-      ${blk('🏠','Con quién vive',wp.living_with)}
+      <div class="wf-sec-title">Datos básicos</div>
+      ${blk('Prefiere que le llamen',wp.preferred_name)}
+      ${blk('Cumpleaños',bday)}
+      ${blk('Con quién vive',wp.living_with)}
+      ${blk('Rol en tienda',wp.rol_tienda)}
+      ${blk('Experiencia previa',wp.experiencia_previa)}
+      ${wp.experiencia_detalle?blk('Detalle experiencia',wp.experiencia_detalle):''}
+      ${wp.familiaridad_moda?blk('Familiaridad con moda/retail',famLabels[wp.familiaridad_moda]||''):''}
     </div>
     <div class="wf-section">
-      <div class="wf-sec-title">💬 Sobre la persona</div>
-      ${blk('✨','Algo que quiere que el equipo sepa',wp.about_me)}
-      ${blk('🌍','Qué le apasiona fuera del trabajo',wp.free_time)}
+      <div class="wf-sec-title">Sobre la persona</div>
+      ${blk('Algo que quiere que el equipo sepa',wp.about_me)}
+      ${blk('Qué le apasiona fuera del trabajo',wp.free_time)}
     </div>
     <div class="wf-section">
-      <div class="wf-sec-title">🚀 Motivación y metas</div>
-      ${blk('💥','Por qué ingresó a GCO',wp.motivation_join)}
-      ${blk('🎯','Sus metas',wp.goals)}
+      <div class="wf-sec-title">Motivación y metas</div>
+      ${blk('Por qué ingresó a GCO',wp.motivation_join)}
+      ${blk('Su meta personal/laboral',wp.goals)}
     </div>
+    ${discHtml}
     <div class="wf-section">
-      <div class="wf-sec-title">🧠 Cómo acompañarlo/a</div>
-      ${blk('📚','Cómo aprende mejor',wp.learning_style)}
-      ${blk('⚠️','Qué le cuesta en situaciones nuevas',wp.challenges)}
-      ${blk('🏆','El tipo de líder que saca lo mejor de sí',wp.leader_type)}
-      ${blk('📝','Lo que le gustaría que su líder sepa',wp.leader_should_know)}
+      <div class="wf-sec-title">Cómo acompañarlo/a</div>
+      ${blk('Cómo aprende mejor',wp.learning_style)}
+      ${blk('Qué se le facilita al aprender',wp.facilidades_aprendizaje||wp.challenges)}
+      ${blk('Qué le resulta retador en equipos nuevos',wp.challenges)}
+      ${blk('Lo que le gustaría que su líder sepa',wp.leader_should_know)}
+      ${blk('Cómo prefiere recibir retroalimentación',wp.preferencia_feedback)}
     </div>
     <div class="wf-questions">
-      <div class="wf-q-title">💬 Preguntas sugeridas — basadas en sus respuestas reales</div>
+      <div class="wf-q-title">Preguntas sugeridas — basadas en sus respuestas</div>
       ${qsHtml}
     </div>`;
 }
