@@ -751,13 +751,12 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
 .lp-btn-cl:hover{background:linear-gradient(135deg,#fd636b,#d94048);color:#fff;box-shadow:0 4px 16px rgba(253,99,107,.4);}
 
 /* ── 6 STATS GRID ── */
-.lp-stats{display:grid;grid-template-columns:repeat(6,1fr);gap:11px;margin-bottom:18px;}
-@media(max-width:900px){.lp-stats{grid-template-columns:repeat(3,1fr);}}
-@media(max-width:500px){.lp-stats{grid-template-columns:repeat(2,1fr);}}
+.lp-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+@media(max-width:700px){.lp-stats{grid-template-columns:repeat(2,1fr);}}
 .lp-stat{
   background:rgba(20,18,50,.82);
   backdrop-filter:blur(20px);
-  border-radius:18px;padding:16px 16px 14px;
+  border-radius:18px;padding:20px 20px 16px;
   position:relative;overflow:hidden;
   transition:transform .22s,box-shadow .22s;
   box-shadow:0 20px 60px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.04);
@@ -799,24 +798,39 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
   box-shadow:0 20px 60px rgba(0,0,0,.4),inset 0 1px 0 rgba(253,99,107,.08);
 }
 .lp-alerts-title{
-  font-family:'Nunito',sans-serif;font-size:.74rem;font-weight:900;
-  color:#fd636b;margin-bottom:14px;display:flex;align-items:center;gap:7px;
-  text-transform:uppercase;letter-spacing:.6px;
+  font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:900;
+  color:#7c8ff0;margin-bottom:12px;
+  display:flex;align-items:center;gap:7px;
+  text-transform:uppercase;letter-spacing:.8px;
 }
-.lp-alert-items{display:flex;flex-direction:column;gap:9px;}
+.lp-alert-items{display:flex;flex-direction:column;gap:8px;}
 .lp-alert-item{
-  display:flex;align-items:flex-start;gap:11px;padding:11px 14px;border-radius:12px;
-  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
-  backdrop-filter:blur(8px);transition:background .2s;
+  display:flex;align-items:center;gap:11px;
+  padding:12px 14px;border-radius:12px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  cursor:pointer;transition:all .2s;
+  text-decoration:none;
 }
-.lp-alert-item:hover{background:rgba(255,255,255,.055);}
-.lp-alert-ico{font-size:.95rem;flex-shrink:0;margin-top:1px;}
+.lp-alert-item:hover{
+  background:rgba(130,100,255,.1);
+  border-color:rgba(130,100,255,.3);
+  transform:translateX(3px);
+}
+.lp-alert-item.red-action:hover{background:rgba(253,99,107,.1);border-color:rgba(253,99,107,.3);}
+.lp-alert-item.gold-action:hover{background:rgba(255,185,1,.08);border-color:rgba(255,185,1,.28);}
+.lp-alert-ico{font-size:.9rem;flex-shrink:0;}
 .lp-alert-body{flex:1;}
-.lp-alert-label{font-family:'Nunito',sans-serif;font-size:.79rem;font-weight:800;margin-bottom:2px;}
+.lp-alert-label{font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:800;margin-bottom:1px;}
 .lp-alert-label.red{color:#fd636b;}
 .lp-alert-label.gold{color:#FFB901;}
 .lp-alert-label.blue{color:#7c8ff0;}
-.lp-alert-desc{font-size:.69rem;color:rgba(160,150,210,.55);line-height:1.45;}
+.lp-alert-desc{font-size:.68rem;color:rgba(160,150,210,.5);line-height:1.4;}
+.lp-alert-arrow{
+  font-size:.85rem;color:rgba(130,100,255,.4);
+  transition:transform .2s,color .2s;flex-shrink:0;
+}
+.lp-alert-item:hover .lp-alert-arrow{transform:translateX(3px);color:rgba(130,100,255,.8);}
 .lp-no-alerts{font-size:.82rem;color:#00c97a;padding:8px 0;display:flex;align-items:center;gap:9px;font-weight:700;}
 .lp-tip{
   background:linear-gradient(150deg,rgba(88,60,200,.14) 0%,rgba(20,15,55,.9) 100%);
@@ -1686,52 +1700,40 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
       </div>
     </div>
 
-    <!-- 6 STATS -->
+    <!-- 4 STATS -->
     <div class="lp-stats">
       <div class="lp-stat s-blue" data-ghost="👥">
         <div class="lp-stat-ico">👥</div>
         <div class="lp-sl">Colaboradores</div>
         <div class="lp-sv b" id="lp-total">0</div>
-        <div class="lp-stat-sub">activos</div>
+        <div class="lp-stat-sub">activos en tienda</div>
       </div>
       <div class="lp-stat s-purple" data-ghost="📈">
         <div class="lp-stat-ico">📈</div>
-        <div class="lp-sl">Avance prom.</div>
+        <div class="lp-sl">Avance promedio</div>
         <div class="lp-sv" id="lp-avg">0%</div>
-        <div class="lp-stat-sub" id="lp-avg-trend"></div>
+        <div class="lp-stat-sub" id="lp-avg-trend">del equipo</div>
       </div>
-      <div class="lp-stat s-gold" data-ghost="⏳">
+      <div class="lp-stat s-gold" data-ghost="⏳" style="cursor:pointer;" onclick="quickFilter('pend')" title="Ver colaboradores por validar">
         <div class="lp-stat-ico">⏳</div>
         <div class="lp-sl">Por validar</div>
         <div class="lp-sv y" id="lp-pending">0</div>
-        <div class="lp-stat-sub">tareas pendientes</div>
+        <div class="lp-stat-sub">tareas · <span style="color:rgba(255,185,1,.7);">Ver →</span></div>
       </div>
-      <div class="lp-stat s-red" data-ghost="⚠️">
+      <div class="lp-stat s-red" data-ghost="⚠️" style="cursor:pointer;" onclick="quickFilter('risk')" title="Ver colaboradores en riesgo">
         <div class="lp-stat-ico">⚠️</div>
         <div class="lp-sl">En riesgo</div>
         <div class="lp-sv r" id="lp-risk">0</div>
-        <div class="lp-stat-sub">colaboradores</div>
-      </div>
-      <div class="lp-stat s-teal" data-ghost="📋">
-        <div class="lp-stat-ico">📋</div>
-        <div class="lp-sl">Fichas completas</div>
-        <div class="lp-sv t" id="lp-fichas">0</div>
-        <div class="lp-stat-sub" id="lp-fichas-sub"></div>
-      </div>
-      <div class="lp-stat s-green" data-ghost="🏆">
-        <div class="lp-stat-ico">🏆</div>
-        <div class="lp-sl">Completaron N3</div>
-        <div class="lp-sv g" id="lp-done">0</div>
-        <div class="lp-stat-sub">de <span id="lp-done-total">0</span></div>
+        <div class="lp-stat-sub">colaboradores · <span style="color:rgba(253,99,107,.7);">Ver →</span></div>
       </div>
     </div>
 
-    <!-- ALERTS + TIP -->
+    <!-- ALERTS AS ACTION SHORTCUTS + TIP -->
     <div class="lp-alerts-row">
       <div class="lp-alerts">
-        <div class="lp-alerts-title">⚠️ Alertas importantes</div>
+        <div class="lp-alerts-title">⚡ Acciones rápidas</div>
         <div class="lp-alert-items" id="lp-alert-items">
-          <div class="lp-no-alerts">✓ Todo en orden — no hay alertas activas</div>
+          <div class="lp-no-alerts">✓ Todo en orden — no hay acciones pendientes</div>
         </div>
       </div>
       <div class="lp-tip">
@@ -2530,36 +2532,53 @@ function renderLeaderPanel(){
     if(c._wp)fichas++;
   });
 
-  // Stats
   document.getElementById('lp-total').textContent=total;
   document.getElementById('lp-avg').textContent=total?Math.round(totPct/total)+'%':'0%';
   document.getElementById('lp-pending').textContent=totPend;
   document.getElementById('lp-risk').textContent=atRisk;
-  document.getElementById('lp-fichas').textContent=fichas;
-  document.getElementById('lp-fichas-sub').textContent=total?`${Math.round(fichas/total*100)}% completadas`:'';
-  document.getElementById('lp-done').textContent=done3;
-  document.getElementById('lp-done-total').textContent=total;
+  // Keep hidden IDs for JS compatibility
+  const f=document.getElementById('lp-fichas');if(f)f.textContent=fichas;
+  const fs=document.getElementById('lp-fichas-sub');if(fs)fs.textContent=total?`${Math.round(fichas/total*100)}% completadas`:'';
+  const d=document.getElementById('lp-done');if(d)d.textContent=done3;
+  const dt=document.getElementById('lp-done-total');if(dt)dt.textContent=total;
 
   // Tip
   const tip=LP_TIPS[Math.floor(Date.now()/86400000)%LP_TIPS.length];
   document.getElementById('lp-tip-txt').textContent=tip;
 
-  // Alerts
+  // Action shortcuts (B: alerts as filters)
   const alertEl=document.getElementById('lp-alert-items');
-  const alerts=[];
-  if(atRisk>0)alerts.push({cls:'red',ico:'🔴',label:`${atRisk} colaborador${atRisk>1?'es en riesgo':' en riesgo'}`,desc:'Más de 20 días con menos del 50% de avance'});
-  if(totPend>0)alerts.push({cls:'gold',ico:'🟡',label:`${totPend} validaciones pendientes`,desc:'Tienes tareas esperando tu revisión'});
+  const actions=[];
+  if(totPend>0)actions.push({
+    cls:'gold-action',ico:'⏳',
+    label:`${totPend} tarea${totPend>1?'s':''} por validar`,
+    desc:'Toca para ver solo los colaboradores con pendientes',
+    labelCls:'gold',filter:'pend'
+  });
+  if(atRisk>0)actions.push({
+    cls:'red-action',ico:'⚠️',
+    label:`${atRisk} colaborador${atRisk>1?'es':''} en riesgo`,
+    desc:'Más de 20 días con menos del 50% — requieren acompañamiento',
+    labelCls:'red',filter:'risk'
+  });
   const inact=ldrC.filter(c=>c._dias>3&&c._pct<100).length;
-  if(inact>0)alerts.push({cls:'blue',ico:'🔵',label:`${inact} sin avance reciente`,desc:'No registran actividad en más de 3 días'});
-  alertEl.innerHTML=alerts.length
-    ?alerts.map(a=>`<div class="lp-alert-item">
+  if(inact>0)actions.push({
+    cls:'',ico:'🔵',
+    label:`${inact} sin actividad reciente`,
+    desc:'No registran avance en más de 3 días',
+    labelCls:'blue',filter:'pend'
+  });
+  alertEl.innerHTML=actions.length
+    ?actions.map(a=>`
+      <div class="lp-alert-item ${a.cls}" onclick="quickFilter('${a.filter}')">
         <div class="lp-alert-ico">${a.ico}</div>
         <div class="lp-alert-body">
-          <div class="lp-alert-label ${a.cls}">${a.label}</div>
+          <div class="lp-alert-label ${a.labelCls}">${a.label}</div>
           <div class="lp-alert-desc">${a.desc}</div>
         </div>
+        <div class="lp-alert-arrow">›</div>
       </div>`).join('')
-    :'<div class="lp-no-alerts">✓ Todo en orden — no hay alertas activas</div>';
+    :'<div class="lp-no-alerts">✓ Todo en orden — no hay acciones pendientes</div>';
 
   if(!total){document.getElementById('lp-cont').innerHTML='<div class="lp-load">No hay colaboradores en esta tienda.</div>';return;}
 
@@ -2628,6 +2647,14 @@ function renderLpTable(data){
       </div>
       <div class="lp-table-body">${rows}</div>
     </div>`;
+}
+
+function quickFilter(state){
+  const sel=document.getElementById('lp-filter-state');
+  if(sel){sel.value=state;filterLpList();}
+  // Scroll smoothly to table
+  const cont=document.getElementById('lp-cont');
+  if(cont)setTimeout(()=>cont.scrollIntoView({behavior:'smooth',block:'start'}),80);
 }
 
 function filterLpList(){
