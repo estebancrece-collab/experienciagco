@@ -1247,25 +1247,74 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
 .lpd-stat-val.g{color:#00c97a;text-shadow:0 0 12px rgba(0,201,122,.35);}
 .lpd-stat-val.r{color:#fd636b;text-shadow:0 0 12px rgba(253,99,107,.35);}
 
-/* ── WELCOME PROFILE ── */
-.wf-summary-card{background:linear-gradient(135deg,rgba(88,106,232,.15),rgba(56,44,84,.4));backdrop-filter:blur(16px);border:1px solid rgba(130,100,255,.28);border-radius:16px;padding:18px;margin-bottom:12px;box-shadow:0 8px 32px rgba(0,0,0,.3);}
-.wf-sum-title{font-family:'Nunito',sans-serif;font-size:.66rem;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:rgba(160,150,210,.4);margin-bottom:12px;}
-.wf-sum-item{display:flex;align-items:flex-start;gap:9px;margin-bottom:8px;}
-.wf-sum-ico{font-size:.95rem;flex-shrink:0;margin-top:1px;}
-.wf-sum-txt{font-size:.8rem;line-height:1.45;color:rgba(200,195,235,.82);}
-.wf-sum-txt strong{color:#FFB901;}
-.wf-section{background:rgba(20,18,50,.7);backdrop-filter:blur(12px);border-radius:13px;padding:14px 16px;margin-bottom:10px;border:1px solid rgba(130,100,255,.14);}
-.wf-sec-title{font-family:'Nunito',sans-serif;font-size:.65rem;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:rgba(160,150,210,.45);margin-bottom:11px;}
-.wf-row{display:flex;flex-direction:column;gap:2px;margin-bottom:9px;}
-.wf-row:last-child{margin-bottom:0;}
-.wf-lbl{font-size:.64rem;color:rgba(160,150,210,.45);font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
-.wf-val{font-size:.86rem;color:rgba(220,215,245,.88);font-weight:500;line-height:1.5;}
-.wf-tag{display:inline-flex;padding:2px 10px;border-radius:99px;background:rgba(88,106,232,.14);color:#7c8ff0;font-size:.71rem;font-weight:700;margin:2px 2px 2px 0;border:1px solid rgba(88,106,232,.22);}
-.wf-questions{background:rgba(20,18,50,.75);backdrop-filter:blur(12px);border-radius:13px;padding:14px 16px;margin-bottom:10px;border:1px solid rgba(130,100,255,.2);}
-.wf-q-title{font-family:'Nunito',sans-serif;font-size:.65rem;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:#7c8ff0;margin-bottom:11px;}
-.wf-q-item{display:flex;align-items:flex-start;gap:8px;padding:8px 11px;border-radius:9px;background:rgba(255,255,255,.03);margin-bottom:6px;border:1px solid rgba(130,100,255,.12);}
-.wf-q-bullet{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#586AE8,#3b4fd4);color:#fff;font-size:.6rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;box-shadow:0 0 8px rgba(88,106,232,.35);}
-.wf-q-txt{font-size:.79rem;color:rgba(200,195,235,.7);line-height:1.45;font-style:italic;}
+/* ── FICHA DE ACOMPAÑAMIENTO — VIEWER ── */
+.wf-ficha-wrap{display:flex;flex-direction:column;gap:14px;}
+.wf-ficha-section{background:rgba(20,18,50,.7);border:1px solid rgba(130,100,255,.18);border-radius:16px;padding:18px 20px;}
+.wf-ficha-section-title{font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;color:#7c8ff0;margin-bottom:14px;display:flex;flex-direction:column;gap:3px;}
+.wf-disc-subtitle{font-size:.65rem;font-weight:600;letter-spacing:.3px;text-transform:none;color:rgba(160,150,210,.5);}
+.wf-ficha-grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+@media(max-width:500px){.wf-ficha-grid2{grid-template-columns:1fr;}}
+.wf-row{display:flex;flex-direction:column;gap:2px;padding:8px 10px;background:rgba(255,255,255,.03);border-radius:9px;border:1px solid rgba(255,255,255,.05);}
+.wf-lbl{font-size:.58rem;color:rgba(160,150,210,.45);font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+.wf-val{font-size:.82rem;color:rgba(220,215,245,.88);font-weight:500;line-height:1.45;}
+.wf-meta-box{margin-top:12px;padding:12px 14px;background:rgba(88,106,232,.08);border:1px solid rgba(88,106,232,.22);border-radius:11px;}
+.wf-meta-lbl{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#7c8ff0;margin-bottom:4px;}
+.wf-meta-val{font-size:.84rem;color:rgba(220,215,245,.9);font-style:italic;line-height:1.55;}
+
+/* DISC visual */
+.wf-ficha-disc{background:linear-gradient(160deg,rgba(88,60,200,.1),rgba(14,11,40,.95));border:1px solid rgba(130,100,255,.28);border-radius:16px;padding:18px 20px;}
+.wf-disc-bars{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
+.wf-disc-bar-row{display:flex;align-items:center;gap:10px;}
+.wf-disc-bar-lbl{display:flex;align-items:center;gap:5px;width:100px;flex-shrink:0;font-size:.74rem;font-weight:700;color:rgba(200,195,235,.8);}
+.wf-disc-icon{font-size:.9rem;}
+.wf-disc-bar-track{flex:1;height:10px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;border:1px solid rgba(255,255,255,.04);}
+.wf-disc-bar-fill{height:100%;border-radius:99px;transition:width 1s cubic-bezier(.22,1,.36,1);}
+.wf-disc-bar-meta{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.wf-disc-bar-score{font-family:'Nunito',sans-serif;font-weight:900;font-size:.82rem;min-width:36px;text-align:right;}
+.wf-disc-bar-pct{font-size:.7rem;color:rgba(160,150,210,.5);min-width:32px;}
+.wf-disc-nivel{font-size:.6rem;font-weight:800;padding:2px 7px;border-radius:99px;}
+
+/* Profile tags */
+.wf-disc-profile-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+@media(max-width:500px){.wf-disc-profile-row{grid-template-columns:1fr;}}
+.wf-disc-profile-tag{padding:10px 12px;border-radius:11px;border:1px solid;}
+.wf-dpt-lbl{display:block;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:rgba(160,150,210,.45);margin-bottom:3px;}
+.wf-dpt-val{display:block;font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:900;}
+
+/* Bloques de contenido */
+.wf-disc-bloque{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:13px 15px;margin-bottom:10px;}
+.wf-disc-bloque-comb{background:rgba(88,106,232,.06);border-color:rgba(88,106,232,.2);}
+.wf-disc-tensiones{background:rgba(253,99,107,.04);border-color:rgba(253,99,107,.18);}
+.wf-disc-bloque-title{font-family:'Nunito',sans-serif;font-size:.68rem;font-weight:900;letter-spacing:.8px;text-transform:uppercase;color:rgba(160,150,210,.6);margin-bottom:8px;}
+.wf-disc-bloque-sub{font-size:.72rem;color:rgba(160,150,210,.45);margin-bottom:12px;font-style:italic;}
+.wf-disc-bloque-txt{font-size:.83rem;color:rgba(200,195,235,.82);line-height:1.65;margin:0;}
+.wf-disc-list{margin:0;padding-left:16px;display:flex;flex-direction:column;gap:5px;}
+.wf-disc-list li{font-size:.81rem;color:rgba(200,195,235,.8);line-height:1.5;}
+
+/* Comunicación chips */
+.wf-comm-chips{display:flex;flex-wrap:wrap;gap:7px;}
+.wf-comm-chip{padding:4px 12px;border-radius:99px;background:rgba(88,106,232,.12);border:1px solid rgba(88,106,232,.25);color:#7c8ff0;font-size:.72rem;font-weight:700;}
+
+/* Perfil equilibrado */
+.wf-disc-equilibrado{background:rgba(255,185,1,.06);border:1px solid rgba(255,185,1,.2);border-radius:12px;padding:13px 15px;margin-bottom:10px;}
+.wf-disc-eq-title{font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:900;color:#FFB901;margin-bottom:6px;}
+.wf-disc-eq-txt{font-size:.81rem;color:rgba(200,195,235,.8);line-height:1.6;margin:0;font-style:italic;}
+
+/* Respuestas abiertas */
+.wf-open-q{margin-bottom:12px;padding:12px 14px;background:rgba(255,255,255,.03);border-radius:11px;border-left:3px solid rgba(130,100,255,.35);}
+.wf-open-lbl{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:rgba(160,150,210,.5);margin-bottom:5px;}
+.wf-open-val{font-size:.85rem;color:rgba(220,215,245,.9);line-height:1.6;font-style:italic;}
+
+/* Nota ética */
+.wf-etica{display:flex;gap:11px;align-items:flex-start;background:rgba(255,185,1,.05);border:1px solid rgba(255,185,1,.18);border-radius:13px;padding:13px 15px;}
+.wf-etica-ico{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
+.wf-etica-txt{font-size:.74rem;color:rgba(200,195,235,.65);line-height:1.6;margin:0;font-style:italic;}
+
+/* Botón cartilla */
+.wf-cartilla-btn{width:100%;padding:13px 16px;border-radius:13px;border:1px solid rgba(88,106,232,.35);background:rgba(88,106,232,.1);color:#7c8ff0;font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:800;cursor:pointer;text-align:left;transition:all .2s;line-height:1.3;}
+.wf-cartilla-btn:hover{background:rgba(88,106,232,.18);border-color:rgba(88,106,232,.55);box-shadow:0 0 16px rgba(88,106,232,.2);}
+
+/* Legacy wf classes still needed */
 .wf-no-profile{padding:22px;text-align:center;color:rgba(160,150,210,.4);font-size:.84rem;}
 /* ── ADMIN PANEL ── */
 #admin-panel{display:none;position:fixed;inset:0;z-index:1600;background:var(--bg);overflow-y:auto;}
@@ -3144,7 +3193,7 @@ function openLpSlide(ci){
   });});
   if(!vItems)vItems='<div class="lp-np">No hay tareas enviadas a validación.</div>';
   document.getElementById('lps-val-content').innerHTML=`<div class="lp-vl">${vItems}</div>`;
-  document.getElementById('lps-ficha-content').innerHTML=c._wp?buildWelcomeProfile(c._wp):'<div class="wf-no-profile">📋 Ficha no completada aún.</div>';
+  document.getElementById('lps-ficha-content').innerHTML=(c._fa||c._wp)?buildWelcomeProfile(c._fa||c._wp):'<div class="wf-no-profile">📋 Ficha de Acompañamiento no completada aún.</div>';
 
   // Reset tabs
   switchLpsTab('val');
@@ -3200,7 +3249,7 @@ function openCollabDetail(ci){
       </div>`;
     });});
     if(!vItems)vItems='<div class="lp-np">No hay tareas enviadas a validación.</div>';
-    const wfHtml=c._wp?buildWelcomeProfile(c._wp):`<div class="wf-no-profile">📋 Ficha no completada.</div>`;
+    const wfHtml=(c._fa||c._wp)?buildWelcomeProfile(c._fa||c._wp):`<div class="wf-no-profile">📋 Ficha no completada.</div>`;
     document.getElementById('lpd-content').innerHTML=`
       <div class="lpd-profile">
         <div class="lpd-av">${avHtml}</div>
@@ -3247,177 +3296,302 @@ function switchTab(ci,tab){
   });
 }
 
-// ── DISC CONTENT MAPS ──
-const DISC_NAMES={D:'Orientación a resultados',I:'Conexión con personas',S:'Ritmo y acompañamiento',C:'Claridad y detalle'};
-const DISC_LEVEL=v=>v<=12?'Bajo':v<=19?'Medio':'Alto';
-const DISC_COLOR={D:'#586AE8',I:'#FFB901',S:'#00c97a',C:'#6DC7CC'};
+// ══════════════════════════════════════════
+// DISC CONTENT — textos por perfil
+// ══════════════════════════════════════════
+const DISC_NAMES={D:'Dominancia / Resultados',I:'Influencia / Relación',S:'Estabilidad / Ritmo',C:'Cumplimiento / Claridad'};
+const DISC_NAMES_SHORT={D:'Dominancia',I:'Influencia',S:'Estabilidad',C:'Cumplimiento'};
+const DISC_COLOR={D:'#586AE8',I:'#FFB901',S:'#00c97a',C:'#FD636B'};
+const DISC_ICON={D:'⚡',I:'🤝',S:'🌿',C:'🔍'};
 
-const DISC_LECTURA={
+const DISC_CONTENT={
   D:{
-    lectura:'Este colaborador puede mostrar iniciativa, deseo de avanzar rápido y motivación por metas claras. Puede responder bien cuando entiende qué se espera de él y cuáles son los objetivos del rol.',
-    como:['Presentarle metas claras desde el inicio.','Explicarle cómo se mide el desempeño en tienda.','Darle retos progresivos.','Permitirle actuar con autonomía gradual.','Darle retroalimentación directa y enfocada en acciones concretas.'],
-    alerta:'Puede acelerarse sin comprender completamente los protocolos, el estándar de marca o la experiencia esperada para el cliente.',
-    frase:'Te voy a mostrar el estándar esperado y luego te daré un reto concreto para que lo practiques.'
+    estilo_general:'Puede mostrar una tendencia hacia la acción, la iniciativa y el logro de resultados. Puede sentirse más cómodo/a cuando conoce los objetivos y tiene espacio para actuar con autonomía.',
+    tendencias:[
+      'Puede tender a tomar iniciativa antes de esperar instrucciones.',
+      'Puede mostrar energía y disposición para avanzar rápidamente.',
+      'Puede valorar más la velocidad de ejecución que el proceso detallado.',
+      'Puede sentirse más motivado/a cuando tiene metas claras y medibles.',
+      'Puede preferir recibir retroalimentación directa y enfocada en acciones.',
+    ],
+    comunicacion:['Directo/a','Orientado/a a resultados','Conciso/a','Decisivo/a'],
+    tensiones:[
+      'Puede acelerar antes de comprender completamente el protocolo o el estándar.',
+      'Puede mostrar impaciencia cuando el ritmo de aprendizaje es más lento de lo esperado.',
+      'Puede pasar por alto detalles importantes al priorizar la velocidad.',
+    ],
   },
   I:{
-    lectura:'Este colaborador puede conectar fácilmente con clientes y equipo. Puede aprender bien conversando, preguntando, observando interacciones y participando en espacios prácticos.',
-    como:['Integrarlo rápidamente al equipo.','Usar conversaciones, ejemplos y role plays.','Reconocer sus avances.','Ayudarle a mantener foco en indicadores y protocolo.','Darle espacios para practicar atención al cliente.'],
-    alerta:'Puede quedarse en la relación y perder foco en cierre, seguimiento, detalle operativo o cumplimiento del protocolo.',
-    frase:'Aprovechemos tu facilidad para conectar con clientes y enfoquémosla en una atención que también genere resultados.'
+    estilo_general:'Puede mostrar una tendencia hacia la conexión con personas, la comunicación abierta y el aprendizaje a través de la interacción. Puede sentirse más cómodo/a en ambientes con buen clima y comunicación fluida.',
+    tendencias:[
+      'Puede tender a conectar fácilmente con clientes y compañeros.',
+      'Puede mostrar entusiasmo y energía en espacios de trabajo colaborativos.',
+      'Puede valorar el reconocimiento y la validación de sus avances.',
+      'Puede aprender mejor a través de conversaciones, preguntas y ejemplos.',
+      'Puede sentirse más motivado/a cuando percibe un buen ambiente en el equipo.',
+    ],
+    comunicacion:['Expresivo/a','Cercano/a','Comunicativo/a','Empático/a'],
+    tensiones:[
+      'Puede quedarse en la relación y perder foco en indicadores o protocolo.',
+      'Puede dispersarse si hay demasiados estímulos sociales al mismo tiempo.',
+      'Puede necesitar apoyo para mantener el seguimiento y el cierre de tareas.',
+    ],
   },
   S:{
-    lectura:'Este colaborador puede necesitar seguridad, cercanía y una curva de aprendizaje progresiva. Puede adaptarse mejor cuando tiene un referente claro, instrucciones paso a paso y acompañamiento durante los primeros días.',
-    como:['Explicarle el proceso paso a paso.','Asignarle un mentor visible.','Validar frecuentemente cómo se siente.','No saturarlo con demasiada información el primer día.','Reforzar confianza antes de exigir autonomía completa.'],
-    alerta:'Puede sentirse inseguro, depender demasiado del líder o tardar más en tomar iniciativa si no recibe confianza progresiva.',
-    frase:'Vamos paso a paso. Primero observas, luego practicamos juntos y después lo haces con retroalimentación.'
+    estilo_general:'Puede mostrar una tendencia hacia la estabilidad, el aprendizaje progresivo y el trabajo colaborativo. Puede sentirse más cómodo/a cuando tiene un referente claro y un ritmo de adaptación gradual.',
+    tendencias:[
+      'Puede tender a observar antes de actuar en situaciones nuevas.',
+      'Puede mostrar disposición para escuchar y apoyar al equipo.',
+      'Puede valorar la presencia cercana de un líder durante la curva de aprendizaje.',
+      'Puede sentirse más seguro/a cuando conoce la rutina y sabe a quién acudir.',
+      'Puede necesitar tiempo para ganar confianza antes de actuar con autonomía.',
+    ],
+    comunicacion:['Paciente','Colaborativo/a','Escucha activa','Constante'],
+    tensiones:[
+      'Puede tardar más en tomar iniciativa si no recibe confianza progresiva.',
+      'Puede depender del acompañamiento si no se trabaja la autonomía gradualmente.',
+      'Puede sentirse inseguro/a ante cambios bruscos o instrucciones poco claras.',
+    ],
   },
   C:{
-    lectura:'Este colaborador puede valorar el orden, las instrucciones claras, los protocolos y el cuidado del estándar. Puede aprender mejor cuando entiende qué debe hacer, cómo hacerlo y cuáles son los criterios de calidad.',
-    como:['Entregar guías, checklists y criterios claros.','Explicar el porqué de los procesos.','Dar tiempo para revisar información clave.','Ser específico en la retroalimentación.','Evitar instrucciones ambiguas.'],
-    alerta:'Puede demorarse en actuar si siente que no tiene toda la información o si teme equivocarse.',
-    frase:'Te voy a dejar la guía clara y luego practicamos para que ganes seguridad en la ejecución.'
-  }
+    estilo_general:'Puede mostrar una tendencia hacia el orden, la precisión y el cumplimiento de estándares. Puede sentirse más cómodo/a cuando tiene instrucciones claras y criterios definidos antes de ejecutar.',
+    tendencias:[
+      'Puede tender a buscar información completa antes de actuar.',
+      'Puede mostrar cuidado y detalle en la ejecución de tareas.',
+      'Puede valorar las guías, checklists y procedimientos claros.',
+      'Puede sentirse más motivado/a cuando entiende el porqué de los procesos.',
+      'Puede esforzarse por seguir el protocolo y los estándares de la marca.',
+    ],
+    comunicacion:['Preciso/a','Analítico/a','Metódico/a','Orientado/a al detalle'],
+    tensiones:[
+      'Puede demorarse en actuar si siente que le falta información.',
+      'Puede generar bloqueos cuando las instrucciones son ambiguas o cambian sin explicación.',
+      'Puede necesitar acompañamiento para ganar agilidad en situaciones de alta demanda.',
+    ],
+  },
 };
 
 const DISC_COMBINADOS={
-  'D+I':{nombre:'Perfil comercial activo',lectura:'Este colaborador puede mostrar iniciativa, energía social y orientación a resultados. Puede sentirse motivado por metas, retos y contacto con clientes.',rec:'Darle retos comerciales progresivos, permitirle practicar con clientes y entregarle retroalimentación directa sobre cierre, protocolo y seguimiento.'},
-  'D+S':{nombre:'Perfil orientado a avanzar con acompañamiento',lectura:'Este colaborador puede querer avanzar y lograr resultados, pero también valorar un acompañamiento cercano mientras gana seguridad.',rec:'Dar metas claras, acompañamiento inicial y autonomía gradual. Evitar soltarlo demasiado rápido sin validar comprensión.'},
-  'D+C':{nombre:'Perfil orientado a ejecución con estándar',lectura:'Este colaborador puede enfocarse en resultados, pero también valorar claridad, procesos y calidad en la ejecución.',rec:'Darle metas claras, criterios de calidad, checklist de ejecución y seguimiento concreto sobre resultados y estándar.'},
-  'I+D':{nombre:'Perfil relacional con empuje comercial',lectura:'Este colaborador puede conectar con clientes y mostrar iniciativa para actuar. Puede aprender bien en escenarios prácticos y con interacción.',rec:'Usar role plays, retos de atención, metas visibles y retroalimentación breve después de interacciones reales.'},
-  'I+S':{nombre:'Perfil relacional y colaborativo',lectura:'Este colaborador puede integrarse bien al equipo, conectar con clientes y valorar un ambiente cercano y seguro.',rec:'Acompañarlo con mentoría, reconocimiento frecuente, integración al equipo y práctica guiada de atención al cliente.'},
-  'I+C':{nombre:'Perfil relacional con cuidado del estándar',lectura:'Este colaborador puede conectar con personas y, al mismo tiempo, valorar instrucciones claras para ejecutar bien.',rec:'Aprovechar su facilidad relacional, reforzando protocolo, checklist de atención y criterios claros para convertir la conexión en experiencia consistente.'},
-  'S+D':{nombre:'Perfil progresivo con orientación a metas',lectura:'Este colaborador puede necesitar acompañamiento inicial, pero responder bien cuando tiene metas claras y confianza progresiva.',rec:'Dar seguridad al inicio, explicar objetivos, acompañar la primera práctica y luego entregar retos graduales.'},
-  'S+I':{nombre:'Perfil cercano y de buena integración',lectura:'Este colaborador puede valorar el buen ambiente, la cercanía del equipo y el aprendizaje acompañado.',rec:'Facilitar integración, asignar mentor, reconocer avances y promover práctica con pares antes de asumir tareas completas.'},
-  'S+C':{nombre:'Perfil estructurado y cuidadoso',lectura:'Este colaborador puede aprender mejor con paso a paso, guías claras y acompañamiento cercano.',rec:'No saturarlo. Usar checklist, demostración, práctica acompañada y validación progresiva.'},
-  'C+D':{nombre:'Perfil estructurado con foco en resultados',lectura:'Este colaborador puede valorar el orden y la claridad, pero también responder bien a objetivos concretos.',rec:'Explicar estándares, mostrar indicadores, entregar criterios de éxito y permitir autonomía gradual con seguimiento.'},
-  'C+I':{nombre:'Perfil cuidadoso con orientación relacional',lectura:'Este colaborador puede cuidar el estándar y conectar con clientes cuando tiene claridad sobre cómo hacerlo.',rec:'Entregar guías de atención, practicar conversaciones con clientes y reforzar tanto la experiencia como el cumplimiento del protocolo.'},
-  'C+S':{nombre:'Perfil metódico y de aprendizaje gradual',lectura:'Este colaborador puede necesitar claridad, tiempo para comprender y acompañamiento cercano durante la curva inicial.',rec:'Usar instrucciones claras, mentoría, checklist y retroalimentación paciente. Evitar cambios bruscos o instrucciones poco precisas.'},
+  'D+I':{nombre:'Perfil activo y relacional',desc:'Puede mostrar iniciativa y energía social al mismo tiempo. Puede sentirse cómodo/a tanto en la acción individual como en la interacción con clientes y equipo.'},
+  'D+S':{nombre:'Perfil orientado a avanzar con acompañamiento',desc:'Puede querer avanzar y lograr resultados, pero también valorar un ritmo de aprendizaje progresivo y el apoyo cercano de su líder.'},
+  'D+C':{nombre:'Perfil de ejecución con estándar',desc:'Puede mostrar orientación a resultados y, al mismo tiempo, valorar la claridad en los procesos y la calidad de la ejecución.'},
+  'I+D':{nombre:'Perfil relacional con empuje',desc:'Puede conectar con personas y mostrar iniciativa para actuar. Puede aprender bien en escenarios prácticos con interacción.'},
+  'I+S':{nombre:'Perfil relacional y colaborativo',desc:'Puede integrarse bien al equipo, conectar con clientes y valorar un ambiente cercano y de aprendizaje acompañado.'},
+  'I+C':{nombre:'Perfil relacional con cuidado del estándar',desc:'Puede conectar con personas y, al mismo tiempo, valorar la claridad y el orden en la ejecución.'},
+  'S+D':{nombre:'Perfil progresivo con orientación a metas',desc:'Puede necesitar acompañamiento inicial, pero responder bien cuando tiene metas claras y confianza progresiva.'},
+  'S+I':{nombre:'Perfil cercano y de buena integración',desc:'Puede valorar el buen ambiente, la cercanía del equipo y el aprendizaje acompañado con pares.'},
+  'S+C':{nombre:'Perfil estructurado y cuidadoso',desc:'Puede aprender mejor con paso a paso, guías claras y acompañamiento cercano durante la curva inicial.'},
+  'C+D':{nombre:'Perfil estructurado con foco en resultados',desc:'Puede valorar el orden y la claridad, pero también responder bien a objetivos concretos y medibles.'},
+  'C+I':{nombre:'Perfil cuidadoso con orientación relacional',desc:'Puede cuidar el estándar y conectar con clientes cuando tiene claridad sobre cómo hacerlo.'},
+  'C+S':{nombre:'Perfil metódico y de aprendizaje gradual',desc:'Puede necesitar claridad, tiempo para comprender y acompañamiento cercano durante la curva inicial.'},
 };
 
-function buildWelcomeProfile(wp,disc){
+// ══════════════════════════════════════════
+// FICHA DE ACOMPAÑAMIENTO — BUILD FUNCTION
+// ══════════════════════════════════════════
+function buildWelcomeProfile(fa){
+  // fa = ficha_acompanamiento record (or welcome_profiles for legacy)
   const months=['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  const bday=wp.birthday_day&&wp.birthday_month?`${wp.birthday_day} de ${months[wp.birthday_month]}`:null;
-  const blk=(lbl,val)=>val?`<div class="wf-row"><div class="wf-lbl">${lbl}</div><div class="wf-val">${val}</div></div>`:'';
   const famLabels=['','Nada familiarizado/a','Poco familiarizado/a','Algo familiarizado/a','Familiarizado/a','Muy familiarizado/a'];
 
-  // ── DISC BLOCK ──
+  // Normalize field names — support both ficha_acompanamiento and welcome_profiles
+  const nombre=fa.nombre_completo||fa.preferred_name||'—';
+  const cedula=fa.cedula||'—';
+  const marca=fa.marca||'—';
+  const tienda=fa.tienda||'—';
+  const ciudad=fa.ciudad||null;
+  const fechaIngreso=fa.fecha_ingreso?new Date(fa.fecha_ingreso).toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'}):null;
+  const rol=fa.rol_tienda||null;
+  const expPrevia=fa.experiencia_previa||null;
+  const expDetalle=fa.experiencia_detalle||fa.detalle_experiencia||null;
+  const famRaw=fa.familiaridad_retail||fa.familiaridad_moda||null;
+  const fam=famRaw?famLabels[famRaw]||null:null;
+  const meta=fa.meta_personal||fa.goals||null;
+  const bday=fa.fecha_cumpleanos_dia&&fa.fecha_cumpleanos_mes?`${fa.fecha_cumpleanos_dia} de ${months[fa.fecha_cumpleanos_mes]}`:null;
+  const convivencia=fa.convivencia||fa.living_with||null;
+  const aboutMe=fa.about_me||null;
+
+  // DISC scores
+  const pD=fa.puntaje_d??null;
+  const pI=fa.puntaje_i??null;
+  const pS=fa.puntaje_s??null;
+  const pC=fa.puntaje_c??null;
+  const hasDisc=pD!==null&&pI!==null;
+  const MAX=16; // new situational format max
+
+  const princi=fa.dimension_principal||fa.perfil_predominante||null;
+  const secund=fa.dimension_secundaria||fa.perfil_secundario||null;
+  const combinado=fa.perfil_combinado||null;
+  const nivelDif=fa.nivel_diferenciacion||null;
+  const equilibrado=fa.perfil_equilibrado||false;
+
+  // Open answers
+  const facilidades=fa.respuesta_facilidades||fa.facilidades_aprendizaje||null;
+  const retos=fa.respuesta_retos||fa.challenges||null;
+  const liderSepa=fa.respuesta_lider||fa.leader_should_know||null;
+  const feedback=fa.respuesta_feedback||fa.preferencia_feedback||null;
+  const learningStyle=fa.learning_style||null;
+
+  // Helper
+  const blk=(lbl,val)=>val?`<div class="wf-row"><div class="wf-lbl">${lbl}</div><div class="wf-val">${val}</div></div>`:'';
+  const chip=txt=>`<span class="wf-comm-chip">${txt}</span>`;
+
+  // ── BLOQUE 1: DATOS ──
+  const datosHtml=`
+    <div class="wf-ficha-section">
+      <div class="wf-ficha-section-title">Datos del colaborador</div>
+      <div class="wf-ficha-grid2">
+        ${blk('Nombre',nombre)}
+        ${blk('Cédula',cedula)}
+        ${blk('Marca',marca)}
+        ${blk('Tienda',tienda)}
+        ${ciudad?blk('Ciudad',ciudad):''}
+        ${fechaIngreso?blk('Fecha de ingreso',fechaIngreso):''}
+        ${rol?blk('Rol en tienda',rol):''}
+        ${expPrevia?blk('Experiencia previa',expPrevia):''}
+        ${expDetalle?blk('Detalle de experiencia',expDetalle):''}
+        ${fam?blk('Familiaridad con moda / retail',fam):''}
+        ${bday?blk('Cumpleaños',bday):''}
+        ${convivencia?blk('Convivencia',convivencia):''}
+      </div>
+      ${meta?`<div class="wf-meta-box"><div class="wf-meta-lbl">Meta personal o laboral</div><div class="wf-meta-val">"${meta}"</div></div>`:''}
+    </div>`;
+
+  // ── BLOQUE 2-6: DISC ──
   let discHtml='';
-  if(disc){
-    const pd=disc.perfil_predominante;const ps=disc.perfil_secundario;
-    const comb=disc.perfil_combinado;
-    const lect=DISC_LECTURA[pd];
-    const combData=DISC_COMBINADOS[comb]||DISC_COMBINADOS[`${ps}+${pd}`]||null;
+  if(hasDisc){
     const scores=[
-      {dim:'D',val:disc.score_d},{dim:'I',val:disc.score_i},
-      {dim:'S',val:disc.score_s},{dim:'C',val:disc.score_c}
-    ];
+      {dim:'D',val:pD,pct:fa.porcentaje_d??Math.round(pD/MAX*100)},
+      {dim:'I',val:pI,pct:fa.porcentaje_i??Math.round(pI/MAX*100)},
+      {dim:'S',val:pS,pct:fa.porcentaje_s??Math.round(pS/MAX*100)},
+      {dim:'C',val:pC,pct:fa.porcentaje_c??Math.round(pC/MAX*100)},
+    ].sort((a,b)=>b.val-a.val);
+
+    const content=DISC_CONTENT[princi]||DISC_CONTENT['S'];
+    const combKey=combinado&&combinado!=='Perfil equilibrado / mixto'?combinado.replace(' ',''):null;
+    const combData=combKey?(DISC_COMBINADOS[combKey]||DISC_COMBINADOS[combKey.split('').reverse().join('+')]||null):null;
+
+    // Nivel label
+    const nivelLbl=v=>v<=3?'Bajo':v<=7?'Medio bajo':v<=11?'Medio alto':'Alto';
 
     discHtml=`
-    <div class="wf-disc-card">
-      <div class="wf-sec-title" style="margin-bottom:14px;">Perfil Conductual de Acompañamiento</div>
-      <!-- Scores -->
-      <div class="wf-disc-scores">
+    <div class="wf-ficha-disc">
+      <div class="wf-ficha-section-title">Perfil Conductual Situacional GCO
+        <span class="wf-disc-subtitle">Inspirado en las dimensiones del modelo DISC</span>
+      </div>
+
+      <!-- Barras -->
+      <div class="wf-disc-bars">
         ${scores.map(s=>`
-          <div class="wf-disc-score-item">
-            <div class="wf-disc-score-lbl">${DISC_NAMES[s.dim]}</div>
-            <div class="wf-disc-bar-wrap">
-              <div class="wf-disc-bar" style="width:${Math.round(s.val/25*100)}%;background:${DISC_COLOR[s.dim]};"></div>
+          <div class="wf-disc-bar-row">
+            <div class="wf-disc-bar-lbl">
+              <span class="wf-disc-icon" style="color:${DISC_COLOR[s.dim]};">${DISC_ICON[s.dim]}</span>
+              <span>${DISC_NAMES_SHORT[s.dim]}</span>
             </div>
-            <div class="wf-disc-score-val" style="color:${DISC_COLOR[s.dim]};">${s.val}/25 <span class="wf-disc-level">${DISC_LEVEL(s.val)}</span></div>
+            <div class="wf-disc-bar-track">
+              <div class="wf-disc-bar-fill" style="width:${s.pct}%;background:linear-gradient(90deg,${DISC_COLOR[s.dim]},${DISC_COLOR[s.dim]}99);box-shadow:0 0 10px ${DISC_COLOR[s.dim]}44;"></div>
+            </div>
+            <div class="wf-disc-bar-meta">
+              <span class="wf-disc-bar-score" style="color:${DISC_COLOR[s.dim]};">${s.val}/${MAX}</span>
+              <span class="wf-disc-bar-pct">${s.pct}%</span>
+              <span class="wf-disc-nivel" style="background:${DISC_COLOR[s.dim]}18;color:${DISC_COLOR[s.dim]};border:1px solid ${DISC_COLOR[s.dim]}44;">${nivelLbl(s.val)}</span>
+            </div>
           </div>`).join('')}
       </div>
-      <!-- Predominante -->
-      <div class="wf-disc-tag-row">
-        <span class="wf-disc-tag" style="background:${DISC_COLOR[pd]}22;border-color:${DISC_COLOR[pd]}66;color:${DISC_COLOR[pd]};">Predominante: ${DISC_NAMES[pd]}</span>
-        <span class="wf-disc-tag" style="background:${DISC_COLOR[ps]}15;border-color:${DISC_COLOR[ps]}44;color:${DISC_COLOR[ps]};">Secundario: ${DISC_NAMES[ps]}</span>
+
+      <!-- Perfil tags -->
+      <div class="wf-disc-profile-row">
+        ${princi&&princi!=='Equilibrado'?`<div class="wf-disc-profile-tag" style="border-color:${DISC_COLOR[princi]||'rgba(88,106,232,.4)'};background:${DISC_COLOR[princi]||'rgba(88,106,232,.1)'}15;">
+          <span class="wf-dpt-lbl">Predominante</span>
+          <span class="wf-dpt-val" style="color:${DISC_COLOR[princi]||'#7c8ff0'};">${princi} · ${DISC_NAMES_SHORT[princi]||princi}</span>
+        </div>`:''}
+        ${secund&&secund!=='—'?`<div class="wf-disc-profile-tag" style="border-color:${DISC_COLOR[secund]||'rgba(130,100,255,.3)'};background:${DISC_COLOR[secund]||'rgba(130,100,255,.1)'}12;">
+          <span class="wf-dpt-lbl">Secundario</span>
+          <span class="wf-dpt-val" style="color:${DISC_COLOR[secund]||'rgba(160,150,210,.8)'};">${secund} · ${DISC_NAMES_SHORT[secund]||secund}</span>
+        </div>`:''}
+        ${combinado?`<div class="wf-disc-profile-tag" style="border-color:rgba(130,100,255,.3);background:rgba(130,100,255,.06);">
+          <span class="wf-dpt-lbl">Perfil combinado</span>
+          <span class="wf-dpt-val" style="color:rgba(190,180,235,.9);">${combinado}</span>
+        </div>`:''}
+        ${nivelDif?`<div class="wf-disc-profile-tag" style="border-color:rgba(200,195,235,.15);background:rgba(200,195,235,.04);">
+          <span class="wf-dpt-lbl">Diferenciación</span>
+          <span class="wf-dpt-val" style="color:rgba(200,195,235,.7);">${nivelDif}</span>
+        </div>`:''}
       </div>
-      <!-- Lectura rápida -->
-      <div class="wf-disc-reading">
-        <div class="wf-disc-reading-title">Lectura rápida</div>
-        <p class="wf-disc-reading-txt">${lect.lectura}</p>
-      </div>
-      <!-- Cómo acompañar -->
-      <div class="wf-disc-reading" style="background:rgba(0,201,122,.04);border-color:rgba(0,201,122,.2);">
-        <div class="wf-disc-reading-title" style="color:#00c97a;">Cómo acompañarlo/a</div>
-        <ul style="margin:0;padding-left:16px;">
-          ${lect.como.map(c=>`<li style="font-size:.8rem;color:#555;margin-bottom:4px;line-height:1.4;">${c}</li>`).join('')}
-        </ul>
-      </div>
-      <!-- Alerta -->
-      <div class="wf-disc-reading" style="background:rgba(253,99,107,.04);border-color:rgba(253,99,107,.2);">
-        <div class="wf-disc-reading-title" style="color:#fd636b;">Alerta para el líder</div>
-        <p class="wf-disc-reading-txt">${lect.alerta}</p>
-      </div>
-      <!-- Frase -->
-      <div class="wf-disc-frase">
-        <span style="font-size:.7rem;font-weight:800;color:#586AE8;letter-spacing:.5px;text-transform:uppercase;">Frase útil</span>
-        <p style="font-size:.84rem;font-style:italic;color:#382C54;margin:5px 0 0;">"${lect.frase}"</p>
-      </div>
-      ${combData?`
+
+      ${equilibrado?`<div class="wf-disc-equilibrado">
+        <div class="wf-disc-eq-title">Perfil equilibrado / mixto</div>
+        <p class="wf-disc-eq-txt">El perfil muestra tendencias relativamente equilibradas entre las dimensiones. Usa esta información como punto de conversación, evitando conclusiones fuertes sobre un estilo predominante.</p>
+      </div>`:''}
+
+      <!-- Estilo general -->
+      ${!equilibrado&&content?`<div class="wf-disc-bloque">
+        <div class="wf-disc-bloque-title">Estilo general</div>
+        <p class="wf-disc-bloque-txt">${content.estilo_general}</p>
+      </div>`:''}
+
       <!-- Perfil combinado -->
-      <div class="wf-disc-reading" style="background:rgba(88,106,232,.04);border-color:rgba(88,106,232,.2);">
-        <div class="wf-disc-reading-title" style="color:#586AE8;">${combData.nombre}</div>
-        <p class="wf-disc-reading-txt">${combData.lectura}</p>
-        <p style="font-size:.78rem;color:#586AE8;font-weight:700;margin-top:6px;">Recomendación: ${combData.rec}</p>
+      ${combData?`<div class="wf-disc-bloque wf-disc-bloque-comb">
+        <div class="wf-disc-bloque-title">${combData.nombre}</div>
+        <p class="wf-disc-bloque-txt">${combData.desc}</p>
+      </div>`:''}
+
+      <!-- Tendencias observables -->
+      ${!equilibrado&&content?`<div class="wf-disc-bloque">
+        <div class="wf-disc-bloque-title">Tendencias observables</div>
+        <ul class="wf-disc-list">
+          ${content.tendencias.map(t=>`<li>${t}</li>`).join('')}
+        </ul>
+      </div>`:''}
+
+      <!-- Estilo de comunicación -->
+      ${!equilibrado&&content?`<div class="wf-disc-bloque">
+        <div class="wf-disc-bloque-title">Estilo probable de comunicación</div>
+        <div class="wf-comm-chips">
+          ${content.comunicacion.map(chip).join('')}
+        </div>
+      </div>`:''}
+
+      <!-- Posibles tensiones -->
+      ${!equilibrado&&content?`<div class="wf-disc-bloque wf-disc-tensiones">
+        <div class="wf-disc-bloque-title">Posibles tensiones del estilo</div>
+        <ul class="wf-disc-list">
+          ${content.tensiones.map(t=>`<li>${t}</li>`).join('')}
+        </ul>
       </div>`:''}
     </div>`;
   }
 
-  // ── SUMMARY ──
-  const si=[];
-  if(wp.preferred_name)si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">😊</div><div class="wf-sum-txt">Prefiere que le digan <strong>${wp.preferred_name}</strong></div></div>`);
-  if(bday)si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">🎂</div><div class="wf-sum-txt">Cumpleaños: <strong>${bday}</strong></div></div>`);
-  if(wp.experiencia_previa)si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">💼</div><div class="wf-sum-txt">Experiencia previa: <strong>${wp.experiencia_previa}</strong></div></div>`);
-  if(disc)si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">🧠</div><div class="wf-sum-txt">Perfil predominante: <strong>${DISC_NAMES[disc.perfil_predominante]}</strong></div></div>`);
-  if(wp.goals){const s=wp.goals.length>80?wp.goals.slice(0,80)+'...':wp.goals;si.push(`<div class="wf-sum-item"><div class="wf-sum-ico">🎯</div><div class="wf-sum-txt">Meta: <strong>${s}</strong></div></div>`);}
+  // ── BLOQUE 7: RESPUESTAS ABIERTAS ──
+  const openHtml=(facilidades||retos||liderSepa||feedback)?`
+    <div class="wf-ficha-section">
+      <div class="wf-ficha-section-title">Lo que el colaborador compartió</div>
+      <div class="wf-disc-bloque-sub">Las respuestas se muestran de manera literal, tal como fueron escritas.</div>
+      ${facilidades?`<div class="wf-open-q"><div class="wf-open-lbl">¿Qué se te facilita cuando estás aprendiendo algo nuevo?</div><div class="wf-open-val">"${facilidades}"</div></div>`:''}
+      ${retos?`<div class="wf-open-q"><div class="wf-open-lbl">¿Qué suele ser más retador cuando llegas a un equipo nuevo?</div><div class="wf-open-val">"${retos}"</div></div>`:''}
+      ${liderSepa?`<div class="wf-open-q"><div class="wf-open-lbl">¿Qué te gustaría que tu líder supiera de ti?</div><div class="wf-open-val">"${liderSepa}"</div></div>`:''}
+      ${feedback?`<div class="wf-open-q"><div class="wf-open-lbl">¿Cómo prefieres recibir retroalimentación?</div><div class="wf-open-val">"${feedback}"</div></div>`:''}
+      ${learningStyle?`<div class="wf-open-q"><div class="wf-open-lbl">Estilo de aprendizaje</div><div class="wf-open-val">${learningStyle}</div></div>`:''}
+      ${aboutMe?`<div class="wf-open-q"><div class="wf-open-lbl">Algo que quiere que el equipo sepa</div><div class="wf-open-val">"${aboutMe}"</div></div>`:''}
+    </div>`:'';
 
-  // Preguntas sugeridas
-  const qs=[];
-  if(wp.free_time){const t=wp.free_time.split(/[,.\n]/).shift().trim();qs.push(`Mencionaste que te apasiona "${t.length>40?t.slice(0,40)+'...':t}". ¿Cómo eso te define como persona?`);}
-  if(wp.motivation_join)qs.push(`Entraste a GCO porque "${wp.motivation_join.slice(0,55)}...". ¿Qué necesitarías ver para saber que fue la decisión correcta?`);
-  if(wp.challenges)qs.push(`Dijiste que te cuesta "${wp.challenges.slice(0,55)}...". ¿Qué podemos hacer juntos para que eso no sea una barrera?`);
-  if(disc&&DISC_LECTURA[disc.perfil_predominante])qs.push(`Basado en tu perfil, ¿cómo prefieres que te acompañe en la primera semana?`);
-  qs.push('¿Qué esperas de tu primera semana aquí?');
-  const qsHtml=qs.slice(0,5).map((q,i)=>`<div class="wf-q-item"><div class="wf-q-bullet">${i+1}</div><div class="wf-q-txt">"${q}"</div></div>`).join('');
+  // ── BLOQUE 8-9: NOTA ÉTICA + BOTÓN CARTILLA ──
+  const footerHtml=`
+    <div class="wf-etica">
+      <div class="wf-etica-ico">⚖️</div>
+      <p class="wf-etica-txt">Esta herramienta está inspirada en el modelo DISC, pero no corresponde a una prueba DISC certificada ni a una evaluación psicométrica. Sus resultados no deben utilizarse como criterio único de selección, evaluación de desempeño, permanencia o toma de decisiones laborales.</p>
+    </div>
+    <button class="wf-cartilla-btn" onclick="alert('Cartilla disponible próximamente — Fase 3')">
+      📖 Abrir guía de interpretación DISC
+      <span style="display:block;font-size:.68rem;font-weight:600;opacity:.7;margin-top:2px;">Aprende a interpretar este perfil y a preparar mejores conversaciones</span>
+    </button>`;
 
-  return`
-    <div class="wf-summary-card">
-      <div class="wf-sum-title">Resumen para la primera conversación</div>
-      ${si.join('')}
-    </div>
-    <div class="wf-section">
-      <div class="wf-sec-title">Datos básicos</div>
-      ${blk('Prefiere que le llamen',wp.preferred_name)}
-      ${blk('Cumpleaños',bday)}
-      ${blk('Con quién vive',wp.living_with)}
-      ${blk('Rol en tienda',wp.rol_tienda)}
-      ${blk('Experiencia previa',wp.experiencia_previa)}
-      ${wp.experiencia_detalle?blk('Detalle experiencia',wp.experiencia_detalle):''}
-      ${wp.familiaridad_moda?blk('Familiaridad con moda/retail',famLabels[wp.familiaridad_moda]||''):''}
-    </div>
-    <div class="wf-section">
-      <div class="wf-sec-title">Sobre la persona</div>
-      ${blk('Algo que quiere que el equipo sepa',wp.about_me)}
-      ${blk('Qué le apasiona fuera del trabajo',wp.free_time)}
-    </div>
-    <div class="wf-section">
-      <div class="wf-sec-title">Motivación y metas</div>
-      ${blk('Por qué ingresó a GCO',wp.motivation_join)}
-      ${blk('Su meta personal/laboral',wp.goals)}
-    </div>
+  return`<div class="wf-ficha-wrap">
+    ${datosHtml}
     ${discHtml}
-    <div class="wf-section">
-      <div class="wf-sec-title">Cómo acompañarlo/a</div>
-      ${blk('Cómo aprende mejor',wp.learning_style)}
-      ${blk('Qué se le facilita al aprender',wp.facilidades_aprendizaje||wp.challenges)}
-      ${blk('Qué le resulta retador en equipos nuevos',wp.challenges)}
-      ${blk('Lo que le gustaría que su líder sepa',wp.leader_should_know)}
-      ${blk('Cómo prefiere recibir retroalimentación',wp.preferencia_feedback)}
-    </div>
-    <div class="wf-questions">
-      <div class="wf-q-title">Preguntas sugeridas — basadas en sus respuestas</div>
-      ${qsHtml}
-    </div>`;
+    ${openHtml}
+    ${footerHtml}
+  </div>`;
 }
 
 function toggleCC(ci){const b=document.getElementById(`lp-cb-${ci}`);b.classList.toggle('open');}
