@@ -683,7 +683,37 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
 .wp-sit-opt.selected .wp-sit-opt-dot{background:var(--blue);border-color:var(--blue);box-shadow:0 0 8px rgba(88,106,232,.5);}
 .wp-sit-opt.selected .wp-sit-opt-dot::after{content:'✓';font-size:.55rem;color:#fff;font-weight:900;}
 .wp-sit-opt-txt{font-size:.82rem;color:rgba(200,195,235,.82);line-height:1.45;}
-.reset-wrap{display:flex;justify-content:center;margin-top:26px;}
+/* ── NPS MODAL ── */
+.nps-wrap{max-width:520px;margin:0 auto;padding:32px 20px 60px;text-align:center;}
+.nps-trophy{font-size:3.5rem;margin-bottom:8px;animation:npsFloat 2s ease-in-out infinite;}
+@keyframes npsFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.nps-badge-img img{width:100px;height:auto;display:block;margin:0 auto 12px;filter:drop-shadow(0 0 20px rgba(245,200,66,.7));}
+.nps-title{font-family:'Nunito',sans-serif;font-size:clamp(1.4rem,4vw,1.9rem);font-weight:900;color:#fff;margin-bottom:10px;line-height:1.2;}
+.nps-sub{font-size:.9rem;color:var(--text2);line-height:1.6;margin-bottom:24px;}
+.nps-sub strong{color:var(--gold);}
+.nps-card{background:rgba(20,18,50,.9);border:1px solid rgba(130,100,255,.3);border-radius:22px;padding:24px 22px;box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);text-align:left;}
+.nps-q{font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:800;color:#fff;line-height:1.5;margin-bottom:14px;text-align:center;}
+.nps-scale-labels{display:flex;justify-content:space-between;font-size:.65rem;color:var(--text3);margin-bottom:8px;padding:0 2px;}
+.nps-scale{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin-bottom:10px;}
+.nps-score-btn{width:42px;height:42px;border-radius:10px;border:1.5px solid rgba(130,100,255,.25);background:rgba(20,18,50,.8);color:rgba(200,195,235,.7);font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:900;cursor:pointer;transition:all .18s;}
+.nps-score-btn:hover{border-color:rgba(130,100,255,.6);background:rgba(88,106,232,.15);color:#fff;}
+.nps-score-btn.sel-d{background:rgba(253,99,107,.2);border-color:rgba(253,99,107,.6);color:#fd636b;box-shadow:0 0 12px rgba(253,99,107,.3);}
+.nps-score-btn.sel-p{background:rgba(255,185,1,.2);border-color:rgba(255,185,1,.6);color:#FFB901;box-shadow:0 0 12px rgba(255,185,1,.3);}
+.nps-score-btn.sel-n{background:rgba(0,201,122,.2);border-color:rgba(0,201,122,.6);color:#00c97a;box-shadow:0 0 12px rgba(0,201,122,.3);}
+.nps-selected-lbl{text-align:center;font-size:.78rem;font-weight:700;color:var(--text2);min-height:20px;margin-bottom:14px;}
+.nps-q2{margin-top:4px;}
+.nps-q2-lbl{display:block;font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:800;color:var(--text2);margin-bottom:8px;}
+.nps-ta{width:100%;min-height:88px;padding:11px 14px;border-radius:12px;border:1px solid rgba(130,100,255,.28);background:rgba(13,11,26,.8);color:#fff;font-family:'Nunito Sans',sans-serif;font-size:.84rem;outline:none;resize:vertical;line-height:1.5;}
+.nps-ta:focus{border-color:rgba(130,100,255,.6);}
+.nps-err{font-size:.76rem;color:var(--coral);text-align:center;min-height:18px;margin-top:8px;}
+.nps-btn{width:100%;margin-top:16px;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,#586AE8,#3b4fd4);color:#fff;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:900;cursor:pointer;transition:all .22s;box-shadow:0 4px 18px rgba(88,106,232,.4);}
+.nps-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 28px rgba(88,106,232,.55);}
+.nps-btn:disabled{opacity:.4;cursor:not-allowed;}
+.nps-skip{display:block;width:100%;margin-top:10px;background:none;border:none;color:var(--text3);font-size:.76rem;cursor:pointer;padding:6px;}
+.nps-skip:hover{color:var(--text2);}
+@media(max-width:500px){.nps-score-btn{width:34px;height:34px;font-size:.78rem;}.nps-scale{gap:3px;}}
+
+/* ── RESET ── */
 .reset-btn{background:transparent;border:1px solid var(--border2);color:var(--text3);font-family:'Nunito Sans',sans-serif;font-size:.78rem;font-weight:700;padding:9px 22px;border-radius:99px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;}
 .reset-btn:hover{border-color:var(--coral);color:var(--coral);background:rgba(253,99,107,.08);}
 
@@ -1331,6 +1361,76 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
 .ap-table td{padding:10px 14px;font-size:.82rem;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle;}
 .ap-table tr:last-child td{border-bottom:none;}
 .ap-table tr:hover td{background:var(--card2);}
+
+/* ── DASHBOARD DE INDICADORES ── */
+.ind-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+@media(max-width:800px){.ind-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){.ind-grid{grid-template-columns:1fr 1fr;}}
+.ind-stat{background:rgba(20,18,50,.82);backdrop-filter:blur(16px);border-radius:16px;padding:16px 18px;border:1px solid rgba(130,100,255,.22);box-shadow:0 8px 32px rgba(0,0,0,.3);position:relative;overflow:hidden;}
+.ind-stat::after{content:attr(data-ghost);position:absolute;right:10px;bottom:4px;font-size:2.6rem;opacity:.05;pointer-events:none;line-height:1;}
+.ind-stat.s-blue{border-color:rgba(88,106,232,.4);}
+.ind-stat.s-green{border-color:rgba(0,201,122,.35);}
+.ind-stat.s-gold{border-color:rgba(255,185,1,.35);}
+.ind-stat.s-coral{border-color:rgba(253,99,107,.35);}
+.ind-stat.s-purple{border-color:rgba(124,58,237,.35);}
+.ind-stat.s-teal{border-color:rgba(109,199,204,.32);}
+.ind-lbl{font-size:.57rem;font-weight:800;letter-spacing:.9px;text-transform:uppercase;color:rgba(160,150,210,.5);margin-bottom:6px;}
+.ind-val{font-family:'Nunito',sans-serif;font-size:2rem;font-weight:900;line-height:1;letter-spacing:-.5px;}
+.ind-val.blue{color:#7c8ff0;text-shadow:0 0 18px rgba(88,106,232,.5);}
+.ind-val.green{color:#00c97a;text-shadow:0 0 16px rgba(0,201,122,.4);}
+.ind-val.gold{color:#FFB901;text-shadow:0 0 16px rgba(255,185,1,.4);}
+.ind-val.coral{color:#fd636b;text-shadow:0 0 16px rgba(253,99,107,.4);}
+.ind-val.purple{color:#a78bfa;text-shadow:0 0 16px rgba(124,58,237,.4);}
+.ind-val.teal{color:#6DC7CC;text-shadow:0 0 14px rgba(109,199,204,.35);}
+.ind-sub{font-size:.62rem;color:rgba(160,150,210,.45);margin-top:4px;font-weight:600;}
+
+/* Bloque de sección del dashboard */
+.ind-section{background:rgba(20,18,50,.7);border:1px solid rgba(130,100,255,.18);border-radius:18px;padding:18px 20px;margin-bottom:16px;}
+.ind-section-title{font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:#7c8ff0;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+
+/* Barras de nivel */
+.ind-level-bars{display:flex;flex-direction:column;gap:12px;}
+.ind-level-row{display:flex;align-items:center;gap:12px;}
+.ind-level-lbl{font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:800;color:rgba(200,195,235,.8);width:130px;flex-shrink:0;}
+.ind-bar-track{flex:1;height:8px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;}
+.ind-bar-fill{height:100%;border-radius:99px;transition:width 1s cubic-bezier(.22,1,.36,1);}
+.ind-level-meta{font-size:.72rem;color:rgba(160,150,210,.6);min-width:60px;text-align:right;font-weight:700;}
+
+/* NPS visual */
+.ind-nps-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;}
+.ind-nps-cat{padding:13px;border-radius:13px;text-align:center;}
+.ind-nps-cat.prom{background:rgba(253,99,107,.08);border:1px solid rgba(253,99,107,.25);}
+.ind-nps-cat.pas{background:rgba(255,185,1,.07);border:1px solid rgba(255,185,1,.22);}
+.ind-nps-cat.det{background:rgba(0,201,122,.07);border:1px solid rgba(0,201,122,.22);}
+.ind-nps-n{font-family:'Nunito',sans-serif;font-size:1.6rem;font-weight:900;}
+.ind-nps-cat.prom .ind-nps-n{color:#fd636b;}
+.ind-nps-cat.pas .ind-nps-n{color:#FFB901;}
+.ind-nps-cat.det .ind-nps-n{color:#00c97a;}
+.ind-nps-cat-lbl{font-size:.63rem;color:rgba(160,150,210,.55);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:3px;}
+.ind-nps-score{text-align:center;margin-bottom:16px;}
+.ind-nps-score-val{font-family:'Nunito',sans-serif;font-size:3rem;font-weight:900;color:#7c8ff0;line-height:1;}
+.ind-nps-score-lbl{font-size:.72rem;color:rgba(160,150,210,.5);margin-top:4px;}
+
+/* Tabla de tareas problemáticas */
+.ind-task-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);margin-bottom:7px;}
+.ind-task-rank{font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:900;color:rgba(160,150,210,.4);width:20px;flex-shrink:0;text-align:center;}
+.ind-task-name{flex:1;font-size:.8rem;color:rgba(200,195,235,.85);font-weight:600;line-height:1.4;}
+.ind-task-cnt{font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:900;color:#fd636b;flex-shrink:0;}
+.ind-task-cnt-lbl{font-size:.6rem;color:rgba(160,150,210,.45);flex-shrink:0;}
+
+/* DISC distribución */
+.ind-disc-bars{display:flex;flex-direction:column;gap:9px;}
+.ind-disc-row{display:flex;align-items:center;gap:10px;}
+.ind-disc-lbl{font-size:.75rem;font-weight:800;width:110px;flex-shrink:0;}
+.ind-disc-track{flex:1;height:7px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;}
+.ind-disc-fill{height:100%;border-radius:99px;}
+.ind-disc-pct{font-size:.7rem;font-weight:800;min-width:38px;text-align:right;color:rgba(160,150,210,.6);}
+
+/* Comentarios NPS */
+.ind-comment{padding:10px 13px;border-radius:10px;background:rgba(255,255,255,.03);border-left:3px solid rgba(130,100,255,.35);margin-bottom:8px;}
+.ind-comment-score{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+.ind-comment-txt{font-size:.8rem;color:rgba(200,195,235,.82);font-style:italic;line-height:1.5;}
+.ind-empty{padding:20px;text-align:center;color:rgba(160,150,210,.35);font-size:.82rem;}
 .ap-del-btn{padding:4px 12px;border-radius:99px;border:1px solid rgba(253,99,107,.3);background:rgba(253,99,107,.08);color:var(--coral);font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:800;cursor:pointer;transition:all .2s;}
 .ap-del-btn:hover{background:var(--coral);color:#fff;}
 .ap-mark-btn{padding:4px 10px;border-radius:99px;border:1px solid rgba(0,201,122,.3);background:rgba(0,201,122,.08);color:var(--green);font-family:'Nunito',sans-serif;font-size:.68rem;font-weight:800;cursor:pointer;transition:all .2s;margin-right:4px;}
@@ -2002,6 +2102,7 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
       <div class="ap-tab active" onclick="switchAdminTab('colaboradores')">👥 Colaboradores</div>
       <div class="ap-tab" onclick="switchAdminTab('lideres')">🏆 Líderes</div>
       <div class="ap-tab" onclick="switchAdminTab('tareas')">✅ Tareas</div>
+      <div class="ap-tab" onclick="switchAdminTab('indicadores')">📊 Indicadores</div>
     </div>
     <!-- COLABORADORES -->
     <div class="ap-section active" id="ap-colaboradores">
@@ -2016,6 +2117,10 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
     <div class="ap-section" id="ap-tareas">
       <input class="ap-search" id="ap-search-tareas" placeholder="Buscar por cédula o nombre..." oninput="filterAdminTable('tareas')">
       <div id="ap-tareas-cont"><div class="ap-empty">Cargando...</div></div>
+    </div>
+    <!-- INDICADORES -->
+    <div class="ap-section" id="ap-indicadores">
+      <div id="ap-ind-cont"><div class="ap-empty">Cargando indicadores...</div></div>
     </div>
   </div>
 </div>
@@ -2115,6 +2220,8 @@ async function loadColabStart(c){
   TS={};TO={};tasks.forEach(t=>{const k=tk(t.nivel_id,t.tarea_index);TS[k]=t.estado;if(t.observacion)TO[k]=t.observacion;});
   U=c;prevBdg=cntBdg();
   if(c.avatar)localStorage.setItem(`gco_av_${c.cedula}`,c.avatar);
+  // Check if NPS already submitted — don't show again
+  try{const nps=await sbq('nps_responses','cedula',c.cedula);if(nps)npsShown=true;}catch(e){}
   startColabApp();
 }
 async function colabRegister(){
@@ -2808,7 +2915,16 @@ function renderSidebar(){
 
 function render(){
   const nb=cntBdg();
-  if(nb>prevBdg){const je=LEVELS.filter(l=>isDone(l.id))[nb-1];if(je){showCelebration(je);launchConfetti();}}
+  if(nb>prevBdg){
+    const je=LEVELS.filter(l=>isDone(l.id))[nb-1];
+    if(je){
+      showCelebration(je);launchConfetti();
+      // Show NPS when level 3 (last level) is completed
+      if(je.id===LEVELS[LEVELS.length-1].id){
+        setTimeout(()=>showNPS(),2800);
+      }
+    }
+  }
   prevBdg=nb;renderJourney();renderSidebar();scheduleSave();
 }
 
@@ -2884,8 +3000,100 @@ function launchConfetti(){
 }
 
 /* ══════════════════════════════════════════
-   PARTICLES
+   NPS
 ══════════════════════════════════════════ */
+let npsShown=false;
+let npsScore=null;
+
+function showNPS(){
+  if(npsShown)return;
+  npsShown=true;
+
+  // Badge info for level 3
+  const lv3=LEVELS[LEVELS.length-1];
+  const badgeEl=document.getElementById('nps-badge-img');
+  if(badgeEl)badgeEl.innerHTML=`<img src="${MI[lv3.mid]}" alt="${lv3.badge}">`;
+  document.getElementById('nps-badge-name').textContent=lv3.badge;
+
+  // Build 0-10 scale
+  const scale=document.getElementById('nps-scale');
+  scale.innerHTML='';
+  for(let i=0;i<=10;i++){
+    const btn=document.createElement('button');
+    btn.className='nps-score-btn';
+    btn.textContent=i;
+    btn.onclick=()=>selectNPSScore(i);
+    scale.appendChild(btn);
+  }
+
+  // Show modal
+  const modal=document.getElementById('nps-modal');
+  modal.style.display='flex';
+  modal.scrollTop=0;
+}
+
+function selectNPSScore(score){
+  npsScore=score;
+  // Update button styles
+  document.querySelectorAll('.nps-score-btn').forEach((btn,i)=>{
+    btn.classList.remove('sel-d','sel-p','sel-n');
+    if(i===score){
+      if(score<=6)btn.classList.add('sel-d');
+      else if(score<=8)btn.classList.add('sel-p');
+      else btn.classList.add('sel-n');
+    }
+  });
+  // Label
+  const labels={0:'Muy improbable',1:'Muy improbable',2:'Improbable',3:'Improbable',4:'Poco probable',5:'Neutral',6:'Algo probable',7:'Probable',8:'Bastante probable',9:'Muy probable',10:'Totalmente probable'};
+  const lbl=document.getElementById('nps-selected-lbl');
+  const colors={d:'#fd636b',p:'#FFB901',n:'#00c97a'};
+  const cat=score<=6?'d':score<=8?'p':'n';
+  lbl.textContent=labels[score]||'';
+  lbl.style.color=colors[cat];
+
+  // Show open question
+  const q2=document.getElementById('nps-q2');
+  const q2lbl=document.getElementById('nps-q2-lbl');
+  q2.style.display='block';
+  if(score>=9)q2lbl.textContent='¿Qué fue lo más valioso de esta experiencia?';
+  else if(score>=7)q2lbl.textContent='¿Qué mejorarías de este proceso?';
+  else q2lbl.textContent='¿Qué podríamos mejorar para hacer esta experiencia más valiosa?';
+
+  // Enable submit
+  document.getElementById('nps-submit-btn').disabled=false;
+  document.getElementById('nps-err').textContent='';
+}
+
+async function submitNPS(){
+  if(npsScore===null){document.getElementById('nps-err').textContent='Selecciona una puntuación.';return;}
+  const comment=document.getElementById('nps-comment').value.trim();
+  const btn=document.getElementById('nps-submit-btn');
+  btn.disabled=true;btn.textContent='Guardando...';
+  try{
+    await sbins('nps_responses',{
+      cedula:U.cedula,
+      score:npsScore,
+      comentario:comment||null,
+    });
+    closeNPS();
+  }catch(e){
+    console.warn('NPS err',e);
+    // Still close — don't block the user
+    closeNPS();
+  }
+}
+
+function skipNPS(){
+  closeNPS();
+}
+
+function closeNPS(){
+  document.getElementById('nps-modal').style.display='none';
+  // Reset for next time (in case admin resets progress)
+  npsScore=null;
+  document.getElementById('nps-submit-btn').disabled=true;
+  document.getElementById('nps-submit-btn').textContent='Enviar y continuar →';
+}
 function initParticles(){
   const cv=document.getElementById('particles-canvas');if(!cv)return;
   const hdr=cv.closest('header');if(!hdr)return;
@@ -3982,7 +4190,7 @@ function downloadCV(ci){
    ADMIN PANEL
 ══════════════════════════════════════════ */
 const ADMIN_KEY='GCO2025ADMIN';
-let adminData={colabs:[],lideres:[],tareas:[]};
+let adminData={colabs:[],lideres:[],tareas:[],nps:[],fichas:[]};
 
 function adminLogin(){
   const key=document.getElementById('adm-key').value.trim();
@@ -4005,50 +4213,239 @@ async function loadAdminData(){
   document.getElementById('ap-colab-cont').innerHTML='<div class="ap-empty">Cargando...</div>';
   document.getElementById('ap-lider-cont').innerHTML='<div class="ap-empty">Cargando...</div>';
   document.getElementById('ap-tareas-cont').innerHTML='<div class="ap-empty">Cargando...</div>';
+  document.getElementById('ap-ind-cont').innerHTML='<div class="ap-empty">Cargando indicadores...</div>';
   try{
     adminData.colabs=await sball('colaboradores',null,null);
     adminData.lideres=await sball('lideres',null,null);
     adminData.tareas=await sball('tareas',null,null);
+    try{adminData.nps=await sball('nps_responses',null,null);}catch(e){adminData.nps=[];}
+    try{adminData.fichas=await sball('ficha_acompanamiento',null,null);}catch(e){adminData.fichas=[];}
     renderAdminColabs();renderAdminLideres();renderAdminTareas();
+    const indTab=document.getElementById('ap-indicadores');
+    if(indTab?.classList.contains('active'))renderDashboard();
   }catch(e){document.getElementById('ap-colab-cont').innerHTML='<div class="ap-empty">⚠ Error al cargar datos.</div>';}
 }
 
 function switchAdminTab(tab){
-  document.querySelectorAll('.ap-tab').forEach((t,i)=>t.classList.toggle('active',['colaboradores','lideres','tareas'][i]===tab));
+  document.querySelectorAll('.ap-tab').forEach((t,i)=>t.classList.toggle('active',['colaboradores','lideres','tareas','indicadores'][i]===tab));
   document.querySelectorAll('.ap-section').forEach(s=>s.classList.remove('active'));
   document.getElementById(`ap-${tab}`).classList.add('active');
+  if(tab==='indicadores')renderDashboard();
 }
+
+function renderDashboard(){
+  const cont=document.getElementById('ap-ind-cont');
+  if(!cont)return;
+  const {colabs,tareas,nps,fichas}=adminData;
+  const total=colabs.length;
+  if(!total){cont.innerHTML='<div class="ind-empty">No hay colaboradores registrados aún.</div>';return;}
+
+  // ── Cálculos generales ──
+  const TOTAL_TASKS=LEVELS.reduce((s,l)=>s+l.tasks.length,0);
+  let totPct=0,completados=0,totalDias=0,diasCount=0;
+  colabs.forEach(c=>{
+    const cTareas=tareas.filter(t=>t.cedula===c.cedula);
+    const comp=cTareas.filter(t=>['completada','validada'].includes(t.estado)).length;
+    const pct=Math.round(comp/TOTAL_TASKS*100);
+    c._pct=pct;totPct+=pct;
+    if(pct===100)completados++;
+    if(c.fecha_inicio){
+      const d=Math.ceil((Date.now()-new Date(c.fecha_inicio).getTime())/86400000);
+      totalDias+=d;diasCount++;
+    }
+  });
+  const avgPct=total?Math.round(totPct/total):0;
+  const tasaComp=total?Math.round(completados/total*100):0;
+  const diasProm=diasCount?Math.round(totalDias/diasCount):0;
+  const fichasComp=fichas.length;
+
+  // ── Por nivel ──
+  const lvStats=LEVELS.map(lv=>{
+    let lvComp=0;
+    colabs.forEach(c=>{
+      const done=lv.tasks.every((_,i)=>['completada','validada'].includes(
+        tareas.find(t=>t.cedula===c.cedula&&t.nivel_id===lv.id&&t.tarea_index===i)?.estado||'pendiente'
+      ));
+      if(done)lvComp++;
+    });
+    return{name:lv.name,num:lv.num,pct:total?Math.round(lvComp/total*100):0,comp:lvComp};
+  });
+
+  // ── Tareas con más devoluciones ──
+  const devMap={};
+  tareas.filter(t=>t.estado==='devuelta').forEach(t=>{
+    const k=`${t.nivel_id}_${t.tarea_index}`;
+    devMap[k]=(devMap[k]||0)+1;
+  });
+  const devTop=Object.entries(devMap).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([k,cnt])=>{
+    const [lvId,idx]=k.split('_').map(Number);
+    const lv=LEVELS.find(l=>l.id===lvId);
+    const lvName=lv?(lv.num+' — '+(lv.tasks[idx]?.txt||'?')):'—';
+    return{name:lvName,cnt};
+  });
+
+  // ── Tarea con menor completación ──
+  const compMap={};
+  LEVELS.forEach(lv=>lv.tasks.forEach((_,ti)=>{
+    const k=`${lv.id}_${ti}`;
+    const done=tareas.filter(t=>t.nivel_id===lv.id&&t.tarea_index===ti&&['completada','validada'].includes(t.estado)).length;
+    compMap[k]={name:`${lv.num} — ${lv.tasks[ti].txt}`,pct:total?Math.round(done/total*100):0};
+  }));
+  const compBottom=Object.values(compMap).sort((a,b)=>a.pct-b.pct).slice(0,3);
+
+  // ── NPS ──
+  const npsTotal=nps.length;
+  const npsAvg=npsTotal?Math.round(nps.reduce((s,n)=>s+n.score,0)/npsTotal*10)/10:null;
+  const promotores=nps.filter(n=>n.score>=9).length;
+  const pasivos=nps.filter(n=>n.score>=7&&n.score<=8).length;
+  const detractores=nps.filter(n=>n.score<=6).length;
+  const npsScore=npsTotal?Math.round(((promotores-detractores)/npsTotal)*100):null;
+  const npsComments=nps.filter(n=>n.comentario).slice(-5).reverse();
+
+  // ── DISC distribución ──
+  const discDist={D:0,I:0,S:0,C:0,total:0};
+  fichas.forEach(f=>{
+    const p=f.dimension_principal;
+    if(p&&discDist[p]!==undefined){discDist[p]++;discDist.total++;}
+  });
+
+  // ── Render HTML ──
+  const lvColors=['#586AE8','#FFB901','#00c97a'];
+  const statCard=(cls,ghost,lbl,val,valCls,sub)=>`
+    <div class="ind-stat ${cls}" data-ghost="${ghost}">
+      <div class="ind-lbl">${lbl}</div>
+      <div class="ind-val ${valCls}">${val}</div>
+      <div class="ind-sub">${sub}</div>
+    </div>`;
+
+  cont.innerHTML=`
+    <!-- BLOQUE 1: KPIs generales -->
+    <div class="ind-grid">
+      ${statCard('s-blue','👥','Total colaboradores',total,'blue','registrados')}
+      ${statCard('s-purple','📈','Avance promedio',avgPct+'%','purple','del programa')}
+      ${statCard('s-green','🏆','Completaron el pasaporte',completados,'green',`${tasaComp}% de completación`)}
+      ${statCard('s-gold','📋','Fichas completadas',fichasComp,'gold',`${total?Math.round(fichasComp/total*100):0}% del total`)}
+      ${statCard('s-teal','📅','Días promedio activo',diasProm,'teal','desde el ingreso')}
+      ${statCard('s-coral','⏳','Por validar',tareas.filter(t=>t.estado==='enviada').length,'coral','tareas pendientes')}
+    </div>
+
+    <!-- BLOQUE 2: Completación por nivel -->
+    <div class="ind-section">
+      <div class="ind-section-title">📊 Completación por nivel</div>
+      <div class="ind-level-bars">
+        ${lvStats.map((lv,i)=>`
+          <div class="ind-level-row">
+            <div class="ind-level-lbl">${lv.name}</div>
+            <div class="ind-bar-track">
+              <div class="ind-bar-fill" style="width:${lv.pct}%;background:${lvColors[i]};box-shadow:0 0 8px ${lvColors[i]}55;"></div>
+            </div>
+            <div class="ind-level-meta" style="color:${lvColors[i]};">${lv.pct}% · ${lv.comp}/${total}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- BLOQUE 3: NPS -->
+    <div class="ind-section">
+      <div class="ind-section-title">⭐ NPS — Net Promoter Score</div>
+      ${npsTotal?`
+        <div class="ind-nps-score">
+          <div class="ind-nps-score-val">${npsScore !== null ? (npsScore > 0 ? '+' : '') + npsScore : '—'}</div>
+          <div class="ind-nps-score-lbl">NPS del programa · ${npsTotal} respuesta${npsTotal!==1?'s':''} · Promedio ${npsAvg}/10</div>
+        </div>
+        <div class="ind-nps-row">
+          <div class="ind-nps-cat det">
+            <div class="ind-nps-n">${promotores}</div>
+            <div class="ind-nps-cat-lbl">Promotores<br>9-10</div>
+          </div>
+          <div class="ind-nps-cat pas">
+            <div class="ind-nps-n">${pasivos}</div>
+            <div class="ind-nps-cat-lbl">Pasivos<br>7-8</div>
+          </div>
+          <div class="ind-nps-cat prom">
+            <div class="ind-nps-n">${detractores}</div>
+            <div class="ind-nps-cat-lbl">Detractores<br>0-6</div>
+          </div>
+        </div>
+        ${npsComments.length?`
+          <div class="ind-section-title" style="font-size:.64rem;margin-bottom:10px;margin-top:4px;">Últimos comentarios</div>
+          ${npsComments.map(n=>`
+            <div class="ind-comment">
+              <div class="ind-comment-score" style="color:${n.score>=9?'#00c97a':n.score>=7?'#FFB901':'#fd636b'};">
+                Score ${n.score}/10 · ${n.score>=9?'Promotor':n.score>=7?'Pasivo':'Detractor'}
+              </div>
+              <div class="ind-comment-txt">"${n.comentario}"</div>
+            </div>`).join('')}`:''}
+      `:`<div class="ind-empty">Aún no hay respuestas de NPS. Se registran al completar el Nivel 3.</div>`}
+    </div>
+
+    <!-- BLOQUE 4: Tareas con más devoluciones -->
+    <div class="ind-section">
+      <div class="ind-section-title">↩ Tareas con más devoluciones</div>
+      ${devTop.length?devTop.map((t,i)=>`
+        <div class="ind-task-row">
+          <div class="ind-task-rank">${i+1}</div>
+          <div class="ind-task-name">${t.name}</div>
+          <div class="ind-task-cnt">${t.cnt}</div>
+          <div class="ind-task-cnt-lbl">devolución${t.cnt!==1?'es':''}</div>
+        </div>`).join('')
+      :`<div class="ind-empty">No hay devoluciones registradas aún.</div>`}
+    </div>
+
+    <!-- BLOQUE 5: Tareas con menor completación -->
+    <div class="ind-section">
+      <div class="ind-section-title">⚠️ Tareas con menor completación</div>
+      ${compBottom.map((t,i)=>`
+        <div class="ind-task-row">
+          <div class="ind-task-rank">${i+1}</div>
+          <div class="ind-task-name">${t.name}</div>
+          <div class="ind-task-cnt" style="color:#FFB901;">${t.pct}%</div>
+          <div class="ind-task-cnt-lbl">completación</div>
+        </div>`).join('')}
+    </div>
+
+    <!-- BLOQUE 6: Distribución DISC -->
+    ${discDist.total>0?`
+    <div class="ind-section">
+      <div class="ind-section-title">🧠 Distribución de perfiles DISC</div>
+      <div class="ind-disc-bars">
+        ${['D','I','S','C'].map(d=>{
+          const pct=discDist.total?Math.round(discDist[d]/discDist.total*100):0;
+          const col=DISC_COLOR[d];
+          return`<div class="ind-disc-row">
+            <div class="ind-disc-lbl" style="color:${col};">${d} · ${DISC_NAMES_SHORT[d]}</div>
+            <div class="ind-disc-track">
+              <div class="ind-disc-fill" style="width:${pct}%;background:${col};box-shadow:0 0 6px ${col}55;"></div>
+            </div>
+            <div class="ind-disc-pct" style="color:${col};">${pct}% (${discDist[d]})</div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div style="font-size:.65rem;color:rgba(160,150,210,.4);margin-top:10px;">Basado en ${discDist.total} fichas con perfil predominante identificado.</div>
+    </div>`:''}`;
+}
+
 
 function renderAdminColabs(filter=''){
   const rows=adminData.colabs.filter(c=>!filter||c.nombre?.toLowerCase().includes(filter)||c.cedula?.includes(filter));
   if(!rows.length){document.getElementById('ap-colab-cont').innerHTML='<div class="ap-empty">No se encontraron colaboradores.</div>';return;}
-  document.getElementById('ap-colab-cont').innerHTML=`
-    <table class="ap-table">
-      <thead><tr><th>Nombre</th><th>Cédula</th><th>Marca</th><th>Tienda</th><th>Fecha ingreso</th><th>Acción</th></tr></thead>
-      <tbody>${rows.map(c=>`<tr>
-        <td>${c.nombre||'—'}</td>
-        <td>${c.cedula}</td>
-        <td>${c.marca||'—'}</td>
-        <td>${c.tienda||'—'}</td>
-        <td>${c.fecha_inicio?new Date(c.fecha_inicio).toLocaleDateString('es-CO'):'—'}</td>
-        <td><button class="ap-del-btn" onclick="adminDeleteColab('${c.cedula}','${(c.nombre||'').replace(/'/g,"\\'")}')">🗑 Borrar</button></td>
-      </tr>`).join('')}</tbody>
-    </table>`;
+  const rowsHtml=rows.map(c=>{
+    const nom=(c.nombre||'').replace(/['"]/g,'');
+    const fi=c.fecha_inicio?new Date(c.fecha_inicio).toLocaleDateString('es-CO'):'—';
+    return '<tr><td>'+(c.nombre||'—')+'</td><td>'+c.cedula+'</td><td>'+(c.marca||'—')+'</td><td>'+(c.tienda||'—')+'</td><td>'+fi+'</td>'
+      +'<td><button class="ap-del-btn" onclick="adminDeleteColab(\''+c.cedula+'\',\''+nom+'\')">🗑 Borrar</button></td></tr>';
+  }).join('');
+  document.getElementById('ap-colab-cont').innerHTML='<table class="ap-table"><thead><tr><th>Nombre</th><th>Cédula</th><th>Marca</th><th>Tienda</th><th>Fecha ingreso</th><th>Acción</th></tr></thead><tbody>'+rowsHtml+'</tbody></table>';
 }
 
 function renderAdminLideres(){
   const rows=adminData.lideres;
   if(!rows.length){document.getElementById('ap-lider-cont').innerHTML='<div class="ap-empty">No hay líderes registrados.</div>';return;}
-  document.getElementById('ap-lider-cont').innerHTML=`
-    <table class="ap-table">
-      <thead><tr><th>Nombre</th><th>Cédula</th><th>Tienda</th><th>Acción</th></tr></thead>
-      <tbody>${rows.map(l=>`<tr>
-        <td>${l.nombre||'—'}</td>
-        <td>${l.cedula}</td>
-        <td>${l.tienda||'—'}</td>
-        <td><button class="ap-del-btn" onclick="adminDeleteLider('${l.cedula}','${(l.nombre||'').replace(/'/g,"\\'")}')">🗑 Borrar</button></td>
-      </tr>`).join('')}</tbody>
-    </table>`;
+  const lRowsHtml=rows.map(l=>{
+    const nom=(l.nombre||'').replace(/['"]/g,'');
+    return '<tr><td>'+(l.nombre||'—')+'</td><td>'+l.cedula+'</td><td>'+(l.tienda||'—')+'</td>'
+      +'<td><button class="ap-del-btn" onclick="adminDeleteLider(\''+l.cedula+'\',\''+nom+'\')">🗑 Borrar</button></td></tr>';
+  }).join('');
+  document.getElementById('ap-lider-cont').innerHTML='<table class="ap-table"><thead><tr><th>Nombre</th><th>Cédula</th><th>Tienda</th><th>Acción</th></tr></thead><tbody>'+lRowsHtml+'</tbody></table>';
 }
 
 function renderAdminTareas(filter=''){
@@ -4143,7 +4540,39 @@ async function notifyEmail(payload){
 /* ══ END ══ */
 </script>
 
-<!-- Service Worker registration -->
+<!-- NPS MODAL -->
+<div id="nps-modal" style="display:none;position:fixed;inset:0;z-index:3000;background:rgba(5,7,19,.92);backdrop-filter:blur(12px);overflow-y:auto;align-items:center;justify-content:center;">
+  <div class="nps-wrap">
+    <!-- Celebration icon -->
+    <div class="nps-trophy">🏆</div>
+    <div class="nps-badge-img" id="nps-badge-img"></div>
+    <div class="nps-title">¡Completaste el Pasaporte GCO!</div>
+    <div class="nps-sub">Eres <strong id="nps-badge-name">Embajador de Marca</strong>. Antes de continuar, queremos saber cómo fue tu experiencia.</div>
+
+    <div class="nps-card">
+      <!-- Pregunta NPS -->
+      <div class="nps-q">¿Qué tan probable es que recomiendes esta experiencia de onboarding a un compañero que ingrese a GCO?</div>
+      <div class="nps-scale-labels">
+        <span>Nada probable</span>
+        <span>Muy probable</span>
+      </div>
+      <div class="nps-scale" id="nps-scale">
+        <!-- Rendered by JS -->
+      </div>
+      <div class="nps-selected-lbl" id="nps-selected-lbl"></div>
+
+      <!-- Pregunta abierta -->
+      <div class="nps-q2" id="nps-q2" style="display:none;">
+        <label class="nps-q2-lbl" id="nps-q2-lbl">¿Qué fue lo más valioso de esta experiencia?</label>
+        <textarea class="nps-ta" id="nps-comment" placeholder="Escribe aquí tu respuesta..."></textarea>
+      </div>
+
+      <div class="nps-err" id="nps-err"></div>
+      <button class="nps-btn" id="nps-submit-btn" onclick="submitNPS()" disabled>Enviar y continuar →</button>
+      <button class="nps-skip" onclick="skipNPS()">Omitir por ahora</button>
+    </div>
+  </div>
+</div>
 <script>
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
