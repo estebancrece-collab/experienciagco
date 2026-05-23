@@ -3646,133 +3646,335 @@ function exportExcel(){
 }
 
 /* ══════════════════════════════════════════
-   PDF — HOJA DE VIDA DEL COLABORADOR
+   PDF — FICHA DE ACOMPAÑAMIENTO
 ══════════════════════════════════════════ */
 function downloadCV(ci){
   const c=ldrC[ci];
-  const wp=c._wp;
+  const fa=c._fa||c._wp;
   const months=['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
-  // Load jsPDF from CDN then generate
   function generate(){
     const {jsPDF}=window.jspdf;
     const doc=new jsPDF({unit:'mm',format:'a4'});
-    const W=210,M=18,cw=W-M*2;
+    const W=210,M=16,cw=W-M*2;
     let y=0;
 
-    // ── HEADER BAND ──
-    doc.setFillColor(56,44,84);
-    doc.rect(0,0,W,42,'F');
+    // ── Paleta ──
+    const COL={
+      bg:[8,6,28],
+      purple:[56,44,84],
+      blue:[88,106,232],
+      gold:[255,185,1],
+      green:[0,201,122],
+      coral:[253,99,107],
+      teal:[109,199,204],
+      text:[220,215,245],
+      muted:[160,150,210],
+      card:[26,22,58],
+      white:[255,255,255],
+    };
+    const DCOL={D:[88,106,232],I:[255,185,1],S:[0,201,122],C:[253,99,107]};
+    const DNAME={D:'Dominancia / Resultados',I:'Influencia / Relación',S:'Estabilidad / Ritmo',C:'Cumplimiento / Claridad'};
 
-    // Avatar circle placeholder (or image if available)
+    // Helper: add page check
+    const checkPage=(needed=20)=>{if(y+needed>282){doc.addPage();y=16;}};
+
+    // Helper: section title
+    const sectTitle=(txt,r,g,b)=>{
+      checkPage(12);
+      doc.setFillColor(r,g,b,0.12);
+      doc.setFont('helvetica','bold');doc.setFontSize(7.5);
+      doc.setTextColor(r,g,b);
+      doc.text(txt.toUpperCase(),M,y);
+      y+=1.5;
+      doc.setDrawColor(r,g,b);doc.setLineWidth(0.4);
+      doc.line(M,y,W-M,y);
+      y+=5;
+    };
+
+    // Helper: field row
+    const field=(lbl,val)=>{
+      if(!val)return;
+      checkPage(10);
+      doc.setFont('helvetica','bold');doc.setFontSize(6.5);doc.setTextColor(...COL.muted);
+      doc.text(lbl.toUpperCase(),M,y);y+=3.5;
+      doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(...COL.text);
+      const lines=doc.splitTextToSize(String(val),cw);
+      doc.text(lines,M,y);y+=lines.length*4.2+3;
+    };
+
+    // Helper: italic quote
+    const quote=(val)=>{
+      if(!val)return;
+      checkPage(14);
+      doc.setFillColor(...COL.card);
+      const lines=doc.splitTextToSize(`"${val}"`,cw-8);
+      const h=lines.length*4.5+8;
+      doc.roundedRect(M,y-2,cw,h,2,2,'F');
+      doc.setDrawColor(...COL.blue);doc.setLineWidth(0.6);
+      doc.line(M+1,y-2,M+1,y-2+h);
+      doc.setFont('helvetica','italic');doc.setFontSize(8);doc.setTextColor(...COL.text);
+      doc.text(lines,M+5,y+3);
+      y+=h+4;
+    };
+
+    // ══ PAGE 1 ══════════════════════════════
+
+    // ── HEADER ──
+    doc.setFillColor(...COL.bg);doc.rect(0,0,W,46,'F');
+    doc.setFillColor(...COL.purple);doc.rect(0,0,4,46,'F');
+
+    // Avatar
     const avSrc=localStorage.getItem(`gco_av_${c.cedula}`)||c.avatar||null;
     if(avSrc){
-      try{doc.addImage(avSrc,'JPEG',M,6,28,28,'','FAST');
-         // circle clip effect via white border
-         doc.setDrawColor(255,255,255);doc.setLineWidth(1);doc.circle(M+14,20,14,'S');}
-      catch(e){}
-      y=M+28+2;
+      try{
+        doc.addImage(avSrc,'JPEG',M,6,32,32,'','FAST');
+        doc.setDrawColor(...COL.blue);doc.setLineWidth(1);doc.circle(M+16,22,16,'S');
+      }catch(e){}
     }
-    const nameX=avSrc?M+32:M;
-    doc.setFont('helvetica','bold');doc.setFontSize(16);doc.setTextColor(255,255,255);
-    doc.text(c.nombre,nameX,15);
-    doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(180,170,210);
-    doc.text(`${c.marca||'—'}  ·  Tienda ${c.tienda||'—'}  ·  CC ${c.cedula}`,nameX,22);
-    if(c.fecha_inicio){
-      const fi=new Date(c.fecha_inicio).toLocaleDateString('es-CO');
-      doc.text(`Ingreso: ${fi}`,nameX,28);
-    }
+    const nX=avSrc?M+38:M;
+    // GCO label
+    doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(...COL.muted);
+    doc.text('PASAPORTE GCO · FICHA DE ACOMPAÑAMIENTO',nX,10);
+    // Name
+    doc.setFont('helvetica','bold');doc.setFontSize(15);doc.setTextColor(...COL.white);
+    const nomFull=fa?.nombre_completo||c.nombre||'—';
+    doc.text(nomFull,nX,18);
+    // Meta info
+    doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(...COL.muted);
+    const infoLine=`${c.marca||'—'}  ·  Tienda ${c.tienda||'—'}  ·  CC ${c.cedula}`;
+    doc.text(infoLine,nX,24);
+    const fi=c.fecha_inicio?new Date(c.fecha_inicio).toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'}):null;
+    if(fi)doc.text(`Ingreso: ${fi}`,nX,29);
+    const rol=fa?.rol_tienda||c.rol_tienda||null;
+    if(rol){doc.setTextColor(...COL.blue);doc.text(rol,nX,34);}
     // Progress badge
-    doc.setFillColor(88,106,232);doc.roundedRect(W-M-32,8,32,14,3,3,'F');
-    doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(255,255,255);
-    doc.text(`${c._pct}%`,W-M-16,17,{align:'center'});
-    doc.setFontSize(7);doc.text('avance',W-M-16,22,{align:'center'});
+    doc.setFillColor(...COL.blue);doc.roundedRect(W-M-30,10,30,14,3,3,'F');
+    doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(...COL.white);
+    doc.text(`${c._pct}%`,W-M-15,19,{align:'center'});
+    doc.setFontSize(6.5);doc.text('AVANCE',W-M-15,24,{align:'center'});
 
-    y=50;
-    doc.setTextColor(30,27,58);
+    y=52;
+    doc.setTextColor(...COL.text);
 
-    // ── PROGRESS SECTION ──
-    doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(100,90,130);
-    doc.text('PROGRESO EN EL PASAPORTE',M,y);
-    y+=5;
-    // Progress bar
-    doc.setFillColor(230,232,248);doc.roundedRect(M,y,cw,5,2,2,'F');
-    doc.setFillColor(88,106,232);doc.roundedRect(M,y,cw*(c._pct/100),5,2,2,'F');
-    y+=9;
-    LEVELS.forEach(lv=>{
-      const done=lv.tasks.filter((_,i)=>['completada','validada'].includes(c._t[tk(lv.id,i)]||'pendiente')).length;
-      const total=lv.tasks.length;
-      const pct=Math.round(done/total*100);
-      const dn=done===total;
-      doc.setFont('helvetica',dn?'bold':'normal');
-      doc.setFontSize(8);doc.setTextColor(dn?22:80,dn?163:80,dn?74:80);
-      doc.text(`${dn?'✓':' '} ${lv.name}`,M+2,y);
-      doc.setTextColor(100,100,130);
-      doc.text(`${done}/${total} tareas · ${pct}%`,W-M,y,{align:'right'});
-      y+=5;
-    });
-    y+=4;
+    // ── DATOS DEL COLABORADOR ──
+    sectTitle('Datos del colaborador',...COL.blue);
+    const famLabels=['','Nada familiarizado/a','Poco familiarizado/a','Algo familiarizado/a','Familiarizado/a','Muy familiarizado/a'];
+    // 2-col grid
+    const half=cw/2-3;
+    const col2=(lbl1,v1,lbl2,v2)=>{
+      if(!v1&&!v2)return;
+      checkPage(12);
+      const yStart=y;
+      if(v1){doc.setFont('helvetica','bold');doc.setFontSize(6.5);doc.setTextColor(...COL.muted);doc.text(lbl1.toUpperCase(),M,y);
+        doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(...COL.text);doc.text(doc.splitTextToSize(v1,half),M,y+3.5);}
+      if(v2){doc.setFont('helvetica','bold');doc.setFontSize(6.5);doc.setTextColor(...COL.muted);doc.text(lbl2.toUpperCase(),M+half+6,y);
+        doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(...COL.text);doc.text(doc.splitTextToSize(v2,half),M+half+6,y+3.5);}
+      y+=10;
+    };
+    col2('Cédula',String(c.cedula),'Marca',c.marca);
+    col2('Tienda',c.tienda,'Ciudad',fa?.ciudad||null);
+    col2('Rol en tienda',rol,'Experiencia previa',fa?.experiencia_previa||null);
+    if(fa?.familiaridad_retail){col2('Familiaridad con retail',famLabels[fa.familiaridad_retail]||null,'',null);}
+    if(fa?.meta_personal||fa?.goals){
+      const meta=fa?.meta_personal||fa?.goals;
+      checkPage(14);
+      doc.setFont('helvetica','bold');doc.setFontSize(6.5);doc.setTextColor(...COL.muted);doc.text('META PERSONAL O LABORAL',M,y);y+=3.5;
+      doc.setFillColor(...COL.card);
+      const mlines=doc.splitTextToSize(`"${meta}"`,cw-4);
+      doc.roundedRect(M,y-1,cw,mlines.length*4.2+6,2,2,'F');
+      doc.setFont('helvetica','italic');doc.setFontSize(8.5);doc.setTextColor(...COL.gold);
+      doc.text(mlines,M+3,y+3);y+=mlines.length*4.2+9;
+    }
+    y+=2;
 
-    // ── DIVIDER ──
-    const divider=()=>{doc.setDrawColor(220,222,240);doc.setLineWidth(0.3);doc.line(M,y,W-M,y);y+=6;};
-    divider();
+    // ══ PAGE 2 — DISC ═══════════════════════
+    doc.addPage();y=16;
 
-    // ── FICHA DE BIENVENIDA ──
-    if(wp){
-      const sect=(title,ico)=>{
-        doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(88,106,232);
-        doc.text(`${ico}  ${title}`,M,y);y+=6;
-      };
-      const field=(label,value)=>{
-        if(!value)return;
-        doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(140,130,170);
-        doc.text(label.toUpperCase(),M+2,y);y+=4;
-        doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(30,27,58);
-        const lines=doc.splitTextToSize(value,cw-4);
-        doc.text(lines,M+2,y);y+=lines.length*4.5+2;
-      };
+    // DISC header
+    doc.setFillColor(...COL.bg);doc.rect(0,0,W,16,'F');
+    doc.setFillColor(...COL.purple);doc.rect(0,0,4,16,'F');
+    doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(...COL.white);
+    doc.text('Perfil Conductual Situacional GCO',M,10);
+    doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(...COL.muted);
+    doc.text('Inspirado en las dimensiones del modelo DISC · No es una evaluación psicométrica',M,14);
+    y=22;
 
-      sect('DATOS PERSONALES','👤');
-      field('Prefiere que le llamen',wp.preferred_name);
-      if(wp.birthday_day&&wp.birthday_month)field('Cumpleaños',`${wp.birthday_day} de ${months[wp.birthday_month]}`);
-      field('Con quién vive',wp.living_with);
-      divider();
+    const pD=fa?.puntaje_d??null;
+    const pI=fa?.puntaje_i??null;
+    const pS=fa?.puntaje_s??null;
+    const pC=fa?.puntaje_c??null;
 
-      sect('SOBRE LA PERSONA','💬');
-      field('Algo que quiere que el equipo sepa',wp.about_me);
-      field('Qué le apasiona fuera del trabajo',wp.free_time);
-      divider();
+    if(pD!==null){
+      const MAX=16;
+      const scores=[{d:'D',v:pD,pct:fa?.porcentaje_d??Math.round(pD/MAX*100)},{d:'I',v:pI,pct:fa?.porcentaje_i??Math.round(pI/MAX*100)},{d:'S',v:pS,pct:fa?.porcentaje_s??Math.round(pS/MAX*100)},{d:'C',v:pC,pct:fa?.porcentaje_c??Math.round(pC/MAX*100)}].sort((a,b)=>b.v-a.v);
 
-      if(y>250){doc.addPage();y=18;}
-      sect('MOTIVACIÓN Y METAS','🚀');
-      field('Por qué ingresó a GCO',wp.motivation_join);
-      field('Sus metas',wp.goals);
-      divider();
+      // Barra visual por dimensión
+      sectTitle('Resultados por dimensión',...COL.blue);
+      scores.forEach(s=>{
+        const [r,g,b]=DCOL[s.d];
+        doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(r,g,b);
+        doc.text(`${s.d} — ${DNAME[s.d]}`,M,y);
+        // Track
+        doc.setFillColor(30,27,58);doc.roundedRect(M,y+1.5,cw-30,5,2,2,'F');
+        // Fill
+        const fw=(cw-30)*(s.pct/100);
+        if(fw>0){doc.setFillColor(r,g,b);doc.roundedRect(M,y+1.5,fw,5,2,2,'F');}
+        // Value
+        doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(r,g,b);
+        doc.text(`${s.v}/${MAX}`,W-M-24,y+6);
+        doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(...COL.muted);
+        doc.text(`${s.pct}%`,W-M-10,y+6);
+        y+=10;
+      });
+      y+=2;
 
-      if(y>250){doc.addPage();y=18;}
-      sect('CÓMO ACOMPAÑARLO/A','🧠');
-      field('Cómo aprende mejor',wp.learning_style);
-      field('Qué le cuesta en situaciones nuevas',wp.challenges);
-      field('El tipo de líder que saca lo mejor de sí',wp.leader_type);
-      field('Lo que le gustaría que su líder sepa',wp.leader_should_know);
+      // Perfil
+      const princi=fa?.dimension_principal||null;
+      const secund=fa?.dimension_secundaria||null;
+      const combinado=fa?.perfil_combinado||null;
+      const nivelDif=fa?.nivel_diferenciacion||null;
+      const equilibrado=fa?.perfil_equilibrado||false;
+
+      sectTitle('Perfil identificado',...COL.blue);
+      if(equilibrado){
+        doc.setFillColor(40,35,80);doc.roundedRect(M,y-2,cw,18,3,3,'F');
+        doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(...COL.gold);
+        doc.text('Perfil equilibrado / mixto',M+4,y+4);
+        doc.setFont('helvetica','italic');doc.setFontSize(7.5);doc.setTextColor(...COL.muted);
+        const etxt=doc.splitTextToSize('El perfil muestra tendencias relativamente equilibradas. Usa esta información como punto de conversación.',cw-8);
+        doc.text(etxt,M+4,y+9);y+=22;
+      } else {
+        const tagRow=(lbl,val,r,g,b)=>{
+          doc.setFillColor(r,g,b,0.1);
+          doc.setDrawColor(r,g,b);doc.setLineWidth(0.3);
+          doc.roundedRect(M,y,cw/2-3,10,2,2,'FD');
+          doc.setFont('helvetica','bold');doc.setFontSize(6);doc.setTextColor(r,g,b);
+          doc.text(lbl.toUpperCase(),M+3,y+4);
+          doc.setFont('helvetica','bold');doc.setFontSize(8);
+          doc.text(val||'—',M+3,y+8.5);
+          y+=13;
+        };
+        if(princi){const [r,g,b]=DCOL[princi]||COL.blue;tagRow('Predominante',`${princi} · ${DNAME[princi]||princi}`,r,g,b);}
+        if(secund&&secund!=='—'){const [r,g,b]=DCOL[secund]||COL.muted;tagRow('Secundario',`${secund} · ${DNAME[secund]||secund}`,r,g,b);}
+        if(combinado){
+          doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(...COL.muted);
+          doc.text('PERFIL COMBINADO',M,y);y+=4;
+          doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(...COL.white);
+          doc.text(combinado,M,y);y+=5;
+        }
+        if(nivelDif){
+          doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(...COL.muted);
+          doc.text(`Diferenciación: ${nivelDif}`,M,y);y+=7;
+        }
+      }
+
+      // Tendencias y tensiones
+      const content=DISC_CONTENT[princi]||null;
+      if(content&&!equilibrado){
+        checkPage(30);
+        sectTitle('Tendencias observables',...COL.blue);
+        content.tendencias.forEach(t=>{
+          checkPage(8);
+          doc.setFillColor(20,18,50);doc.roundedRect(M,y-1,cw,7,1,1,'F');
+          doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.setTextColor(...COL.text);
+          const lines=doc.splitTextToSize(`• ${t}`,cw-4);
+          doc.text(lines,M+3,y+3.5);y+=lines.length*4+3;
+        });
+        y+=2;
+
+        checkPage(25);
+        sectTitle('Posibles tensiones del estilo',...COL.coral);
+        content.tensiones.forEach(t=>{
+          checkPage(8);
+          doc.setFillColor(35,15,18);doc.roundedRect(M,y-1,cw,7,1,1,'F');
+          doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.setTextColor(253,150,155);
+          const lines=doc.splitTextToSize(`• ${t}`,cw-4);
+          doc.text(lines,M+3,y+3.5);y+=lines.length*4+3;
+        });
+        y+=2;
+
+        // Chips de comunicación
+        checkPage(18);
+        doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(...COL.muted);
+        doc.text('ESTILO PROBABLE DE COMUNICACIÓN',M,y);y+=5;
+        let cx=M;
+        content.comunicacion.forEach(chip=>{
+          const tw=doc.getTextWidth(chip)+8;
+          if(cx+tw>W-M){cx=M;y+=8;}
+          doc.setFillColor(88,106,232,0.15);doc.setDrawColor(...COL.blue);doc.setLineWidth(0.3);
+          doc.roundedRect(cx,y-3,tw,6,2,2,'FD');
+          doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(...COL.blue);
+          doc.text(chip,cx+4,y+1);
+          cx+=tw+4;
+        });
+        y+=10;
+      }
     } else {
-      doc.setFont('helvetica','italic');doc.setFontSize(9);doc.setTextColor(160,150,180);
-      doc.text('Este colaborador aún no ha completado su Ficha de Bienvenida.',M,y);y+=8;
+      doc.setFont('helvetica','italic');doc.setFontSize(9);doc.setTextColor(...COL.muted);
+      doc.text('El colaborador aún no ha completado el Perfil Conductual.',M,y);y+=10;
     }
 
-    // ── FOOTER ──
-    doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(180,180,200);
-    doc.text(`Generado por Pasaporte GCO · ${new Date().toLocaleDateString('es-CO')}`,W/2,285,{align:'center'});
+    // ══ PAGE 3 — RESPUESTAS ABIERTAS ════════
+    doc.addPage();y=16;
+    doc.setFillColor(...COL.bg);doc.rect(0,0,W,16,'F');
+    doc.setFillColor(...COL.purple);doc.rect(0,0,4,16,'F');
+    doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(...COL.white);
+    doc.text('Lo que el colaborador compartió',M,10);
+    doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(...COL.muted);
+    doc.text('Respuestas literales — tal como fueron escritas',M,14);
+    y=22;
 
-    doc.save(`HojaDeVida_${c.nombre.replace(/ /g,'_')}.pdf`);
+    const facilidades=fa?.respuesta_facilidades||fa?.facilidades_aprendizaje||null;
+    const retos=fa?.respuesta_retos||fa?.challenges||null;
+    const liderSepa=fa?.respuesta_lider||fa?.leader_should_know||null;
+    const feedback=fa?.respuesta_feedback||fa?.preferencia_feedback||null;
+    const aboutMe=fa?.about_me||null;
+    const ls=fa?.learning_style||null;
+
+    const openQ=(lbl,val)=>{
+      if(!val)return;
+      checkPage(20);
+      doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(...COL.muted);
+      doc.text(lbl,M,y);y+=4;
+      quote(val);
+    };
+
+    openQ('¿Qué se te facilita cuando estás aprendiendo algo nuevo?',facilidades);
+    openQ('¿Qué suele ser más retador cuando llegas a un equipo nuevo?',retos);
+    openQ('¿Qué te gustaría que tu líder supiera de ti?',liderSepa);
+    openQ('¿Cómo prefieres recibir retroalimentación?',feedback);
+    if(aboutMe)openQ('Algo que quiere que el equipo sepa',aboutMe);
+    if(ls)openQ('Estilo de aprendizaje',ls);
+
+    // ── NOTA ÉTICA ──
+    checkPage(20);
+    y+=4;
+    doc.setFillColor(30,25,10);doc.setDrawColor(...COL.gold);doc.setLineWidth(0.4);
+    const eLines=doc.splitTextToSize('⚖  Esta herramienta está inspirada en el modelo DISC pero no corresponde a una prueba DISC certificada ni a una evaluación psicométrica. Sus resultados no deben utilizarse como criterio único de selección, evaluación de desempeño, permanencia o toma de decisiones laborales.',cw-8);
+    const eH=eLines.length*4+10;
+    doc.roundedRect(M,y,cw,eH,3,3,'FD');
+    doc.setFont('helvetica','italic');doc.setFontSize(7);doc.setTextColor(200,180,80);
+    doc.text(eLines,M+4,y+5);
+    y+=eH+4;
+
+    // ── FOOTER todas las páginas ──
+    const totalPages=doc.getNumberOfPages();
+    for(let p=1;p<=totalPages;p++){
+      doc.setPage(p);
+      doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(...COL.muted);
+      doc.text(`Pasaporte GCO · Ficha de Acompañamiento · ${new Date().toLocaleDateString('es-CO')}`,W/2,290,{align:'center'});
+      doc.text(`Página ${p} de ${totalPages}`,W-M,290,{align:'right'});
+    }
+
+    doc.save(`Ficha_${(fa?.nombre_completo||c.nombre||'colaborador').replace(/\s+/g,'_')}.pdf`);
   }
 
   if(window.jspdf){generate();}
   else{
     const s=document.createElement('script');
     s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-    s.onload=generate;
-    document.head.appendChild(s);
+    s.onload=generate;document.head.appendChild(s);
   }
 }
 
