@@ -3866,92 +3866,177 @@ const PDF_TPL = {
 function downloadCV(ci){
   const c=ldrC[ci];
   const fa=c._fa||c._wp;
-  const fileName='Ficha_'+((fa?.nombre_completo||c.nombre||'colaborador').replace(/\s+/g,'_'))+'.pdf';
+  const nom=fa?.nombre_completo||c.nombre||'—';
+  const fileName='Ficha_'+(nom.replace(/\s+/g,'_'))+'.pdf';
 
   function generate(){
     const {jsPDF}=window.jspdf;
-    const doc=new jsPDF({unit:'mm',format:'a4',orientation:'portrait'});
-    const W=210,H=297;
-    const today=new Date().toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'});
-    const DNAME={D:'Dominancia',I:'Influencia',S:'Estabilidad',C:'Cumplimiento'};
+    const doc=new jsPDF({unit:'mm',format:'a4'});
+    const W=210,H=297,M=14,CW=182;
+    const today=new Date().toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'});
+    // ── Palette ──
+    const BG=[8,6,28],BG2=[18,15,45],BG3=[26,22,65];
+    const PURPLE=[88,60,200],BLUE=[88,106,232],GOLD=[255,185,1];
+    const GREEN=[0,201,122],CORAL=[253,99,107],TEAL=[109,199,204];
+    const WHITE=[255,255,255],LGRAY=[160,150,210],DGRAY=[60,50,90];
     const DCOL={D:[88,106,232],I:[255,185,1],S:[0,201,122],C:[253,99,107]};
-    const NIVEL_COL={'Alto':[88,106,232],'Medio alto':[0,201,122],'Medio bajo':[255,185,1],'Bajo':[253,99,107]};
-    const WHITE=[255,255,255],MUTED=[180,170,220],GOLD=[255,185,1];
+    const DNAME={D:'Dominancia / Resultados',I:'Influencia / Relación',S:'Estabilidad / Ritmo',C:'Cumplimiento / Claridad'};
+    const NVCOL={'Alto':BLUE,'Medio alto':GREEN,'Medio bajo':[255,185,1],'Bajo':CORAL};
 
-    // ══ PAGE 1 ══════════════════════════════
-    doc.addImage(PDF_TPL.p1,'PNG',0,0,W,H);
-
-    // Badge avance %
-    doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(...GOLD);
-    doc.text((c._pct||0)+'%',163,14,{align:'center'});
-
-    // Avatar
-    const avSrc=localStorage.getItem('gco_av_'+c.cedula)||c.avatar||null;
-    if(avSrc){
-      try{doc.addImage(avSrc,'JPEG',17,27,42,42,'','FAST');}catch(e){}
-    } else {
-      const ini=(fa?.nombre_completo||c.nombre||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-      doc.setFillColor(40,30,80);doc.circle(38,49,18,'F');
-      doc.setFont('helvetica','bold');doc.setFontSize(14);doc.setTextColor(...WHITE);
-      doc.text(ini,38,55,{align:'center'});
-    }
-
-    // Nombre — 2 lines over the blank lines in template
-    const nombre=fa?.nombre_completo||c.nombre||'—';
-    const nomSz=nombre.length>24?11:nombre.length>18?13:15;
-    doc.setFont('helvetica','bold');doc.setFontSize(nomSz);doc.setTextColor(...WHITE);
-    const nomLines=doc.splitTextToSize(nombre,120);
-    doc.text(nomLines[0]||'',83,41);
-    if(nomLines[1])doc.text(nomLines[1],83,49);
-
-    // Subtítulo — marca · tienda · cédula
-    doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(...MUTED);
-    doc.text((c.marca||'—')+' · '+(c.tienda||'—')+' · CC '+c.cedula,83,56);
-
-    // Fecha ingreso header
-    const fi=c.fecha_inicio?new Date(c.fecha_inicio).toLocaleDateString('es-CO'):'—';
-    doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(...WHITE);
-    doc.text(fi,108,63);
-
-    // Grid datos
-    const gv=(val,x,y,mw)=>{
-      doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(...WHITE);
-      const txt=String(val||'—');
-      if(mw){const l=doc.splitTextToSize(txt,mw);doc.text(l.slice(0,2),x,y);}
-      else doc.text(txt.slice(0,28),x,y);
+    // ── Helpers ──
+    const fill=(r,g,b,a)=>{if(a!==undefined)doc.setFillColor(r,g,b);else doc.setFillColor(r,g,b);};
+    const stroke=(r,g,b)=>doc.setDrawColor(r,g,b);
+    const font=(size,style,color)=>{doc.setFontSize(size);doc.setFont('helvetica',style||'normal');if(color)doc.setTextColor(...color);};
+    const txt=(t,x,y,opts={})=>{
+      if(t===null||t===undefined)return 0;
+      const s=String(t);
+      const mw=opts.maxW||CW;
+      const lines=doc.splitTextToSize(s,mw);
+      const take=opts.maxLines||lines.length;
+      const align=opts.align||'left';
+      lines.slice(0,take).forEach((l,i)=>doc.text(l,x,y+i*(opts.lh||5),{align}));
+      return Math.min(take,lines.length)*( opts.lh||5);
     };
-    gv(c.cedula,          44, 87);
-    gv(c.marca||'—',     134, 87);
-    gv(c.tienda||'—',     44,108);
-    gv(fa?.ciudad||'—',  134,108);
-    gv(fi,                44,129);
-    gv(fa?.rol_tienda||c.rol_tienda||'—',134,129);
-    gv(fa?.experiencia_previa||'—',44,149,78);
+    const card=(x,y,w,h,opts={})=>{
+      doc.setFillColor(...(opts.fill||BG2));
+      doc.setDrawColor(...(opts.border||[50,40,80]));
+      doc.setLineWidth(opts.lw||0.3);
+      doc.roundedRect(x,y,w,h,opts.r||3,opts.r||3,'FD');
+    };
+    const pill=(label,x,y,w,h,bg,fg)=>{
+      doc.setFillColor(...bg);doc.setDrawColor(...fg);doc.setLineWidth(0.3);
+      doc.roundedRect(x,y,w,h,h/2,h/2,'FD');
+      font(6.5,'bold',fg);doc.text(label,x+w/2,y+h/2+2.2,{align:'center'});
+    };
+    const hline=(x,y,w,col)=>{doc.setDrawColor(...(col||DGRAY));doc.setLineWidth(0.2);doc.line(x,y,x+w,y);};
+    const labelval=(label,val,x,y,colW)=>{
+      font(6,'bold',LGRAY);doc.text(label.toUpperCase(),x,y);
+      font(8.5,'normal',WHITE);
+      const ls=doc.splitTextToSize(String(val||'—'),colW-2);
+      ls.slice(0,2).forEach((l,i)=>doc.text(l,x,y+4+i*4.5));
+    };
 
-    // Familiaridad — filled/empty circles
-    const fam=parseInt(fa?.familiaridad_retail||0);
-    [112,119,125,132,138].forEach((sx,i)=>{
-      if(i<fam){doc.setFillColor(...GOLD);doc.circle(sx,154,2.5,'F');}
-      else{doc.setDrawColor(130,120,180);doc.setLineWidth(0.4);doc.circle(sx,154,2.5,'S');}
-    });
+    // ════════════════════════════════════
+    // PAGE 1 — DATOS DEL COLABORADOR
+    // ════════════════════════════════════
+    // Full page background
+    doc.setFillColor(...BG);doc.rect(0,0,W,H,'F');
 
-    // Meta personal
-    const meta=fa?.meta_personal||fa?.goals||null;
-    if(meta){
-      doc.setFont('helvetica','italic');doc.setFontSize(8.5);doc.setTextColor(...GOLD);
-      const mL=doc.splitTextToSize(meta,155);
-      const yStarts=[238,251,263];
-      mL.slice(0,3).forEach((l,i)=>doc.text(l,35,yStarts[i]));
+    // ── HEADER BAND ──
+    doc.setFillColor(...BG2);doc.rect(0,0,W,38,'F');
+    doc.setFillColor(...PURPLE);doc.rect(0,0,3,38,'F');
+    // GCO label
+    font(7,'bold',GOLD);doc.text('PASAPORTE GCO',M+2,10);
+    font(7,'normal',[180,160,255]);doc.text('Ficha de Acompañamiento',M+2,16);
+    // Underline gold
+    doc.setDrawColor(...GOLD);doc.setLineWidth(0.5);doc.line(M+2,18,M+52,18);
+    // Badge avance
+    const pct=(c._pct||0)+'%';
+    doc.setFillColor(30,20,60);doc.setDrawColor(...BLUE);doc.setLineWidth(0.5);
+    doc.roundedRect(W-M-28,5,28,16,3,3,'FD');
+    font(11,'bold',BLUE);doc.text(pct,W-M-14,15,{align:'center'});
+    font(5.5,'normal',LGRAY);doc.text('AVANCE',W-M-14,20,{align:'center'});
+
+    // ── PROFILE HERO ──
+    let y=44;
+    // Avatar circle
+    const avSrc=localStorage.getItem('gco_av_'+c.cedula)||c.avatar||null;
+    const avR=18,avCX=M+avR,avCY=y+avR+2;
+    if(avSrc){
+      try{
+        doc.addImage(avSrc,'JPEG',avCX-avR,avCY-avR,avR*2,avR*2,'','FAST');
+        doc.setDrawColor(...BLUE);doc.setLineWidth(1);doc.circle(avCX,avCY,avR,'S');
+      }catch(e){
+        doc.setFillColor(...BG3);doc.setDrawColor(...PURPLE);doc.setLineWidth(0.8);doc.circle(avCX,avCY,avR,'FD');
+        font(14,'bold',WHITE);doc.text(nom.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(),avCX,avCY+5,{align:'center'});
+      }
+    } else {
+      doc.setFillColor(...BG3);doc.setDrawColor(...PURPLE);doc.setLineWidth(0.8);doc.circle(avCX,avCY,avR,'FD');
+      font(14,'bold',WHITE);doc.text(nom.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(),avCX,avCY+5,{align:'center'});
+    }
+    // Name + meta info right of avatar
+    const nX=M+avR*2+8;
+    const nomSz=nom.length>24?13:nom.length>18?15:17;
+    font(nomSz,'bold',WHITE);
+    const nlines=doc.splitTextToSize(nom,CW-avR*2-10);
+    nlines.slice(0,2).forEach((l,i)=>doc.text(l,nX,y+10+i*7));
+    font(7.5,'normal',LGRAY);
+    doc.text((c.marca||'—')+' · Tienda '+(c.tienda||'—')+' · CC '+c.cedula,nX,y+10+nlines.slice(0,2).length*7+3);
+    const fi=c.fecha_inicio?new Date(c.fecha_inicio).toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'}):'—';
+    font(7,'normal',[140,130,170]);doc.text('Ingreso: '+fi,nX,y+10+nlines.slice(0,2).length*7+9);
+
+    // Rol badge
+    const rol=fa?.rol_tienda||c.rol_tienda||null;
+    if(rol){
+      pill(rol.toUpperCase(),nX,y+10+nlines.slice(0,2).length*7+13,24,6,BG3,BLUE);
     }
 
-    // Footer
-    doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(...MUTED);
-    doc.text(today,58,290);
+    y=y+avR*2+10;
 
-    // ══ PAGE 2 ══════════════════════════════
+    // ── DATA GRID ──
+    card(M,y,CW,72);
+    const colW=CW/2-3,col2X=M+CW/2+3;
+    const fields=[
+      ['Cédula',c.cedula,'Marca',c.marca],
+      ['Ciudad',fa?.ciudad||'—','Tienda',c.tienda],
+      ['Fecha de ingreso',fi,'Rol en tienda',rol||'—'],
+      ['Experiencia previa',fa?.experiencia_previa||'—','Familiaridad moda/retail',null],
+    ];
+    fields.forEach((row,ri)=>{
+      const fy=y+5+ri*17;
+      labelval(row[0],row[1],M+4,fy,colW);
+      if(row[3]!==null)labelval(row[2],row[3],col2X,fy,colW);
+      else{
+        // Stars
+        font(6,'bold',LGRAY);doc.text(row[2].toUpperCase(),col2X,fy);
+        const fam=parseInt(fa?.familiaridad_retail||0);
+        for(let s=0;s<5;s++){
+          const sx=col2X+(s*8);
+          if(s<fam){doc.setFillColor(...GOLD);doc.circle(sx+3,fy+6,2.5,'F');}
+          else{doc.setDrawColor(...LGRAY);doc.setLineWidth(0.3);doc.circle(sx+3,fy+6,2.5,'S');}
+        }
+        font(5.5,'normal',LGRAY);
+        doc.text('1 (Baja)',col2X,fy+12);
+        doc.text('5 (Alta)',col2X+32,fy+12);
+      }
+      if(ri<3)hline(M+4,fy+13,CW-8,[40,32,70]);
+    });
+    y+=78;
+
+    // ── META PERSONAL ──
+    if(y<240){
+      doc.setFillColor(20,15,5);doc.setDrawColor(...GOLD);doc.setLineWidth(0.4);
+      doc.roundedRect(M,y,CW,36,3,3,'FD');
+      doc.setFillColor(...GOLD);doc.circle(M+10,y+10,5,'F');
+      font(8,'bold',BG);doc.text('\u201C\u201C',M+7.5,y+12);
+      font(6.5,'bold',GOLD);doc.text('META PERSONAL O LABORAL',M+18,y+8);
+      font(8,'italic',WHITE);
+      const meta=fa?.meta_personal||fa?.goals||'—';
+      txt(meta,M+4,y+16,{maxW:CW-8,maxLines:3,lh:5.5});
+      y+=42;
+    }
+
+    // ── FOOTER p1 ──
+    doc.setFillColor(...BG2);doc.rect(0,H-12,W,12,'F');
+    doc.setFillColor(...PURPLE);doc.rect(0,H-12,3,12,'F');
+    font(6.5,'normal',LGRAY);
+    doc.text('Pasaporte GCO  ·  Ficha de Acompañamiento  ·  '+today,M+2,H-5);
+    pill('Página 1 de 3',W-M-26,H-10,26,7,BG3,BLUE);
+
+    // ════════════════════════════════════
+    // PAGE 2 — PERFIL CONDUCTUAL DISC
+    // ════════════════════════════════════
     doc.addPage();
-    doc.addImage(PDF_TPL.p2,'PNG',0,0,W,H);
+    doc.setFillColor(...BG);doc.rect(0,0,W,H,'F');
 
+    // Header
+    doc.setFillColor(...BG2);doc.rect(0,0,W,28,'F');
+    doc.setFillColor(...PURPLE);doc.rect(0,0,3,28,'F');
+    font(11,'bold',WHITE);doc.text('Perfil Conductual Situacional GCO',M+2,12);
+    font(7,'normal',LGRAY);doc.text('Inspirado en las dimensiones del modelo DISC  ·  No es una evaluación psicométrica',M+2,19);
+    doc.setDrawColor(...PURPLE);doc.setLineWidth(0.3);doc.line(M+2,22,W-M,22);
+
+    y=32;
     const pD=fa?.puntaje_d??null;
     if(pD!==null){
       const MAX=16;
@@ -3962,143 +4047,210 @@ function downloadCV(ci){
         {d:'C',v:fa.puntaje_c,pct:fa.porcentaje_c??Math.round(fa.puntaje_c/MAX*100),niv:fa.nivel_c||'—'},
       ].sort((a,b)=>b.v-a.v);
 
-      // Bar rows — exact positions from clean template measurement
-      const BAR_X=59,BAR_MAX=53,BAR_H=4.5;
-      const rowY=[44,65,87,108]; // Y for each dimension row
+      // ── DISC BARS ──
+      card(M,y,CW,allS.length*18+8);
+      // Column headers
+      font(5.5,'bold',LGRAY);
+      doc.text('DIMENSIÓN',M+4,y+6);
+      doc.text('PUNTAJE',M+110,y+6,{align:'center'});
+      doc.text('PORCENTAJE',M+130,y+6,{align:'center'});
+      doc.text('NIVEL',M+158,y+6,{align:'center'});
+      hline(M+4,y+8,CW-8,[40,32,70]);
 
       allS.forEach((s,i)=>{
         const [r,g,b]=DCOL[s.d];
-        const y=rowY[i];
-        const bw=Math.max(0.5,BAR_MAX*(s.pct/100));
-        // Bar fill
-        doc.setFillColor(r,g,b);
-        doc.roundedRect(BAR_X,y,bw,BAR_H,1,1,'F');
+        const ry=y+12+i*18;
+        // Circle D/I/S/C
+        doc.setFillColor(r,g,b);doc.circle(M+8,ry+4,5,'F');
+        font(8,'bold',WHITE);doc.text(s.d,M+8,ry+7,{align:'center'});
+        // Dimension name
+        font(7.5,'bold',[r,g,b]);doc.text(DNAME[s.d],M+16,ry+4);
+        // Bar track
+        const BX=M+16,BW=82,BH=4;
+        doc.setFillColor(30,25,55);doc.roundedRect(BX,ry+6,BW,BH,1,1,'F');
+        const fw=Math.max(1,BW*(s.pct/100));
+        doc.setFillColor(r,g,b);doc.roundedRect(BX,ry+6,fw,BH,1,1,'F');
         // Score
-        doc.setFont('helvetica','bold');doc.setFontSize(8.5);doc.setTextColor(r,g,b);
-        doc.text(s.v+'/'+MAX,117,y+3.5);
+        font(8.5,'bold',[r,g,b]);doc.text(s.v+'/'+MAX,M+112,ry+10,{align:'center'});
         // Pct
-        doc.setFontSize(9);
-        doc.text(s.pct+'%',143,y+3.5);
-        // Nivel
-        const nc=NIVEL_COL[s.niv]||MUTED;
-        doc.setFontSize(6.5);doc.setTextColor(...nc);
-        doc.text((s.niv||'—').toUpperCase(),185,y+3.5,{align:'center'});
+        font(9,'bold',[r,g,b]);doc.text(s.pct+'%',M+132,ry+10,{align:'center'});
+        // Nivel pill
+        const nc=NVCOL[s.niv]||LGRAY;
+        const nw=28;
+        doc.setFillColor(nc[0],nc[1],nc[2],20);
+        doc.setDrawColor(...nc);doc.setLineWidth(0.3);
+        doc.roundedRect(M+145,ry+4,nw,7,2,2,'FD');
+        font(6,'bold',nc);doc.text((s.niv||'').toUpperCase(),M+145+nw/2,ry+9,{align:'center'});
+        if(i<allS.length-1)hline(M+4,ry+16,CW-8,[40,32,70]);
       });
+      y+=allS.length*18+14;
 
-      // Profile block
-      const princi=fa?.dimension_principal||null;
-      const secund=fa?.dimension_secundaria||null;
-      const combinado=fa?.perfil_combinado||null;
-      const nivelDif=fa?.nivel_diferenciacion||null;
-      const equilibrado=fa?.perfil_equilibrado||false;
+      // ── PROFILE BLOCK ──
+      const pr=fa?.dimension_principal||null;
+      const sc=fa?.dimension_secundaria||null;
+      const cb=fa?.perfil_combinado||null;
+      const nd=fa?.nivel_diferenciacion||null;
+      const eq=fa?.perfil_equilibrado||false;
 
-      if(!equilibrado&&princi){
-        const [r,g,b]=DCOL[princi]||[88,106,232];
-        // Predominante
-        doc.setFont('helvetica','bold');doc.setFontSize(18);doc.setTextColor(r,g,b);
-        doc.text(princi,24,137,{align:'center'});
-        doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(...MUTED);
-        doc.text(DNAME[princi]||princi,24,144,{align:'center'});
-        // Secundario
-        if(secund&&secund!=='—'){
-          const [rs,gs,bs]=DCOL[secund]||MUTED;
-          doc.setFont('helvetica','bold');doc.setFontSize(18);doc.setTextColor(rs,gs,bs);
-          doc.text(secund,64,137,{align:'center'});
-          doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(...MUTED);
-          doc.text(DNAME[secund]||secund,64,144,{align:'center'});
+      card(M,y,CW,28);
+      const colsW=CW/4;
+      const profileCols=[
+        {label:'PREDOMINANTE',val:pr,sub:pr?DNAME[pr]:'—',col:pr?DCOL[pr]:LGRAY},
+        {label:'SECUNDARIO',val:sc&&sc!=='—'?sc:'—',sub:sc&&sc!=='—'?DNAME[sc]:'—',col:sc&&sc!=='—'?DCOL[sc]:LGRAY},
+        {label:'PERFIL COMBINADO',val:cb||'—',sub:'',col:pr?DCOL[pr]:LGRAY},
+        {label:'DIFERENCIACIÓN',val:nd||'—',sub:(fa?.diferencia_perfil||0)+' pts',col:LGRAY},
+      ];
+      profileCols.forEach((pc,pi)=>{
+        const px=M+pi*colsW+2;
+        font(5.5,'bold',LGRAY);doc.text(pc.label,px,y+6);
+        if(pi>0){doc.setDrawColor(...DGRAY);doc.setLineWidth(0.2);doc.line(M+pi*colsW,y+2,M+pi*colsW,y+26);}
+        if(eq&&pi===0){
+          font(7.5,'bold',GOLD);doc.text('Equilibrado',px,y+16);
+          font(6,'normal',LGRAY);doc.text('mixto',px,y+22);
+        } else if(pc.val&&pc.val!=='—'){
+          font(pi<2?14:8,'bold',pc.col);doc.text(pc.val,px,y+18);
+          if(pc.sub){font(6,'normal',LGRAY);txt(pc.sub,px,y+22,{maxW:colsW-4,maxLines:1});}
+        } else {
+          font(8,'normal',LGRAY);doc.text('—',px,y+16);
         }
-        // Combinado
-        if(combinado){
-          doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(r,g,b);
-          doc.text(combinado,107,135,{align:'center'});
+      });
+      y+=33;
+
+      if(!eq){
+        const ct=DISC_CONTENT[pr]||null;
+        const ck=cb?cb.replace(/\s/g,''):null;
+        const cd=ck?(DISC_COMBINADOS[ck]||DISC_COMBINADOS[ck.split('').reverse().join('+')]||null):null;
+        if(ct){
+          // ── ESTILO GENERAL + PERFIL COMBINADO ──
+          const blockH=32;
+          card(M,y,CW/2-2,blockH);
+          font(6.5,'bold',BLUE);doc.text('ESTILO GENERAL',M+4,y+6);
+          font(7,'normal',WHITE);txt(ct.estilo_general,M+4,y+12,{maxW:CW/2-8,maxLines:4,lh:4.8});
+
+          card(M+CW/2+2,y,CW/2-2,blockH);
+          font(6.5,'bold',BLUE);doc.text('PERFIL COMBINADO',M+CW/2+6,y+6);
+          if(cd){
+            font(7.5,'bold',BLUE);doc.text(cd.nombre,M+CW/2+6,y+13);
+            font(7,'normal',WHITE);txt(cd.desc,M+CW/2+6,y+19,{maxW:CW/2-8,maxLines:3,lh:4.8});
+          } else {
+            font(7,'normal',LGRAY);doc.text('Ver perfiles combinados en cartilla',M+CW/2+6,y+14);
+          }
+          y+=blockH+4;
+
+          // ── TENDENCIAS + COMUNICACION ──
+          const tH=42;
+          card(M,y,CW/2-2,tH);
+          font(6.5,'bold',BLUE);doc.text('TENDENCIAS OBSERVABLES',M+4,y+7);
+          ct.tendencias.slice(0,5).forEach((t,i)=>{
+            doc.setFillColor(...BLUE);doc.circle(M+7,y+14+i*6.5,1.5,'F');
+            font(7,'normal',WHITE);txt(t,M+10,y+15+i*6.5,{maxW:CW/2-14,maxLines:1});
+          });
+
+          card(M+CW/2+2,y,CW/2-2,tH);
+          font(6.5,'bold',BLUE);doc.text('ESTILO DE COMUNICACIÓN',M+CW/2+6,y+7);
+          const chipColors=[BLUE,GOLD,GREEN,CORAL];
+          let cx=M+CW/2+6,cy=y+14;
+          ct.comunicacion.forEach((chip,ci)=>{
+            const [cr,cg,cb3]=chipColors[ci%4];
+            const cw=doc.getTextWidth(chip)+6;
+            if(cx+cw>M+CW-2){cx=M+CW/2+6;cy+=8;}
+            doc.setFillColor(cr,cg,cb3,15);doc.setDrawColor(cr,cg,cb3);doc.setLineWidth(0.25);
+            doc.roundedRect(cx,cy-4,cw,6,1.5,1.5,'FD');
+            font(6.5,'bold',[cr,cg,cb3]);doc.text(chip,cx+cw/2,cy,{align:'center'});
+            cx+=cw+3;
+          });
+          y+=tH+4;
+
+          // ── POSIBLES TENSIONES ──
+          const tensH=28;
+          card(M,y,CW,tensH,[],[],[],{fill:[30,8,10],border:CORAL,lw:0.3});
+          doc.setFillColor(30,8,10);doc.setDrawColor(...CORAL);doc.setLineWidth(0.3);
+          doc.roundedRect(M,y,CW,tensH,3,3,'FD');
+          font(6.5,'bold',CORAL);doc.text('POSIBLES TENSIONES',M+4,y+7);
+          const tCols=[M+4,M+CW/3+4,M+CW*2/3+4];
+          ct.tensiones.slice(0,3).forEach((t,i)=>{
+            doc.setFillColor(...CORAL);doc.circle(tCols[i]+2,y+14,1.5,'F');
+            font(6.5,'normal',[253,180,180]);txt(t,tCols[i]+6,y+15,{maxW:CW/3-10,maxLines:2,lh:4.5});
+          });
+          y+=tensH+4;
         }
-        // Nivel diferenciacion
-        if(nivelDif){
-          doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(88,106,232);
-          doc.text((fa?.diferencia_perfil||0)+'pts',154,132,{align:'center'});
-          doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(...MUTED);
-          doc.text(nivelDif,154,140,{align:'center'});
-        }
-      } else if(equilibrado){
-        doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(...GOLD);
-        doc.text('Perfil equilibrado',107,135,{align:'center'});
+      } else {
+        // Equilibrado card
+        doc.setFillColor(25,20,5);doc.setDrawColor(...GOLD);doc.setLineWidth(0.3);
+        doc.roundedRect(M,y,CW,20,3,3,'FD');
+        font(8,'bold',GOLD);doc.text('Perfil equilibrado / mixto',M+CW/2,y+8,{align:'center'});
+        font(7,'italic',LGRAY);doc.text('Las dimensiones muestran tendencias equilibradas. Usar como punto de conversación.',M+4,y+15,{align:'left'});
+        y+=26;
       }
-
-      // Text content
-      const ct=DISC_CONTENT[princi]||null;
-      const ck=combinado&&!equilibrado?combinado.replace(/\s/g,''):null;
-      const cd=ck?(DISC_COMBINADOS[ck]||DISC_COMBINADOS[ck.split('').reverse().join('+')]||null):null;
-
-      if(ct&&!equilibrado){
-        // Estilo general
-        doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.setTextColor(...WHITE);
-        const egL=doc.splitTextToSize(ct.estilo_general,85);
-        egL.slice(0,5).forEach((l,i)=>doc.text(l,17,167+i*5));
-
-        // Perfil combinado
-        if(cd){
-          doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(88,106,232);
-          const cnL=doc.splitTextToSize(cd.nombre,85);
-          doc.text(cnL[0],120,165,{align:'center'});
-          doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.setTextColor(...WHITE);
-          const cdL=doc.splitTextToSize(cd.desc,90);
-          cdL.slice(0,5).forEach((l,i)=>doc.text(l,106,172+i*5));
-        }
-
-        // Tendencias — 5 items
-        doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.setTextColor(...WHITE);
-        const tendY=[196,204,211,218,225];
-        ct.tendencias.slice(0,5).forEach((t,i)=>{
-          const tL=doc.splitTextToSize(t,82);
-          doc.text(tL[0],22,tendY[i]);
-        });
-
-        // Chips comunicacion
-        const chipColors=[[88,106,232],[255,185,1],[0,201,122],[253,99,107]];
-        const chipX=[100,123,146,169];
-        ct.comunicacion.slice(0,4).forEach((chip,i)=>{
-          const [cr,cg,cb]=chipColors[i];
-          doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(cr,cg,cb);
-          doc.text(chip,chipX[i],201,{align:'center'});
-        });
-
-        // Tensiones — 3 cols
-        doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(253,150,155);
-        const tCols=[13,77,140];
-        ct.tensiones.slice(0,3).forEach((t,i)=>{
-          const tL=doc.splitTextToSize(t,55);
-          tL.slice(0,2).forEach((l,j)=>doc.text(l,tCols[i],231+j*5));
-        });
-      }
+    } else {
+      font(8,'italic',LGRAY);doc.text('El colaborador aún no ha completado el Perfil Conductual.',M,y+10);
     }
 
-    doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(...MUTED);
-    doc.text(today,58,290);
+    // Footer p2
+    doc.setFillColor(...BG2);doc.rect(0,H-12,W,12,'F');
+    doc.setFillColor(...PURPLE);doc.rect(0,H-12,3,12,'F');
+    font(6.5,'normal',LGRAY);doc.text('Pasaporte GCO  ·  Ficha de Acompañamiento  ·  '+today,M+2,H-5);
+    pill('Página 2 de 3',W-M-26,H-10,26,7,BG3,BLUE);
 
-    // ══ PAGE 3 ══════════════════════════════
+    // ════════════════════════════════════
+    // PAGE 3 — RESPUESTAS ABIERTAS
+    // ════════════════════════════════════
     doc.addPage();
-    doc.addImage(PDF_TPL.p3,'PNG',0,0,W,H);
+    doc.setFillColor(...BG);doc.rect(0,0,W,H,'F');
 
-    const answers=[
-      fa?.respuesta_facilidades||fa?.facilidades_aprendizaje||null,
-      fa?.respuesta_retos||fa?.challenges||null,
-      fa?.respuesta_lider||fa?.leader_should_know||null,
-      fa?.respuesta_feedback||fa?.preferencia_feedback||null,
+    // Header
+    doc.setFillColor(...BG2);doc.rect(0,0,W,28,'F');
+    doc.setFillColor(...PURPLE);doc.rect(0,0,3,28,'F');
+    font(11,'bold',WHITE);doc.text('Lo que el colaborador compartió',M+2,12);
+    font(7,'normal',LGRAY);doc.text('Respuestas literales — tal como fueron escritas',M+2,19);
+    doc.setDrawColor(...PURPLE);doc.setLineWidth(0.3);doc.line(M+2,22,W-M,22);
+
+    y=32;
+    const questions=[
+      {q:'¿Qué se te facilita cuando estás aprendiendo algo nuevo?',a:fa?.respuesta_facilidades||fa?.facilidades_aprendizaje||null,col:BLUE},
+      {q:'¿Qué suele ser más retador cuando llegas a un equipo nuevo?',a:fa?.respuesta_retos||fa?.challenges||null,col:GOLD},
+      {q:'¿Qué te gustaría que tu líder supiera de ti para acompañarte mejor?',a:fa?.respuesta_lider||fa?.leader_should_know||null,col:GREEN},
+      {q:'¿Cómo prefieres recibir retroalimentación durante tu proceso de aprendizaje?',a:fa?.respuesta_feedback||fa?.preferencia_feedback||null,col:CORAL},
     ];
-    // Y positions per card — 3 lines each, line spacing ~13mm
-    const ansBlocks=[[49,63,76],[98,111,124],[145,158,171],[193,206,218]];
 
-    answers.forEach((ans,i)=>{
-      if(!ans)return;
-      doc.setFont('helvetica','italic');doc.setFontSize(8.5);doc.setTextColor(...WHITE);
-      const aL=doc.splitTextToSize(ans,165);
-      ansBlocks[i].forEach((y,j)=>{
-        if(aL[j])doc.text(aL[j],24,y);
-      });
+    questions.forEach((item,qi)=>{
+      const ans=item.a||'Sin respuesta registrada.';
+      const ansLines=doc.splitTextToSize(ans,CW-12);
+      const cardH=Math.max(22,ansLines.length*5+14);
+      if(y+cardH>H-28){doc.addPage();doc.setFillColor(...BG);doc.rect(0,0,W,H,'F');y=16;}
+      // Card
+      doc.setFillColor(...BG2);doc.setDrawColor(40,32,70);doc.setLineWidth(0.3);
+      doc.roundedRect(M,y,CW,cardH,3,3,'FD');
+      // Left accent bar
+      doc.setFillColor(...item.col);doc.roundedRect(M,y,3,cardH,1.5,1.5,'F');
+      // Number badge
+      doc.setFillColor(...item.col);doc.circle(M+10,y+8,5,'F');
+      font(7,'bold',BG);doc.text(String(qi+1),M+10,y+11,{align:'center'});
+      // Question
+      font(6.5,'bold',item.col);txt(item.q,M+18,y+8,{maxW:CW-22,maxLines:1});
+      // Answer
+      font(8,'italic',WHITE);
+      ansLines.slice(0,Math.floor((cardH-14)/5)).forEach((l,i)=>doc.text(l,M+6,y+16+i*5));
+      y+=cardH+5;
     });
 
-    doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(...MUTED);
-    doc.text(today,58,290);
+    // ── NOTA ÉTICA ──
+    if(y>H-45){doc.addPage();doc.setFillColor(...BG);doc.rect(0,0,W,H,'F');y=16;}
+    y=Math.max(y,H-44);
+    doc.setFillColor(18,13,3);doc.setDrawColor(...GOLD);doc.setLineWidth(0.4);
+    doc.roundedRect(M,y,CW,28,3,3,'FD');
+    doc.setFillColor(...GOLD);doc.circle(M+10,y+14,6,'F');
+    font(10,'bold',BG);doc.text('\u2696',M+10,y+18,{align:'center'});
+    font(6.5,'normal',[220,200,120]);
+    const etica='Esta herramienta está inspirada en el modelo DISC pero no corresponde a una prueba DISC certificada ni a una evaluación psicométrica. Sus resultados no deben utilizarse como criterio único de selección, evaluación de desempeño, permanencia o toma de decisiones laborales.';
+    const eL=doc.splitTextToSize(etica,CW-22);
+    eL.slice(0,4).forEach((l,i)=>doc.text(l,M+19,y+8+i*5));
+
+    // Footer p3
+    doc.setFillColor(...BG2);doc.rect(0,H-12,W,12,'F');
+    doc.setFillColor(...PURPLE);doc.rect(0,H-12,3,12,'F');
+    font(6.5,'normal',LGRAY);doc.text('Pasaporte GCO  ·  Ficha de Acompañamiento  ·  '+today,M+2,H-5);
+    pill('Página 3 de 3',W-M-26,H-10,26,7,BG3,BLUE);
 
     doc.save(fileName);
   }
@@ -4110,6 +4262,7 @@ function downloadCV(ci){
     s.onload=generate;document.head.appendChild(s);
   }
 }
+
 /* ══════════════════════════════════════════
    ADMIN PANEL
 ══════════════════════════════════════════ */
