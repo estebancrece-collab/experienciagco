@@ -3866,180 +3866,29 @@ const PDF_TPL = {
 function downloadCV(ci){
   const c=ldrC[ci];
   const fa=c._fa||c._wp;
-  const nom=fa?.nombre_completo||c.nombre||'—';
-  const fileName='Ficha_'+(nom.replace(/\s+/g,'_'))+'.pdf';
+  const nom=fa?.nombre_completo||c.nombre||'Colaborador';
+  const fileName='Ficha_'+nom.replace(/\s+/g,'_')+'.pdf';
 
-  function generate(){
-    const {jsPDF}=window.jspdf;
-    const doc=new jsPDF({unit:'mm',format:'a4'});
-    const W=210,H=297,M=14,CW=182;
-    const today=new Date().toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'});
-    // ── Palette ──
-    const BG=[8,6,28],BG2=[18,15,45],BG3=[26,22,65];
-    const PURPLE=[88,60,200],BLUE=[88,106,232],GOLD=[255,185,1];
-    const GREEN=[0,201,122],CORAL=[253,99,107],TEAL=[109,199,204];
-    const WHITE=[255,255,255],LGRAY=[160,150,210],DGRAY=[60,50,90];
-    const DCOL={D:[88,106,232],I:[255,185,1],S:[0,201,122],C:[253,99,107]};
-    const DNAME={D:'Dominancia / Resultados',I:'Influencia / Relación',S:'Estabilidad / Ritmo',C:'Cumplimiento / Claridad'};
-    const NVCOL={'Alto':BLUE,'Medio alto':GREEN,'Medio bajo':[255,185,1],'Bajo':CORAL};
-
-    // ── Helpers ──
-    const fill=(r,g,b,a)=>{if(a!==undefined)doc.setFillColor(r,g,b);else doc.setFillColor(r,g,b);};
-    const stroke=(r,g,b)=>doc.setDrawColor(r,g,b);
-    const font=(size,style,color)=>{doc.setFontSize(size);doc.setFont('helvetica',style||'normal');if(color)doc.setTextColor(...color);};
-    const txt=(t,x,y,opts={})=>{
-      if(t===null||t===undefined)return 0;
-      const s=String(t);
-      const mw=opts.maxW||CW;
-      const lines=doc.splitTextToSize(s,mw);
-      const take=opts.maxLines||lines.length;
-      const align=opts.align||'left';
-      lines.slice(0,take).forEach((l,i)=>doc.text(l,x,y+i*(opts.lh||5),{align}));
-      return Math.min(take,lines.length)*( opts.lh||5);
-    };
-    const card=(x,y,w,h,opts={})=>{
-      doc.setFillColor(...(opts.fill||BG2));
-      doc.setDrawColor(...(opts.border||[50,40,80]));
-      doc.setLineWidth(opts.lw||0.3);
-      doc.roundedRect(x,y,w,h,opts.r||3,opts.r||3,'FD');
-    };
-    const pill=(label,x,y,w,h,bg,fg)=>{
-      doc.setFillColor(...bg);doc.setDrawColor(...fg);doc.setLineWidth(0.3);
-      doc.roundedRect(x,y,w,h,h/2,h/2,'FD');
-      font(6.5,'bold',fg);doc.text(label,x+w/2,y+h/2+2.2,{align:'center'});
-    };
-    const hline=(x,y,w,col)=>{doc.setDrawColor(...(col||DGRAY));doc.setLineWidth(0.2);doc.line(x,y,x+w,y);};
-    const labelval=(label,val,x,y,colW)=>{
-      font(6,'bold',LGRAY);doc.text(label.toUpperCase(),x,y);
-      font(8.5,'normal',WHITE);
-      const ls=doc.splitTextToSize(String(val||'—'),colW-2);
-      ls.slice(0,2).forEach((l,i)=>doc.text(l,x,y+4+i*4.5));
-    };
-
-    // ════════════════════════════════════
-    // PAGE 1 — DATOS DEL COLABORADOR
-    // ════════════════════════════════════
-    // Full page background
-    doc.setFillColor(...BG);doc.rect(0,0,W,H,'F');
-
-    // ── HEADER BAND ──
-    doc.setFillColor(...BG2);doc.rect(0,0,W,38,'F');
-    doc.setFillColor(...PURPLE);doc.rect(0,0,3,38,'F');
-    // GCO label
-    font(7,'bold',GOLD);doc.text('PASAPORTE GCO',M+2,10);
-    font(7,'normal',[180,160,255]);doc.text('Ficha de Acompañamiento',M+2,16);
-    // Underline gold
-    doc.setDrawColor(...GOLD);doc.setLineWidth(0.5);doc.line(M+2,18,M+52,18);
-    // Badge avance
-    const pct=(c._pct||0)+'%';
-    doc.setFillColor(30,20,60);doc.setDrawColor(...BLUE);doc.setLineWidth(0.5);
-    doc.roundedRect(W-M-28,5,28,16,3,3,'FD');
-    font(11,'bold',BLUE);doc.text(pct,W-M-14,15,{align:'center'});
-    font(5.5,'normal',LGRAY);doc.text('AVANCE',W-M-14,20,{align:'center'});
-
-    // ── PROFILE HERO ──
-    let y=44;
-    // Avatar circle
-    const avSrc=localStorage.getItem('gco_av_'+c.cedula)||c.avatar||null;
-    const avR=18,avCX=M+avR,avCY=y+avR+2;
-    if(avSrc){
-      try{
-        doc.addImage(avSrc,'JPEG',avCX-avR,avCY-avR,avR*2,avR*2,'','FAST');
-        doc.setDrawColor(...BLUE);doc.setLineWidth(1);doc.circle(avCX,avCY,avR,'S');
-      }catch(e){
-        doc.setFillColor(...BG3);doc.setDrawColor(...PURPLE);doc.setLineWidth(0.8);doc.circle(avCX,avCY,avR,'FD');
-        font(14,'bold',WHITE);doc.text(nom.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(),avCX,avCY+5,{align:'center'});
-      }
-    } else {
-      doc.setFillColor(...BG3);doc.setDrawColor(...PURPLE);doc.setLineWidth(0.8);doc.circle(avCX,avCY,avR,'FD');
-      font(14,'bold',WHITE);doc.text(nom.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(),avCX,avCY+5,{align:'center'});
-    }
-    // Name + meta info right of avatar
-    const nX=M+avR*2+8;
-    const nomSz=nom.length>24?13:nom.length>18?15:17;
-    font(nomSz,'bold',WHITE);
-    const nlines=doc.splitTextToSize(nom,CW-avR*2-10);
-    nlines.slice(0,2).forEach((l,i)=>doc.text(l,nX,y+10+i*7));
-    font(7.5,'normal',LGRAY);
-    doc.text((c.marca||'—')+' · Tienda '+(c.tienda||'—')+' · CC '+c.cedula,nX,y+10+nlines.slice(0,2).length*7+3);
+  // Build HTML document for capture
+  function buildFichaHTML(){
     const fi=c.fecha_inicio?new Date(c.fecha_inicio).toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'}):'—';
-    font(7,'normal',[140,130,170]);doc.text('Ingreso: '+fi,nX,y+10+nlines.slice(0,2).length*7+9);
+    const today=new Date().toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'});
+    const famLabels=['','★☆☆☆☆  Nada familiarizado/a','★★☆☆☆  Poco familiarizado/a','★★★☆☆  Algo familiarizado/a','★★★★☆  Familiarizado/a','★★★★★  Muy familiarizado/a'];
+    const DNAME={D:'Dominancia / Resultados',I:'Influencia / Relación',S:'Estabilidad / Ritmo',C:'Cumplimiento / Claridad'};
+    const DCOLOR={D:'#4f46e5',I:'#d97706',S:'#059669',C:'#dc2626'};
+    const DBG={D:'#ede9fe',I:'#fef3c7',S:'#d1fae5',C:'#fee2e2'};
+    const NIVEL_COLOR={'Alto':'#4f46e5','Medio alto':'#059669','Medio bajo':'#d97706','Bajo':'#dc2626'};
+    const NIVEL_BG={'Alto':'#ede9fe','Medio alto':'#d1fae5','Medio bajo':'#fef3c7','Bajo':'#fee2e2'};
 
-    // Rol badge
-    const rol=fa?.rol_tienda||c.rol_tienda||null;
-    if(rol){
-      pill(rol.toUpperCase(),nX,y+10+nlines.slice(0,2).length*7+13,24,6,BG3,BLUE);
-    }
-
-    y=y+avR*2+10;
-
-    // ── DATA GRID ──
-    card(M,y,CW,72);
-    const colW=CW/2-3,col2X=M+CW/2+3;
-    const fields=[
-      ['Cédula',c.cedula,'Marca',c.marca],
-      ['Ciudad',fa?.ciudad||'—','Tienda',c.tienda],
-      ['Fecha de ingreso',fi,'Rol en tienda',rol||'—'],
-      ['Experiencia previa',fa?.experiencia_previa||'—','Familiaridad moda/retail',null],
-    ];
-    fields.forEach((row,ri)=>{
-      const fy=y+5+ri*17;
-      labelval(row[0],row[1],M+4,fy,colW);
-      if(row[3]!==null)labelval(row[2],row[3],col2X,fy,colW);
-      else{
-        // Stars
-        font(6,'bold',LGRAY);doc.text(row[2].toUpperCase(),col2X,fy);
-        const fam=parseInt(fa?.familiaridad_retail||0);
-        for(let s=0;s<5;s++){
-          const sx=col2X+(s*8);
-          if(s<fam){doc.setFillColor(...GOLD);doc.circle(sx+3,fy+6,2.5,'F');}
-          else{doc.setDrawColor(...LGRAY);doc.setLineWidth(0.3);doc.circle(sx+3,fy+6,2.5,'S');}
-        }
-        font(5.5,'normal',LGRAY);
-        doc.text('1 (Baja)',col2X,fy+12);
-        doc.text('5 (Alta)',col2X+32,fy+12);
-      }
-      if(ri<3)hline(M+4,fy+13,CW-8,[40,32,70]);
-    });
-    y+=78;
-
-    // ── META PERSONAL ──
-    if(y<240){
-      doc.setFillColor(20,15,5);doc.setDrawColor(...GOLD);doc.setLineWidth(0.4);
-      doc.roundedRect(M,y,CW,36,3,3,'FD');
-      doc.setFillColor(...GOLD);doc.circle(M+10,y+10,5,'F');
-      font(8,'bold',BG);doc.text('\u201C\u201C',M+7.5,y+12);
-      font(6.5,'bold',GOLD);doc.text('META PERSONAL O LABORAL',M+18,y+8);
-      font(8,'italic',WHITE);
-      const meta=fa?.meta_personal||fa?.goals||'—';
-      txt(meta,M+4,y+16,{maxW:CW-8,maxLines:3,lh:5.5});
-      y+=42;
-    }
-
-    // ── FOOTER p1 ──
-    doc.setFillColor(...BG2);doc.rect(0,H-12,W,12,'F');
-    doc.setFillColor(...PURPLE);doc.rect(0,H-12,3,12,'F');
-    font(6.5,'normal',LGRAY);
-    doc.text('Pasaporte GCO  ·  Ficha de Acompañamiento  ·  '+today,M+2,H-5);
-    pill('Página 1 de 3',W-M-26,H-10,26,7,BG3,BLUE);
-
-    // ════════════════════════════════════
-    // PAGE 2 — PERFIL CONDUCTUAL DISC
-    // ════════════════════════════════════
-    doc.addPage();
-    doc.setFillColor(...BG);doc.rect(0,0,W,H,'F');
-
-    // Header
-    doc.setFillColor(...BG2);doc.rect(0,0,W,28,'F');
-    doc.setFillColor(...PURPLE);doc.rect(0,0,3,28,'F');
-    font(11,'bold',WHITE);doc.text('Perfil Conductual Situacional GCO',M+2,12);
-    font(7,'normal',LGRAY);doc.text('Inspirado en las dimensiones del modelo DISC  ·  No es una evaluación psicométrica',M+2,19);
-    doc.setDrawColor(...PURPLE);doc.setLineWidth(0.3);doc.line(M+2,22,W-M,22);
-
-    y=32;
     const pD=fa?.puntaje_d??null;
-    if(pD!==null){
-      const MAX=16;
+    const hasDisc=pD!==null;
+    const MAX=16;
+
+    let discHTML='';
+    let profileHTML='';
+    let contentHTML='';
+
+    if(hasDisc){
       const allS=[
         {d:'D',v:fa.puntaje_d,pct:fa.porcentaje_d??Math.round(fa.puntaje_d/MAX*100),niv:fa.nivel_d||'—'},
         {d:'I',v:fa.puntaje_i,pct:fa.porcentaje_i??Math.round(fa.puntaje_i/MAX*100),niv:fa.nivel_i||'—'},
@@ -4047,220 +3896,311 @@ function downloadCV(ci){
         {d:'C',v:fa.puntaje_c,pct:fa.porcentaje_c??Math.round(fa.puntaje_c/MAX*100),niv:fa.nivel_c||'—'},
       ].sort((a,b)=>b.v-a.v);
 
-      // ── DISC BARS ──
-      card(M,y,CW,allS.length*18+8);
-      // Column headers
-      font(5.5,'bold',LGRAY);
-      doc.text('DIMENSIÓN',M+4,y+6);
-      doc.text('PUNTAJE',M+110,y+6,{align:'center'});
-      doc.text('PORCENTAJE',M+130,y+6,{align:'center'});
-      doc.text('NIVEL',M+158,y+6,{align:'center'});
-      hline(M+4,y+8,CW-8,[40,32,70]);
+      discHTML=`<table class="disc-table">
+        <thead><tr><th>Dimensión</th><th colspan="2">Puntaje</th><th>%</th><th>Nivel</th></tr></thead>
+        <tbody>${allS.map(s=>`<tr>
+          <td><span class="dim-badge" style="background:${DBG[s.d]};color:${DCOLOR[s.d]}">${s.d}</span> ${DNAME[s.d]}</td>
+          <td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:${s.pct}%;background:${DCOLOR[s.d]}"></div></div></td>
+          <td class="score">${s.v}/${MAX}</td>
+          <td class="pct" style="color:${DCOLOR[s.d]}">${s.pct}%</td>
+          <td><span class="nivel-pill" style="background:${NIVEL_BG[s.niv]||'#f3f4f6'};color:${NIVEL_COLOR[s.niv]||'#374151'}">${s.niv}</span></td>
+        </tr>`).join('')}</tbody>
+      </table>`;
 
-      allS.forEach((s,i)=>{
-        const [r,g,b]=DCOL[s.d];
-        const ry=y+12+i*18;
-        // Circle D/I/S/C
-        doc.setFillColor(r,g,b);doc.circle(M+8,ry+4,5,'F');
-        font(8,'bold',WHITE);doc.text(s.d,M+8,ry+7,{align:'center'});
-        // Dimension name
-        font(7.5,'bold',[r,g,b]);doc.text(DNAME[s.d],M+16,ry+4);
-        // Bar track
-        const BX=M+16,BW=82,BH=4;
-        doc.setFillColor(30,25,55);doc.roundedRect(BX,ry+6,BW,BH,1,1,'F');
-        const fw=Math.max(1,BW*(s.pct/100));
-        doc.setFillColor(r,g,b);doc.roundedRect(BX,ry+6,fw,BH,1,1,'F');
-        // Score
-        font(8.5,'bold',[r,g,b]);doc.text(s.v+'/'+MAX,M+112,ry+10,{align:'center'});
-        // Pct
-        font(9,'bold',[r,g,b]);doc.text(s.pct+'%',M+132,ry+10,{align:'center'});
-        // Nivel pill
-        const nc=NVCOL[s.niv]||LGRAY;
-        const nw=28;
-        doc.setFillColor(nc[0],nc[1],nc[2],20);
-        doc.setDrawColor(...nc);doc.setLineWidth(0.3);
-        doc.roundedRect(M+145,ry+4,nw,7,2,2,'FD');
-        font(6,'bold',nc);doc.text((s.niv||'').toUpperCase(),M+145+nw/2,ry+9,{align:'center'});
-        if(i<allS.length-1)hline(M+4,ry+16,CW-8,[40,32,70]);
-      });
-      y+=allS.length*18+14;
-
-      // ── PROFILE BLOCK ──
       const pr=fa?.dimension_principal||null;
       const sc=fa?.dimension_secundaria||null;
       const cb=fa?.perfil_combinado||null;
       const nd=fa?.nivel_diferenciacion||null;
       const eq=fa?.perfil_equilibrado||false;
 
-      card(M,y,CW,28);
-      const colsW=CW/4;
-      const profileCols=[
-        {label:'PREDOMINANTE',val:pr,sub:pr?DNAME[pr]:'—',col:pr?DCOL[pr]:LGRAY},
-        {label:'SECUNDARIO',val:sc&&sc!=='—'?sc:'—',sub:sc&&sc!=='—'?DNAME[sc]:'—',col:sc&&sc!=='—'?DCOL[sc]:LGRAY},
-        {label:'PERFIL COMBINADO',val:cb||'—',sub:'',col:pr?DCOL[pr]:LGRAY},
-        {label:'DIFERENCIACIÓN',val:nd||'—',sub:(fa?.diferencia_perfil||0)+' pts',col:LGRAY},
-      ];
-      profileCols.forEach((pc,pi)=>{
-        const px=M+pi*colsW+2;
-        font(5.5,'bold',LGRAY);doc.text(pc.label,px,y+6);
-        if(pi>0){doc.setDrawColor(...DGRAY);doc.setLineWidth(0.2);doc.line(M+pi*colsW,y+2,M+pi*colsW,y+26);}
-        if(eq&&pi===0){
-          font(7.5,'bold',GOLD);doc.text('Equilibrado',px,y+16);
-          font(6,'normal',LGRAY);doc.text('mixto',px,y+22);
-        } else if(pc.val&&pc.val!=='—'){
-          font(pi<2?14:8,'bold',pc.col);doc.text(pc.val,px,y+18);
-          if(pc.sub){font(6,'normal',LGRAY);txt(pc.sub,px,y+22,{maxW:colsW-4,maxLines:1});}
-        } else {
-          font(8,'normal',LGRAY);doc.text('—',px,y+16);
-        }
-      });
-      y+=33;
+      profileHTML=`<div class="profile-grid">
+        <div class="profile-box">
+          <div class="profile-box-label">Predominante</div>
+          ${pr&&pr!=='Equilibrado'?`<div class="profile-letter" style="color:${DCOLOR[pr]||'#4f46e5'}">${pr}</div><div class="profile-name">${DNAME[pr]||pr}</div>`:`<div class="profile-eq">Equilibrado / mixto</div>`}
+        </div>
+        <div class="profile-box">
+          <div class="profile-box-label">Secundario</div>
+          ${sc&&sc!=='—'?`<div class="profile-letter" style="color:${DCOLOR[sc]||'#6b7280'}">${sc}</div><div class="profile-name">${DNAME[sc]||sc}</div>`:`<div class="profile-name">—</div>`}
+        </div>
+        <div class="profile-box">
+          <div class="profile-box-label">Perfil combinado</div>
+          <div class="profile-comb">${cb||'—'}</div>
+        </div>
+        <div class="profile-box">
+          <div class="profile-box-label">Diferenciación</div>
+          <div class="profile-comb">${nd||'—'}</div>
+          <div class="profile-name">${fa?.diferencia_perfil||0} pts</div>
+        </div>
+      </div>`;
 
-      if(!eq){
-        const ct=DISC_CONTENT[pr]||null;
-        const ck=cb?cb.replace(/\s/g,''):null;
-        const cd=ck?(DISC_COMBINADOS[ck]||DISC_COMBINADOS[ck.split('').reverse().join('+')]||null):null;
-        if(ct){
-          // ── ESTILO GENERAL + PERFIL COMBINADO ──
-          const blockH=32;
-          card(M,y,CW/2-2,blockH);
-          font(6.5,'bold',BLUE);doc.text('ESTILO GENERAL',M+4,y+6);
-          font(7,'normal',WHITE);txt(ct.estilo_general,M+4,y+12,{maxW:CW/2-8,maxLines:4,lh:4.8});
+      const ct=DISC_CONTENT[pr]||null;
+      const ck=cb&&!eq?cb.replace(/\s/g,''):null;
+      const cd=ck?(DISC_COMBINADOS[ck]||DISC_COMBINADOS[ck.split('').reverse().join('+')]||null):null;
 
-          card(M+CW/2+2,y,CW/2-2,blockH);
-          font(6.5,'bold',BLUE);doc.text('PERFIL COMBINADO',M+CW/2+6,y+6);
-          if(cd){
-            font(7.5,'bold',BLUE);doc.text(cd.nombre,M+CW/2+6,y+13);
-            font(7,'normal',WHITE);txt(cd.desc,M+CW/2+6,y+19,{maxW:CW/2-8,maxLines:3,lh:4.8});
-          } else {
-            font(7,'normal',LGRAY);doc.text('Ver perfiles combinados en cartilla',M+CW/2+6,y+14);
-          }
-          y+=blockH+4;
-
-          // ── TENDENCIAS + COMUNICACION ──
-          const tH=42;
-          card(M,y,CW/2-2,tH);
-          font(6.5,'bold',BLUE);doc.text('TENDENCIAS OBSERVABLES',M+4,y+7);
-          ct.tendencias.slice(0,5).forEach((t,i)=>{
-            doc.setFillColor(...BLUE);doc.circle(M+7,y+14+i*6.5,1.5,'F');
-            font(7,'normal',WHITE);txt(t,M+10,y+15+i*6.5,{maxW:CW/2-14,maxLines:1});
-          });
-
-          card(M+CW/2+2,y,CW/2-2,tH);
-          font(6.5,'bold',BLUE);doc.text('ESTILO DE COMUNICACIÓN',M+CW/2+6,y+7);
-          const chipColors=[BLUE,GOLD,GREEN,CORAL];
-          let cx=M+CW/2+6,cy=y+14;
-          ct.comunicacion.forEach((chip,ci)=>{
-            const [cr,cg,cb3]=chipColors[ci%4];
-            const cw=doc.getTextWidth(chip)+6;
-            if(cx+cw>M+CW-2){cx=M+CW/2+6;cy+=8;}
-            doc.setFillColor(cr,cg,cb3,15);doc.setDrawColor(cr,cg,cb3);doc.setLineWidth(0.25);
-            doc.roundedRect(cx,cy-4,cw,6,1.5,1.5,'FD');
-            font(6.5,'bold',[cr,cg,cb3]);doc.text(chip,cx+cw/2,cy,{align:'center'});
-            cx+=cw+3;
-          });
-          y+=tH+4;
-
-          // ── POSIBLES TENSIONES ──
-          const tensH=28;
-          card(M,y,CW,tensH,[],[],[],{fill:[30,8,10],border:CORAL,lw:0.3});
-          doc.setFillColor(30,8,10);doc.setDrawColor(...CORAL);doc.setLineWidth(0.3);
-          doc.roundedRect(M,y,CW,tensH,3,3,'FD');
-          font(6.5,'bold',CORAL);doc.text('POSIBLES TENSIONES',M+4,y+7);
-          const tCols=[M+4,M+CW/3+4,M+CW*2/3+4];
-          ct.tensiones.slice(0,3).forEach((t,i)=>{
-            doc.setFillColor(...CORAL);doc.circle(tCols[i]+2,y+14,1.5,'F');
-            font(6.5,'normal',[253,180,180]);txt(t,tCols[i]+6,y+15,{maxW:CW/3-10,maxLines:2,lh:4.5});
-          });
-          y+=tensH+4;
-        }
-      } else {
-        // Equilibrado card
-        doc.setFillColor(25,20,5);doc.setDrawColor(...GOLD);doc.setLineWidth(0.3);
-        doc.roundedRect(M,y,CW,20,3,3,'FD');
-        font(8,'bold',GOLD);doc.text('Perfil equilibrado / mixto',M+CW/2,y+8,{align:'center'});
-        font(7,'italic',LGRAY);doc.text('Las dimensiones muestran tendencias equilibradas. Usar como punto de conversación.',M+4,y+15,{align:'left'});
-        y+=26;
+      if(ct&&!eq){
+        const color=DCOLOR[pr]||'#4f46e5';
+        const bg=DBG[pr]||'#ede9fe';
+        contentHTML=`
+          <div class="two-col">
+            <div class="content-card">
+              <div class="content-card-title" style="color:${color}">Estilo general</div>
+              <p class="content-card-txt">${ct.estilo_general}</p>
+            </div>
+            ${cd?`<div class="content-card">
+              <div class="content-card-title" style="color:${color}">Perfil combinado — ${cd.nombre}</div>
+              <p class="content-card-txt">${cd.desc}</p>
+            </div>`:''}
+          </div>
+          <div class="two-col">
+            <div class="content-card">
+              <div class="content-card-title" style="color:${color}">Tendencias observables</div>
+              <ul class="tendency-list">${ct.tendencias.map(t=>`<li>${t}</li>`).join('')}</ul>
+            </div>
+            <div class="content-card">
+              <div class="content-card-title" style="color:${color}">Estilo de comunicación</div>
+              <div class="chips">${ct.comunicacion.map((ch,i)=>`<span class="chip" style="background:${[bg,'#fef3c7','#d1fae5','#fee2e2'][i]||bg};color:${[color,'#d97706','#059669','#dc2626'][i]||color}">${ch}</span>`).join('')}</div>
+              <div class="content-card-title" style="color:#dc2626;margin-top:12px">Posibles tensiones</div>
+              <ul class="tension-list">${ct.tensiones.map(t=>`<li>${t}</li>`).join('')}</ul>
+            </div>
+          </div>`;
+      } else if(eq){
+        contentHTML=`<div class="eq-box"><strong>Perfil equilibrado / mixto.</strong> Las dimensiones muestran tendencias similares. Usar esta información como punto de conversación, sin conclusiones fuertes sobre un estilo predominante.</div>`;
       }
-    } else {
-      font(8,'italic',LGRAY);doc.text('El colaborador aún no ha completado el Perfil Conductual.',M,y+10);
     }
 
-    // Footer p2
-    doc.setFillColor(...BG2);doc.rect(0,H-12,W,12,'F');
-    doc.setFillColor(...PURPLE);doc.rect(0,H-12,3,12,'F');
-    font(6.5,'normal',LGRAY);doc.text('Pasaporte GCO  ·  Ficha de Acompañamiento  ·  '+today,M+2,H-5);
-    pill('Página 2 de 3',W-M-26,H-10,26,7,BG3,BLUE);
-
-    // ════════════════════════════════════
-    // PAGE 3 — RESPUESTAS ABIERTAS
-    // ════════════════════════════════════
-    doc.addPage();
-    doc.setFillColor(...BG);doc.rect(0,0,W,H,'F');
-
-    // Header
-    doc.setFillColor(...BG2);doc.rect(0,0,W,28,'F');
-    doc.setFillColor(...PURPLE);doc.rect(0,0,3,28,'F');
-    font(11,'bold',WHITE);doc.text('Lo que el colaborador compartió',M+2,12);
-    font(7,'normal',LGRAY);doc.text('Respuestas literales — tal como fueron escritas',M+2,19);
-    doc.setDrawColor(...PURPLE);doc.setLineWidth(0.3);doc.line(M+2,22,W-M,22);
-
-    y=32;
-    const questions=[
-      {q:'¿Qué se te facilita cuando estás aprendiendo algo nuevo?',a:fa?.respuesta_facilidades||fa?.facilidades_aprendizaje||null,col:BLUE},
-      {q:'¿Qué suele ser más retador cuando llegas a un equipo nuevo?',a:fa?.respuesta_retos||fa?.challenges||null,col:GOLD},
-      {q:'¿Qué te gustaría que tu líder supiera de ti para acompañarte mejor?',a:fa?.respuesta_lider||fa?.leader_should_know||null,col:GREEN},
-      {q:'¿Cómo prefieres recibir retroalimentación durante tu proceso de aprendizaje?',a:fa?.respuesta_feedback||fa?.preferencia_feedback||null,col:CORAL},
+    const answers=[
+      {q:'¿Qué se te facilita cuando estás aprendiendo algo nuevo?',a:fa?.respuesta_facilidades||fa?.facilidades_aprendizaje},
+      {q:'¿Qué suele ser más retador cuando llegas a un equipo nuevo?',a:fa?.respuesta_retos||fa?.challenges},
+      {q:'¿Qué te gustaría que tu líder supiera de ti para acompañarte mejor?',a:fa?.respuesta_lider||fa?.leader_should_know},
+      {q:'¿Cómo prefieres recibir retroalimentación durante tu proceso?',a:fa?.respuesta_feedback||fa?.preferencia_feedback},
     ];
 
-    questions.forEach((item,qi)=>{
-      const ans=item.a||'Sin respuesta registrada.';
-      const ansLines=doc.splitTextToSize(ans,CW-12);
-      const cardH=Math.max(22,ansLines.length*5+14);
-      if(y+cardH>H-28){doc.addPage();doc.setFillColor(...BG);doc.rect(0,0,W,H,'F');y=16;}
-      // Card
-      doc.setFillColor(...BG2);doc.setDrawColor(40,32,70);doc.setLineWidth(0.3);
-      doc.roundedRect(M,y,CW,cardH,3,3,'FD');
-      // Left accent bar
-      doc.setFillColor(...item.col);doc.roundedRect(M,y,3,cardH,1.5,1.5,'F');
-      // Number badge
-      doc.setFillColor(...item.col);doc.circle(M+10,y+8,5,'F');
-      font(7,'bold',BG);doc.text(String(qi+1),M+10,y+11,{align:'center'});
-      // Question
-      font(6.5,'bold',item.col);txt(item.q,M+18,y+8,{maxW:CW-22,maxLines:1});
-      // Answer
-      font(8,'italic',WHITE);
-      ansLines.slice(0,Math.floor((cardH-14)/5)).forEach((l,i)=>doc.text(l,M+6,y+16+i*5));
-      y+=cardH+5;
+    return`<!DOCTYPE html><html><head><meta charset="UTF-8">
+    <style>
+      *{margin:0;padding:0;box-sizing:border-box;}
+      body{font-family:'Segoe UI',Arial,sans-serif;font-size:11px;color:#1f2937;background:#fff;width:794px;}
+      .page{width:794px;padding:36px 40px;background:#fff;}
+      /* HEADER */
+      .header{display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;border-bottom:3px solid #4f46e5;margin-bottom:20px;}
+      .header-left{}
+      .header-brand{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6d28d9;margin-bottom:3px;}
+      .header-title{font-size:18px;font-weight:800;color:#1e1b4b;}
+      .header-right{text-align:right;font-size:9px;color:#6b7280;}
+      .header-pct{font-size:22px;font-weight:800;color:#4f46e5;}
+      /* PROFILE HERO */
+      .hero{display:flex;gap:20px;align-items:flex-start;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:12px;padding:18px;margin-bottom:16px;}
+      .avatar{width:60px;height:60px;border-radius:50%;background:#4f46e5;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;font-weight:800;flex-shrink:0;}
+      .hero-info{flex:1;}
+      .hero-name{font-size:20px;font-weight:800;color:#1e1b4b;margin-bottom:4px;}
+      .hero-meta{font-size:10px;color:#6b7280;margin-bottom:8px;}
+      .hero-tags{display:flex;gap:8px;flex-wrap:wrap;}
+      .hero-tag{font-size:9px;font-weight:700;padding:3px 10px;border-radius:99px;background:#ede9fe;color:#4f46e5;}
+      /* DATA GRID */
+      .section-title{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6d28d9;margin-bottom:10px;padding-bottom:4px;border-bottom:1px solid #e5e7eb;}
+      .data-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+      .data-item{background:#fafafa;border:1px solid #e5e7eb;border-radius:8px;padding:8px 12px;}
+      .data-label{font-size:8px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+      .data-value{font-size:11px;font-weight:600;color:#1f2937;}
+      .meta-box{background:#fffbeb;border:1px solid #fbbf24;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 14px;margin-bottom:16px;}
+      .meta-label{font-size:8px;font-weight:700;color:#d97706;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+      .meta-text{font-size:11px;color:#1f2937;font-style:italic;line-height:1.6;}
+      /* DISC */
+      .disc-table{width:100%;border-collapse:collapse;margin-bottom:12px;}
+      .disc-table thead th{background:#4f46e5;color:#fff;font-size:9px;font-weight:700;padding:7px 10px;text-align:left;letter-spacing:.5px;}
+      .disc-table tbody tr{border-bottom:1px solid #f3f4f6;}
+      .disc-table tbody tr:nth-child(even){background:#fafafa;}
+      .disc-table tbody td{padding:8px 10px;font-size:10.5px;vertical-align:middle;}
+      .dim-badge{display:inline-block;font-weight:800;font-size:10px;padding:2px 8px;border-radius:6px;margin-right:6px;}
+      .bar-cell{width:120px;}
+      .bar-track{height:8px;background:#e5e7eb;border-radius:99px;overflow:hidden;}
+      .bar-fill{height:100%;border-radius:99px;}
+      .score{font-size:10px;font-weight:700;color:#374151;white-space:nowrap;}
+      .pct{font-weight:800;font-size:11px;}
+      .nivel-pill{display:inline-block;font-size:9px;font-weight:700;padding:3px 8px;border-radius:99px;}
+      /* PROFILE GRID */
+      .profile-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
+      .profile-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:12px;text-align:center;}
+      .profile-box-label{font-size:8px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+      .profile-letter{font-size:26px;font-weight:900;line-height:1;}
+      .profile-name{font-size:9px;color:#6b7280;margin-top:3px;line-height:1.3;}
+      .profile-comb{font-size:13px;font-weight:800;color:#4f46e5;margin-top:4px;}
+      .profile-eq{font-size:10px;font-weight:700;color:#d97706;margin-top:4px;}
+      /* CONTENT */
+      .two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+      .content-card{background:#fafafa;border:1px solid #e5e7eb;border-radius:10px;padding:12px;}
+      .content-card-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+      .content-card-txt{font-size:10px;color:#374151;line-height:1.6;}
+      .tendency-list{padding-left:14px;}
+      .tendency-list li{font-size:10px;color:#374151;margin-bottom:4px;line-height:1.5;}
+      .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
+      .chip{font-size:9px;font-weight:700;padding:4px 10px;border-radius:99px;}
+      .tension-list{padding-left:14px;}
+      .tension-list li{font-size:10px;color:#dc2626;margin-bottom:4px;line-height:1.5;}
+      .eq-box{background:#fef3c7;border:1px solid #fbbf24;border-radius:8px;padding:12px;font-size:10.5px;color:#92400e;line-height:1.6;margin-bottom:12px;}
+      /* OPEN ANSWERS */
+      .answer-card{background:#fafafa;border:1px solid #e5e7eb;border-left:4px solid #4f46e5;border-radius:8px;padding:12px 14px;margin-bottom:10px;}
+      .answer-q{font-size:9px;font-weight:700;color:#4f46e5;text-transform:uppercase;letter-spacing:.3px;margin-bottom:6px;}
+      .answer-a{font-size:11px;color:#1f2937;font-style:italic;line-height:1.6;}
+      /* ETHICS */
+      .ethics{background:#fef9c3;border:1px solid #fde68a;border-radius:8px;padding:12px 14px;margin-top:16px;}
+      .ethics-txt{font-size:9.5px;color:#713f12;line-height:1.6;}
+      /* PAGE BREAK */
+      .page-break{page-break-before:always;padding-top:36px;}
+      .footer{margin-top:20px;padding-top:10px;border-top:1px solid #e5e7eb;display:flex;justify-content:space-between;font-size:8px;color:#9ca3af;}
+      .no-disc{background:#f3f4f6;border-radius:8px;padding:14px;font-size:10px;color:#6b7280;text-align:center;margin-bottom:12px;}
+    </style></head><body>
+
+    <!-- PAGE 1: DATOS -->
+    <div class="page">
+      <div class="header">
+        <div class="header-left">
+          <div class="header-brand">Pasaporte GCO</div>
+          <div class="header-title">Ficha de Acompañamiento</div>
+        </div>
+        <div class="header-right">
+          <div class="header-pct">${c._pct||0}%</div>
+          <div>Avance del pasaporte</div>
+          <div style="margin-top:4px">${today}</div>
+        </div>
+      </div>
+
+      <div class="hero">
+        <div class="avatar">${nom.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</div>
+        <div class="hero-info">
+          <div class="hero-name">${nom}</div>
+          <div class="hero-meta">CC ${c.cedula} · ${c.marca||'—'} · Tienda ${c.tienda||'—'} · Ingreso ${fi}</div>
+          <div class="hero-tags">
+            ${fa?.rol_tienda?`<span class="hero-tag">${fa.rol_tienda}</span>`:''}
+            ${fa?.ciudad?`<span class="hero-tag">${fa.ciudad}</span>`:''}
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">Datos del colaborador</div>
+      <div class="data-grid">
+        <div class="data-item"><div class="data-label">Cédula</div><div class="data-value">${c.cedula}</div></div>
+        <div class="data-item"><div class="data-label">Marca</div><div class="data-value">${c.marca||'—'}</div></div>
+        <div class="data-item"><div class="data-label">Tienda</div><div class="data-value">${c.tienda||'—'}</div></div>
+        <div class="data-item"><div class="data-label">Ciudad</div><div class="data-value">${fa?.ciudad||'—'}</div></div>
+        <div class="data-item"><div class="data-label">Fecha de ingreso</div><div class="data-value">${fi}</div></div>
+        <div class="data-item"><div class="data-label">Rol en tienda</div><div class="data-value">${fa?.rol_tienda||'—'}</div></div>
+        <div class="data-item"><div class="data-label">Experiencia previa</div><div class="data-value">${fa?.experiencia_previa||'—'}</div></div>
+        <div class="data-item"><div class="data-label">Familiaridad moda / retail</div><div class="data-value">${famLabels[fa?.familiaridad_retail||0]||'—'}</div></div>
+      </div>
+
+      ${fa?.meta_personal||fa?.goals?`<div class="meta-box">
+        <div class="meta-label">Meta personal o laboral</div>
+        <div class="meta-text">"${fa?.meta_personal||fa?.goals}"</div>
+      </div>`:''}
+
+      <div class="footer">
+        <span>Pasaporte GCO · Ficha de Acompañamiento</span>
+        <span>Página 1 de 3</span>
+      </div>
+    </div>
+
+    <!-- PAGE 2: DISC -->
+    <div class="page page-break">
+      <div class="header">
+        <div class="header-left">
+          <div class="header-brand">Pasaporte GCO · Ficha de Acompañamiento</div>
+          <div class="header-title">Perfil Conductual Situacional GCO</div>
+        </div>
+        <div class="header-right" style="font-size:9px;color:#6b7280">
+          Inspirado en las dimensiones del modelo DISC<br>No es una evaluación psicométrica
+        </div>
+      </div>
+
+      ${hasDisc?`
+        <div class="section-title">Resultados por dimensión</div>
+        ${discHTML}
+        <div class="section-title">Perfil identificado</div>
+        ${profileHTML}
+        <div class="section-title">Lectura del perfil</div>
+        ${contentHTML}
+      `:`<div class="no-disc">El colaborador aún no ha completado el Perfil Conductual Situacional GCO.</div>`}
+
+      <div class="footer">
+        <span>Pasaporte GCO · Ficha de Acompañamiento</span>
+        <span>Página 2 de 3</span>
+      </div>
+    </div>
+
+    <!-- PAGE 3: RESPUESTAS -->
+    <div class="page page-break">
+      <div class="header">
+        <div class="header-left">
+          <div class="header-brand">Pasaporte GCO · Ficha de Acompañamiento</div>
+          <div class="header-title">Lo que el colaborador compartió</div>
+        </div>
+        <div class="header-right" style="font-size:9px;color:#6b7280">Respuestas literales — tal como fueron escritas</div>
+      </div>
+
+      <div class="section-title">Respuestas abiertas</div>
+      ${answers.map((item,i)=>item.a?`<div class="answer-card">
+        <div class="answer-q">${item.q}</div>
+        <div class="answer-a">"${item.a}"</div>
+      </div>`:'').join('')}
+
+      <div class="ethics">
+        <div class="ethics-txt"><strong>Nota ética:</strong> Esta herramienta está inspirada en el modelo DISC pero no corresponde a una prueba DISC certificada ni a una evaluación psicométrica. Sus resultados no deben utilizarse como criterio único de selección, evaluación de desempeño, permanencia o toma de decisiones laborales.</div>
+      </div>
+
+      <div class="footer">
+        <span>Pasaporte GCO · Ficha de Acompañamiento</span>
+        <span>Página 3 de 3</span>
+      </div>
+    </div>
+
+    </body></html>`;
+  }
+
+  function loadLibs(cb){
+    const needed=[];
+    if(!window.html2canvas)needed.push('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+    if(!window.jspdf)needed.push('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+    if(!needed.length){cb();return;}
+    let loaded=0;
+    needed.forEach(src=>{
+      const s=document.createElement('script');
+      s.src=src;s.onload=()=>{if(++loaded===needed.length)cb();};
+      document.head.appendChild(s);
     });
+  }
 
-    // ── NOTA ÉTICA ──
-    if(y>H-45){doc.addPage();doc.setFillColor(...BG);doc.rect(0,0,W,H,'F');y=16;}
-    y=Math.max(y,H-44);
-    doc.setFillColor(18,13,3);doc.setDrawColor(...GOLD);doc.setLineWidth(0.4);
-    doc.roundedRect(M,y,CW,28,3,3,'FD');
-    doc.setFillColor(...GOLD);doc.circle(M+10,y+14,6,'F');
-    font(10,'bold',BG);doc.text('\u2696',M+10,y+18,{align:'center'});
-    font(6.5,'normal',[220,200,120]);
-    const etica='Esta herramienta está inspirada en el modelo DISC pero no corresponde a una prueba DISC certificada ni a una evaluación psicométrica. Sus resultados no deben utilizarse como criterio único de selección, evaluación de desempeño, permanencia o toma de decisiones laborales.';
-    const eL=doc.splitTextToSize(etica,CW-22);
-    eL.slice(0,4).forEach((l,i)=>doc.text(l,M+19,y+8+i*5));
+  loadLibs(async()=>{
+    // Create hidden iframe to render HTML
+    const iframe=document.createElement('iframe');
+    iframe.style.cssText='position:fixed;left:-9999px;top:0;width:794px;height:1123px;border:none;visibility:hidden;';
+    document.body.appendChild(iframe);
 
-    // Footer p3
-    doc.setFillColor(...BG2);doc.rect(0,H-12,W,12,'F');
-    doc.setFillColor(...PURPLE);doc.rect(0,H-12,3,12,'F');
-    font(6.5,'normal',LGRAY);doc.text('Pasaporte GCO  ·  Ficha de Acompañamiento  ·  '+today,M+2,H-5);
-    pill('Página 3 de 3',W-M-26,H-10,26,7,BG3,BLUE);
+    const html=buildFichaHTML();
+    iframe.contentDocument.open();
+    iframe.contentDocument.write(html);
+    iframe.contentDocument.close();
 
+    // Wait for render
+    await new Promise(r=>setTimeout(r,600));
+
+    const {jsPDF}=window.jspdf;
+    const doc=new jsPDF({unit:'mm',format:'a4',orientation:'portrait'});
+    const pages=iframe.contentDocument.querySelectorAll('.page');
+
+    for(let i=0;i<pages.length;i++){
+      const canvas=await html2canvas(pages[i],{
+        scale:2,useCORS:true,
+        backgroundColor:'#ffffff',
+        width:794,
+        windowWidth:794,
+      });
+      const img=canvas.toDataURL('image/jpeg',0.92);
+      if(i>0)doc.addPage();
+      doc.addImage(img,'JPEG',0,0,210,297);
+    }
+
+    document.body.removeChild(iframe);
     doc.save(fileName);
-  }
-
-  if(window.jspdf){generate();}
-  else{
-    const s=document.createElement('script');
-    s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-    s.onload=generate;document.head.appendChild(s);
-  }
+  });
 }
 
 /* ══════════════════════════════════════════
