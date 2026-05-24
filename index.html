@@ -3989,7 +3989,8 @@ function downloadCV(ci){
       .header-pct{font-size:22px;font-weight:800;color:#4f46e5;}
       /* PROFILE HERO */
       .hero{display:flex;gap:20px;align-items:flex-start;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:12px;padding:18px;margin-bottom:16px;}
-      .avatar{width:60px;height:60px;border-radius:50%;background:#4f46e5;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;font-weight:800;flex-shrink:0;}
+      .avatar{width:60px;height:60px;border-radius:50%;background:#4f46e5;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;font-weight:800;flex-shrink:0;overflow:hidden;object-fit:cover;}
+      .avatar img{width:60px;height:60px;border-radius:50%;object-fit:cover;display:block;}
       .hero-info{flex:1;}
       .hero-name{font-size:20px;font-weight:800;color:#1e1b4b;margin-bottom:4px;}
       .hero-meta{font-size:10px;color:#6b7280;margin-bottom:8px;}
@@ -4065,7 +4066,7 @@ function downloadCV(ci){
       </div>
 
       <div class="hero">
-        <div class="avatar">${nom.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</div>
+        <div class="avatar">${(()=>{const av=localStorage.getItem('gco_av_'+c.cedula)||c.avatar||null;if(av)return '<img src="'+av+'" style="width:60px;height:60px;border-radius:50%;object-fit:cover;display:block;">';return nom.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();})()} </div>
         <div class="hero-info">
           <div class="hero-name">${nom}</div>
           <div class="hero-meta">CC ${c.cedula} · ${c.marca||'—'} · Tienda ${c.tienda||'—'} · Ingreso ${fi}</div>
