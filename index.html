@@ -1461,28 +1461,30 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
 .wp-step-lbl{font-size:.54rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:rgba(255,255,255,.38);text-align:center;line-height:1.3;}
 .wp-step.active .wp-step-lbl{color:var(--blue);}
 .wp-step.done .wp-step-lbl{color:#16a34a;}
-.wp-card{background:#fff;border-radius:20px;padding:24px 20px;margin-bottom:14px;display:none;}
+.wp-card{background:rgba(20,18,50,.92);backdrop-filter:blur(20px);border:1px solid rgba(130,100,255,.25);border-radius:20px;padding:24px 20px;margin-bottom:14px;display:none;box-shadow:0 20px 60px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.05);}
 .wp-card.active{display:block;animation:fadeUp .4s ease both;}
 .wp-card-ico{font-size:2rem;margin-bottom:8px;display:block;}
-.wp-card-title{font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:900;color:var(--purple);margin-bottom:4px;}
-.wp-card-sub{font-size:.82rem;color:#888;line-height:1.55;margin-bottom:18px;}
+.wp-card-title{font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:900;color:#fff;margin-bottom:4px;}
+.wp-card-sub{font-size:.82rem;color:rgba(160,150,210,.7);line-height:1.55;margin-bottom:18px;}
 .wp-field{margin-bottom:16px;}
-.wp-lbl{display:block;font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:800;color:var(--text);margin-bottom:5px;}
-.wp-lbl .req,.req{color:var(--coral);margin-left:2px;}
-.wp-hint{font-size:.7rem;color:#aaa;margin-top:3px;line-height:1.45;}
-.wp-inp,.wp-ta{width:100%;padding:10px 13px;border-radius:10px;border:2px solid #e8eaf0;background:#f7f8fb;font-family:'Nunito Sans',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s,background .2s;color:var(--text);}
-.wp-inp:focus,.wp-ta:focus{border-color:var(--blue);background:#fff;}
-.wp-inp.err,.wp-ta.err{border-color:var(--coral);}
-.wp-ta{resize:vertical;min-height:82px;line-height:1.55;}
-.wp-err-msg{font-size:.7rem;color:var(--coral);font-weight:700;margin-top:3px;display:none;}
+.wp-lbl{display:block;font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:800;color:rgba(200,195,235,.9);margin-bottom:5px;}
+.wp-lbl .req,.req{color:#fd636b;margin-left:2px;}
+.wp-hint{font-size:.7rem;color:rgba(160,150,210,.55);margin-top:3px;line-height:1.45;}
+.wp-inp,.wp-ta{width:100%;padding:10px 13px;border-radius:10px;border:1px solid rgba(130,100,255,.28);background:rgba(14,11,40,.8);font-family:'Nunito Sans',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s,background .2s;color:#fff;}
+.wp-inp::placeholder,.wp-ta::placeholder{color:rgba(160,150,210,.4);}
+.wp-inp:focus,.wp-ta:focus{border-color:rgba(130,100,255,.65);background:rgba(20,15,55,.95);box-shadow:0 0 0 3px rgba(88,106,232,.12);}
+.wp-inp.err,.wp-ta.err{border-color:#fd636b;}
+.wp-ta{resize:vertical;min-height:88px;line-height:1.55;}
+select.wp-inp{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(130,100,255,.6)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:30px;}
+select.wp-inp option{background:#1a1535;color:#fff;}
+.wp-err-msg{font-size:.7rem;color:#fd636b;font-weight:700;margin-top:3px;display:none;}
 .wp-err-msg.show{display:block;}
 .wp-bday{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
-.wp-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 13px;border-radius:10px;border:2px solid #e8eaf0;background:#f7f8fb;cursor:pointer;transition:all .18s;user-select:none;}
-.wp-opt:hover{border-color:rgba(88,106,232,.3);background:#f0f1ff;}
-.wp-opt.selected{border-color:var(--blue);background:#eff6ff;}
-.wp-opt input{accent-color:var(--blue);width:15px;height:15px;flex-shrink:0;margin-top:2px;cursor:pointer;}
-.wp-opt span{font-size:.84rem;color:var(--text);line-height:1.35;}
-.wp-nav{display:flex;gap:9px;justify-content:space-between;margin-top:20px;}
+.wp-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 13px;border-radius:10px;border:1px solid rgba(130,100,255,.2);background:rgba(255,255,255,.03);cursor:pointer;transition:all .18s;user-select:none;}
+.wp-opt:hover{border-color:rgba(88,106,232,.4);background:rgba(88,106,232,.08);}
+.wp-opt.selected{border-color:rgba(88,106,232,.6);background:rgba(88,106,232,.15);box-shadow:0 0 10px rgba(88,106,232,.12);}
+.wp-opt input{accent-color:#586AE8;width:15px;height:15px;flex-shrink:0;margin-top:2px;cursor:pointer;}
+.wp-opt span{font-size:.84rem;color:rgba(200,195,235,.88);line-height:1.35;}
 .wp-back{background:rgba(255,255,255,.12);border:none;color:rgba(255,255,255,.7);font-family:'Nunito',sans-serif;font-size:.86rem;font-weight:800;padding:10px 20px;border-radius:11px;cursor:pointer;transition:all .2s;}
 .wp-back:hover{background:rgba(255,255,255,.22);color:#fff;}
 .wp-next{background:var(--blue);border:none;color:#fff;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:900;padding:11px 26px;border-radius:11px;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(88,106,232,.35);flex:1;}
@@ -2245,12 +2247,12 @@ const LEVELS=[
   {id:1,num:'NIVEL 1',name:'Bienvenida GCO',cmp:'Formación GCO',phc:'ph-n1',buc:'bu-n1',sc:'sc-n1',mid:1,
    badge:'Explorador GCO',story:'Acabas de llegar. Tu primera misión es entender el territorio: quiénes somos, cómo funciona este mundo y qué reglas lo gobiernan.',badgeMsg:'¡Bienvenido/a al universo GCO! Ya nada será igual.',
    tasks:[{txt:'Conoce el grupo y la compañía',type:'self'},{txt:'Entiende la industria del comercio de moda',type:'self'},{txt:'Identifica las temporadas del calendario comercial',type:'self'},{txt:'Reconoce los actores clave en tienda',type:'self'},{txt:'Comprende los indicadores clave de desempeño',type:'self'},{txt:'Realiza los cursos legales y normativos',type:'self'}]},
-  {id:2,num:'NIVEL 2',name:'Experto de Marca',cmp:'Formación Marca',phc:'ph-n2',buc:'bu-n2',sc:'sc-n2',mid:2,
-   badge:'Embajador de Marca',story:'Ya conoces el mundo. Ahora es momento de encontrar tu lugar en él. Tu marca es tu identidad — aprende a hablar su lenguaje y representarla con orgullo.',badgeMsg:'La marca te eligió. Ahora tú la representas.',
-   tasks:[{txt:'Conoce tu marca',type:'self'},{txt:'Aplica conceptos de styling y outfits',type:'self'},{txt:'Interpreta el visual de la marca',type:'self'},{txt:'Entiende el plan de fidelización',type:'self'},{txt:'Ejecuta el protocolo de servicio de la marca',type:'leader'}]},
-  {id:3,num:'NIVEL 3',name:'Inmersión en Tienda',cmp:'Formación Tienda',phc:'ph-n3',buc:'bu-n3',sc:'sc-n3',mid:3,
+  {id:3,num:'NIVEL 2',name:'Inmersión en Tienda',cmp:'Formación Tienda',phc:'ph-n2',buc:'bu-n2',sc:'sc-n2',mid:2,
    badge:'Experto en Tienda',story:'Tu territorio ya tiene nombre y dirección. Cada rincón de esta tienda tiene una historia. Tu equipo será tu mayor aliado.',badgeMsg:'Esta tienda ya te conoce. Y tú ya la conoces a ella.',
    tasks:[{txt:'Conoce tu tienda y tu equipo',type:'leader'},{txt:'Entiende la dinámica de la bodega',type:'leader'},{txt:'Profundiza en los indicadores del negocio',type:'self'},{txt:'Participa en la apertura de tienda',type:'leader'},{txt:'Aprende de tus compañeros en el día a día',type:'leader'},{txt:'Aplica técnicas de despinado, doblado y cuidado de prendas',type:'leader'}]},
+  {id:2,num:'NIVEL 3',name:'Experto de Marca',cmp:'Formación Marca',phc:'ph-n3',buc:'bu-n3',sc:'sc-n3',mid:3,
+   badge:'Embajador de Marca',story:'Ya conoces el mundo y tu tienda. Ahora es momento de encontrar tu lugar en él. Tu marca es tu identidad — aprende a hablar su lenguaje y representarla con orgullo.',badgeMsg:'La marca te eligió. Ahora tú la representas.',
+   tasks:[{txt:'Conoce tu marca',type:'self'},{txt:'Aplica conceptos de styling y outfits',type:'self'},{txt:'Interpreta el visual de la marca',type:'self'},{txt:'Entiende el plan de fidelización',type:'self'},{txt:'Ejecuta el protocolo de servicio de la marca',type:'leader'}]},
 ];
 const TOTAL=LEVELS.reduce((s,l)=>s+l.tasks.length,0);
 const PROG_MSGS=[
@@ -2259,7 +2261,7 @@ const PROG_MSGS=[
   {max:50,bg:'rgba(245,200,66,.08)',c:'#f5c842',i:'🔥',t:'Ya encontraste el ritmo.'},
   {max:75,bg:'rgba(88,106,232,.12)',c:'#7c8ff0',i:'⚡',t:'¡Vas fuerte! El badge final está al alcance.'},
   {max:99,bg:'rgba(109,199,204,.08)',c:'#6DC7CC',i:'🚀',t:'¡Último empuje!'},
-  {max:100,bg:'linear-gradient(135deg,rgba(88,106,232,.2),rgba(0,201,122,.15))',c:'#00c97a',i:'🏆',t:'<em>Misión cumplida.</em> Eres <strong>Embajador de Marca.</strong>'},
+  {max:100,bg:'linear-gradient(135deg,rgba(88,106,232,.2),rgba(0,201,122,.15))',c:'#00c97a',i:'🏆',t:'<em>Misión cumplida.</em> Eres <strong>'+LEVELS[LEVELS.length-1].badge+'.</strong>'},
 ];
 
 /* ══════════════════════════════════════════
@@ -2269,7 +2271,11 @@ let U=null,L=null,TS={},TO={},prevBdg=0,syncTmr=null,twDone=false;
 const tk=(l,i)=>`${l}_${i}`;
 const getSt=(l,i)=>TS[tk(l,i)]||'pendiente';
 const isDone=id=>LEVELS.find(l=>l.id===id).tasks.every((_,i)=>['completada','validada'].includes(getSt(id,i)));
-const isUnlock=id=>{if(id===1)return true;return isDone(id-1);};
+const isUnlock=id=>{
+  const idx=LEVELS.findIndex(l=>l.id===id);
+  if(idx===0)return true;
+  return isDone(LEVELS[idx-1].id);
+};
 const cntDone=()=>LEVELS.reduce((s,l)=>s+l.tasks.filter((_,i)=>['completada','validada'].includes(getSt(l.id,i))).length,0);
 const cntBdg=()=>LEVELS.filter(l=>isDone(l.id)).length;
 const pct=()=>Math.round(cntDone()/TOTAL*100);
