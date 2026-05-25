@@ -2486,55 +2486,9 @@ function calcPuntosAtencion(data){
   if(pts.length===0){
     pts.push('No se detectan señales de alerta específicas. Mantener conversación continua durante los primeros 30 días.');
   }
-
-// Rotation patterns — D,I,S,C appear in different positions per question
-
-  // Porcentajes (máximo 16)
-  const pct=v=>Math.round((v/16)*100);
-
-  // Niveles
-  const nivel=v=>v<=3?'Bajo':v<=7?'Medio bajo':v<=11?'Medio alto':'Alto';
-
-  // Diferenciación
-  const vals=[D,I,S,C];
-  const diff=Math.max(...vals)-Math.min(...vals);
-  const nivel_dif=diff>=8?'Diferenciado alto':diff>=4?'Diferenciado medio':'Poco diferenciado';
-  const equilibrado=diff<=3;
-
-  // Ordenar
-  const sorted=[{d:'D',v:D},{d:'I',v:I},{d:'S',v:S},{d:'C',v:C}].sort((a,b)=>b.v-a.v);
-  const top=sorted[0].v;
-  const empatadosTOP=sorted.filter(x=>x.v===top);
-  const empatadosSEC=sorted.filter(x=>x.v<top);
-  const secVal=empatadosSEC.length?empatadosSEC[0].v:0;
-  const empatadosSEC2=empatadosSEC.filter(x=>x.v===secVal);
-
-  let predominante,secundario,combinado;
-  if(equilibrado){
-    predominante='Equilibrado';secundario='—';combinado='Perfil equilibrado / mixto';
-  } else if(empatadosTOP.length>1){
-    predominante=empatadosTOP.map(x=>x.d).join('/');
-    secundario=empatadosSEC2.length>1?empatadosSEC2.map(x=>x.d).join('/'):empatadosSEC2[0]?.d||'—';
-    combinado=`${predominante} + ${secundario}`;
-  } else {
-    predominante=sorted[0].d;
-    secundario=empatadosSEC2.length>1?empatadosSEC2.map(x=>x.d).join('/'):sorted[1].d;
-    combinado=`${predominante}+${secundario}`;
-  }
-
-  return{
-    ...sitAnswers,
-    puntaje_d:D,puntaje_i:I,puntaje_s:S,puntaje_c:C,
-    porcentaje_d:pct(D),porcentaje_i:pct(I),porcentaje_s:pct(S),porcentaje_c:pct(C),
-    nivel_d:nivel(D),nivel_i:nivel(I),nivel_s:nivel(S),nivel_c:nivel(C),
-    dimension_principal:predominante,
-    dimension_secundaria:secundario,
-    perfil_combinado:combinado,
-    nivel_diferenciacion:nivel_dif,
-    diferencia_perfil:diff,
-    perfil_equilibrado:equilibrado,
-  };
+  return pts.slice(0,4);
 }
+
 
 async function submitSurvey(){
   if(!wpValidate(3))return;
@@ -3165,7 +3119,8 @@ function renderLeaderPanel(){
     }));
     c._pct=Math.round(comp/TOTAL*100);
     totPct+=c._pct;
-    if(LEVELS[2].tasks.every((_,i)=>['completada','validada'].includes(c._t[tk(3,i)]||'pendiente')))done3++;
+    const lastLv=LEVELS[LEVELS.length-1];
+    if(lastLv.tasks.every((_,i)=>['completada','validada'].includes(c._t[tk(lastLv.id,i)]||'pendiente')))done3++;
     let pend=0;
     LEVELS.forEach(lv=>lv.tasks.forEach((t,i)=>{
       if(t.type==='leader'&&(c._t[tk(lv.id,i)]||'pendiente')==='enviada')pend++;
@@ -3240,15 +3195,19 @@ function renderLpTable(data){
     document.getElementById('lp-cont').innerHTML='<div class="lp-load">No se encontraron colaboradores.</div>';
     return;
   }
-  const lvName=c=>LEVELS.findLast(lv=>lv.tasks.some((_,i)=>['completada','validada','enviada'].includes(c._t[tk(lv.id,i)]||'pendiente')))||LEVELS[0];
+  const lvName=c=>{
+    const found=LEVELS.slice().reverse().find(lv=>lv.tasks.some((_,i)=>['completada','validada','enviada'].includes(c._t[tk(lv.id,i)]||'pendiente')));
+    return found||LEVELS[0];
+  };
   const actLabel=c=>{
     const d=c._dias||0;
     if(d===0)return'Hoy';if(d===1)return'Hace 1 día';return`Hace ${d} días`;
   };
 
   const rows=data.map((c,ci)=>{
-    const ini=c.nombre.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-    const avHtml=c.avatar?`<img src="${c.avatar}" alt="${c.nombre}">`:`${ini}`;
+    const nombre=c.nombre||'Sin nombre';
+    const ini=nombre.split(' ').map(w=>w[0]||'').join('').slice(0,2).toUpperCase()||'?';
+    const avHtml=c.avatar?`<img src="${c.avatar}" alt="${nombre}">`:`${ini}`;
     const lv=lvName(c);
     const stCls=c._risk?'risk':c._pend>0?'pend':'ok';
     const stTxt=c._risk?'En riesgo':c._pend>0?'Por validar':'Al día';
@@ -3257,7 +3216,7 @@ function renderLpTable(data){
       <div class="lp-row-info">
         <div class="lp-row-av">${avHtml}</div>
         <div>
-          <div class="lp-row-name">${c.nombre}</div>
+          <div class="lp-row-name">${nombre}</div>
           <div class="lp-row-sub">CC ${c.cedula} · ${c.marca||'—'}</div>
           <div class="lp-row-tags">
             <span class="lp-row-tag">🏪 ${c.tienda}</span>
@@ -3467,7 +3426,8 @@ function openCollabDetail(ci){
       </div>`;
     });});
     if(!vItems)vItems='<div class="lp-np">No hay tareas enviadas a validación.</div>';
-    const wfHtml=(c._fa||c._wp)?buildWelcomeProfile(c._fa||c._wp):`<div class="wf-no-profile">📋 Ficha no completada.</div>`;
+    let wfHtml='<div class="wf-no-profile">📋 Ficha no completada.</div>';
+    try{const fd=c._fa||c._wp||null;if(fd)wfHtml=buildWelcomeProfile(fd);}catch(e){console.error('BWP err',e);}
     document.getElementById('lpd-content').innerHTML=`
       <div class="lpd-profile">
         <div class="lpd-av">${avHtml}</div>
