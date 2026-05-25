@@ -1278,73 +1278,64 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
 .lpd-stat-val.r{color:#fd636b;text-shadow:0 0 12px rgba(253,99,107,.35);}
 
 /* ── FICHA DE ACOMPAÑAMIENTO — VIEWER ── */
-.wf-ficha-wrap{display:flex;flex-direction:column;gap:14px;}
-.wf-ficha-section{background:rgba(20,18,50,.7);border:1px solid rgba(130,100,255,.18);border-radius:16px;padding:18px 20px;}
-.wf-ficha-section-title{font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;color:#7c8ff0;margin-bottom:14px;display:flex;flex-direction:column;gap:3px;}
-.wf-disc-subtitle{font-size:.65rem;font-weight:600;letter-spacing:.3px;text-transform:none;color:rgba(160,150,210,.5);}
-.wf-ficha-grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-@media(max-width:500px){.wf-ficha-grid2{grid-template-columns:1fr;}}
-.wf-row{display:flex;flex-direction:column;gap:2px;padding:8px 10px;background:rgba(255,255,255,.03);border-radius:9px;border:1px solid rgba(255,255,255,.05);}
-.wf-lbl{font-size:.58rem;color:rgba(160,150,210,.45);font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
-.wf-val{font-size:.82rem;color:rgba(220,215,245,.88);font-weight:500;line-height:1.45;}
-.wf-meta-box{margin-top:12px;padding:12px 14px;background:rgba(88,106,232,.08);border:1px solid rgba(88,106,232,.22);border-radius:11px;}
-.wf-meta-lbl{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#7c8ff0;margin-bottom:4px;}
-.wf-meta-val{font-size:.84rem;color:rgba(220,215,245,.9);font-style:italic;line-height:1.55;}
+/* ── FICHA DE ACOMPAÑAMIENTO — PREMIUM ── */
+.wf-wrap{display:flex;flex-direction:column;gap:0;padding:2px 0;}
 
-/* DISC visual */
-.wf-ficha-disc{background:linear-gradient(160deg,rgba(88,60,200,.1),rgba(14,11,40,.95));border:1px solid rgba(130,100,255,.28);border-radius:16px;padding:18px 20px;}
-.wf-disc-bars{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
-.wf-disc-bar-row{display:flex;align-items:center;gap:10px;}
-.wf-disc-bar-lbl{display:flex;align-items:center;gap:5px;width:100px;flex-shrink:0;font-size:.74rem;font-weight:700;color:rgba(200,195,235,.8);}
-.wf-disc-icon{font-size:.9rem;}
-.wf-disc-bar-track{flex:1;height:10px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;border:1px solid rgba(255,255,255,.04);}
-.wf-disc-bar-fill{height:100%;border-radius:99px;transition:width 1s cubic-bezier(.22,1,.36,1);}
-.wf-disc-bar-meta{display:flex;align-items:center;gap:6px;flex-shrink:0;}
-.wf-disc-bar-score{font-family:'Nunito',sans-serif;font-weight:900;font-size:.82rem;min-width:36px;text-align:right;}
-.wf-disc-bar-pct{font-size:.7rem;color:rgba(160,150,210,.5);min-width:32px;}
-.wf-disc-nivel{font-size:.6rem;font-weight:800;padding:2px 7px;border-radius:99px;}
+/* Frase de apertura */
+.wf-apertura{background:linear-gradient(135deg,rgba(88,106,232,.12),rgba(124,58,237,.08));border:1px solid rgba(130,100,255,.3);border-radius:18px;padding:18px 20px;margin-bottom:4px;position:relative;overflow:hidden;}
+.wf-apertura::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#586AE8,#7c3aed,#586AE8);border-radius:18px 18px 0 0;}
+.wf-apertura-lbl{font-size:.58rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:rgba(130,100,255,.6);margin-bottom:8px;}
+.wf-apertura-txt{font-size:.92rem;font-weight:600;color:rgba(220,215,245,.95);line-height:1.65;font-style:italic;}
 
-/* Profile tags */
-.wf-disc-profile-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
-@media(max-width:500px){.wf-disc-profile-row{grid-template-columns:1fr;}}
-.wf-disc-profile-tag{padding:10px 12px;border-radius:11px;border:1px solid;}
-.wf-dpt-lbl{display:block;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:rgba(160,150,210,.45);margin-bottom:3px;}
-.wf-dpt-val{display:block;font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:900;}
+/* Sección genérica */
+.wf-section{border-radius:16px;overflow:hidden;margin-top:10px;}
+.wf-section-header{display:flex;align-items:center;gap:10px;padding:13px 18px;background:rgba(20,18,50,.6);}
+.wf-section-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-size:.65rem;font-weight:900;flex-shrink:0;}
+.wf-section-title{font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:900;letter-spacing:1px;text-transform:uppercase;}
+.wf-section-body{background:rgba(14,11,35,.5);border:1px solid rgba(130,100,255,.14);border-top:none;border-radius:0 0 16px 16px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;}
 
-/* Bloques de contenido */
-.wf-disc-bloque{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:13px 15px;margin-bottom:10px;}
-.wf-disc-bloque-comb{background:rgba(88,106,232,.06);border-color:rgba(88,106,232,.2);}
-.wf-disc-tensiones{background:rgba(253,99,107,.04);border-color:rgba(253,99,107,.18);}
-.wf-disc-bloque-title{font-family:'Nunito',sans-serif;font-size:.68rem;font-weight:900;letter-spacing:.8px;text-transform:uppercase;color:rgba(160,150,210,.6);margin-bottom:8px;}
-.wf-disc-bloque-sub{font-size:.72rem;color:rgba(160,150,210,.45);margin-bottom:12px;font-style:italic;}
-.wf-disc-bloque-txt{font-size:.83rem;color:rgba(200,195,235,.82);line-height:1.65;margin:0;}
-.wf-disc-list{margin:0;padding-left:16px;display:flex;flex-direction:column;gap:5px;}
-.wf-disc-list li{font-size:.81rem;color:rgba(200,195,235,.8);line-height:1.5;}
+/* Data rows */
+.wf-data-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+@media(max-width:480px){.wf-data-grid{grid-template-columns:1fr;}}
+.wf-data-item{padding:9px 12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;}
+.wf-data-lbl{font-size:.57rem;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:rgba(160,150,210,.45);margin-bottom:3px;}
+.wf-data-val{font-size:.84rem;color:rgba(220,215,245,.88);font-weight:500;line-height:1.4;}
 
-/* Comunicación chips */
-.wf-comm-chips{display:flex;flex-wrap:wrap;gap:7px;}
-.wf-comm-chip{padding:4px 12px;border-radius:99px;background:rgba(88,106,232,.12);border:1px solid rgba(88,106,232,.25);color:#7c8ff0;font-size:.72rem;font-weight:700;}
+/* Respuesta con perfil */
+.wf-resp-block{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:13px 15px;}
+.wf-resp-lbl{font-size:.58rem;font-weight:900;text-transform:uppercase;letter-spacing:.7px;color:rgba(160,150,210,.45);margin-bottom:5px;}
+.wf-resp-perfil{font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:800;margin-bottom:3px;}
+.wf-resp-raw{font-size:.8rem;color:rgba(180,170,220,.65);font-style:italic;line-height:1.4;}
+.wf-resp-hint{margin-top:7px;padding:7px 10px;background:rgba(88,106,232,.07);border-left:2px solid rgba(88,106,232,.4);border-radius:0 7px 7px 0;font-size:.76rem;color:rgba(200,195,235,.75);line-height:1.5;}
 
-/* Perfil equilibrado */
-.wf-disc-equilibrado{background:rgba(255,185,1,.06);border:1px solid rgba(255,185,1,.2);border-radius:12px;padding:13px 15px;margin-bottom:10px;}
-.wf-disc-eq-title{font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:900;color:#FFB901;margin-bottom:6px;}
-.wf-disc-eq-txt{font-size:.81rem;color:rgba(200,195,235,.8);line-height:1.6;margin:0;font-style:italic;}
+/* Puntos de atención */
+.wf-atencion{background:rgba(255,185,1,.05);border:1px solid rgba(255,185,1,.2);border-radius:12px;padding:13px 15px;}
+.wf-atencion-title{font-size:.6rem;font-weight:900;text-transform:uppercase;letter-spacing:.8px;color:rgba(255,185,1,.7);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.wf-atencion-item{display:flex;gap:8px;align-items:flex-start;margin-bottom:7px;}
+.wf-atencion-dot{width:5px;height:5px;border-radius:50%;background:#FFB901;flex-shrink:0;margin-top:5px;}
+.wf-atencion-txt{font-size:.78rem;color:rgba(220,215,245,.8);line-height:1.55;}
+
+/* Meta box */
+.wf-meta{background:rgba(88,106,232,.07);border:1px solid rgba(88,106,232,.22);border-radius:12px;padding:12px 15px;}
+.wf-meta-lbl{font-size:.58rem;font-weight:900;text-transform:uppercase;letter-spacing:.7px;color:#7c8ff0;margin-bottom:5px;}
+.wf-meta-txt{font-size:.85rem;color:rgba(220,215,245,.9);font-style:italic;line-height:1.6;}
 
 /* Respuestas abiertas */
-.wf-open-q{margin-bottom:12px;padding:12px 14px;background:rgba(255,255,255,.03);border-radius:11px;border-left:3px solid rgba(130,100,255,.35);}
-.wf-open-lbl{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:rgba(160,150,210,.5);margin-bottom:5px;}
-.wf-open-val{font-size:.85rem;color:rgba(220,215,245,.9);line-height:1.6;font-style:italic;}
+.wf-open{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;border-left:3px solid rgba(130,100,255,.45);padding:13px 15px;margin-bottom:4px;}
+.wf-open-lbl{font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:rgba(160,150,210,.5);margin-bottom:6px;}
+.wf-open-txt{font-size:.86rem;color:rgba(220,215,245,.92);line-height:1.65;font-style:italic;}
+
+/* Contexto experiencia */
+.wf-ctx{background:rgba(0,201,122,.05);border:1px solid rgba(0,201,122,.18);border-radius:12px;padding:12px 15px;}
+.wf-ctx-lbl{font-size:.58rem;font-weight:900;text-transform:uppercase;letter-spacing:.7px;color:rgba(0,201,122,.7);margin-bottom:4px;}
+.wf-ctx-val{font-size:.82rem;color:rgba(220,215,245,.85);font-weight:600;margin-bottom:4px;}
+.wf-ctx-hint{font-size:.74rem;color:rgba(160,150,210,.6);line-height:1.5;font-style:italic;}
 
 /* Nota ética */
-.wf-etica{display:flex;gap:11px;align-items:flex-start;background:rgba(255,185,1,.05);border:1px solid rgba(255,185,1,.18);border-radius:13px;padding:13px 15px;}
-.wf-etica-ico{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
-.wf-etica-txt{font-size:.74rem;color:rgba(200,195,235,.65);line-height:1.6;margin:0;font-style:italic;}
+.wf-etica{display:flex;gap:11px;align-items:flex-start;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);border-radius:13px;padding:13px 15px;margin-top:14px;}
+.wf-etica-ico{font-size:1rem;flex-shrink:0;margin-top:1px;}
+.wf-etica-txt{font-size:.71rem;color:rgba(160,150,210,.5);line-height:1.6;margin:0;}
 
-/* Botón cartilla */
-.wf-cartilla-btn{width:100%;padding:13px 16px;border-radius:13px;border:1px solid rgba(88,106,232,.35);background:rgba(88,106,232,.1);color:#7c8ff0;font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:800;cursor:pointer;text-align:left;transition:all .2s;line-height:1.3;}
-.wf-cartilla-btn:hover{background:rgba(88,106,232,.18);border-color:rgba(88,106,232,.55);box-shadow:0 0 16px rgba(88,106,232,.2);}
-
-/* Legacy wf classes still needed */
 .wf-no-profile{padding:22px;text-align:center;color:rgba(160,150,210,.4);font-size:.84rem;}
 /* ── ADMIN PANEL ── */
 #admin-panel{display:none;position:fixed;inset:0;z-index:1600;background:var(--bg);overflow-y:auto;}
@@ -1638,8 +1629,7 @@ select.wp-inp option{background:#1a1535;color:#fff;}
       <div class="wp-step active" id="wps-0"><div class="wp-step-dot">1</div><div class="wp-step-lbl">Quién eres</div></div>
       <div class="wp-step" id="wps-1"><div class="wp-step-dot">2</div><div class="wp-step-lbl">Tu mundo</div></div>
       <div class="wp-step" id="wps-2"><div class="wp-step-dot">3</div><div class="wp-step-lbl">Perfil</div></div>
-      <div class="wp-step" id="wps-3"><div class="wp-step-dot">4</div><div class="wp-step-lbl">Acompañamiento</div></div>
-      <div class="wp-step" id="wps-4"><div class="wp-step-dot">5</div><div class="wp-step-lbl">Autorización</div></div>
+      <div class="wp-step" id="wps-3"><div class="wp-step-dot">4</div><div class="wp-step-lbl">Autorización</div></div>
     </div>
 
     <!-- PASO 1: Quién eres -->
@@ -1857,64 +1847,22 @@ select.wp-inp option{background:#1a1535;color:#fff;}
       </div>
     </div>
 
-    <!-- PASO 4: Cómo acompañarte -->
+    <!-- PASO 4: Autorización -->
     <div class="wp-card" id="wp-step-3">
-      <div class="wp-card-title">Conozcámonos mejor</div>
-      <div class="wp-card-sub">Estas preguntas ayudarán a tu líder a entender cómo acompañarte mejor durante tu llegada al equipo. Responde de manera breve y sincera.</div>
-      <div class="wp-field">
-        <label class="wp-lbl">¿Cómo aprendes mejor cuando algo es nuevo para ti? <span class="req">*</span></label>
-        <div class="wp-hint">Selecciona las que más te representen.</div>
-        <div style="display:flex;flex-direction:column;gap:7px;margin-top:8px;" id="wp-learning-opts">
-          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Viendo cómo lo hace otra persona"><span>Viendo cómo lo hace otra persona</span></label>
-          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Practicando directamente desde el inicio"><span>Practicando directamente desde el inicio</span></label>
-          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Con explicación paso a paso antes de hacer"><span>Con explicación paso a paso antes de hacer</span></label>
-          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Con acompañamiento cercano mientras aprendo"><span>Con acompañamiento cercano mientras aprendo</span></label>
-          <label class="wp-opt" onclick="this.classList.toggle('selected')"><input type="checkbox" name="ls" value="Con autonomía y feedback después de intentarlo"><span>Con autonomía y feedback después de intentarlo</span></label>
-        </div>
-        <div class="wp-err-msg" id="wp-err-ls">Selecciona al menos una opción</div>
-      </div>
-      <div class="wp-field">
-        <label class="wp-lbl">¿Qué se te facilita cuando estás aprendiendo algo nuevo? <span class="req">*</span></label>
-        <textarea class="wp-ta" id="wp-facilidades" placeholder="Escribe aquí..."></textarea>
-        <div class="wp-err-msg" id="wp-err-fac">Este campo es obligatorio</div>
-      </div>
-      <div class="wp-field">
-        <label class="wp-lbl">¿Qué suele ser más retador para ti cuando llegas a un equipo nuevo? <span class="req">*</span></label>
-        <textarea class="wp-ta" id="wp-challenges" placeholder="Escribe aquí..."></textarea>
-        <div class="wp-err-msg" id="wp-err-ch">Este campo es obligatorio</div>
-      </div>
-      <div class="wp-field">
-        <label class="wp-lbl">¿Qué te gustaría que tu líder supiera de ti para acompañarte mejor? <span class="req">*</span></label>
-        <textarea class="wp-ta" id="wp-leader-know" placeholder="Escribe aquí..."></textarea>
-        <div class="wp-err-msg" id="wp-err-lk">Este campo es obligatorio</div>
-      </div>
-      <div class="wp-field">
-        <label class="wp-lbl">¿Cómo prefieres recibir retroalimentación durante tu aprendizaje? <span class="req">*</span></label>
-        <textarea class="wp-ta" id="wp-feedback-pref" placeholder="Ej: de manera directa, con ejemplos concretos, en privado..."></textarea>
-        <div class="wp-err-msg" id="wp-err-fb">Este campo es obligatorio</div>
-      </div>
-      <div class="wp-nav">
-        <button class="wp-back" onclick="wpBack(3)">← Atrás</button>
-        <button class="wp-next" onclick="wpNext(3)">Siguiente →</button>
-      </div>
-    </div>
-
-    <!-- PASO 5: Autorización -->
-    <div class="wp-card" id="wp-step-4">
       <div class="wp-card-title">Autorización de uso</div>
       <div class="wp-card-sub">Antes de finalizar, necesitamos tu autorización.</div>
-      <div class="wp-field" style="background:#f7f8fb;border-radius:12px;padding:16px 18px;border:1px solid #e8eaf0;">
-        <p style="font-size:.84rem;color:#555;line-height:1.7;margin-bottom:14px;">
+      <div class="wp-field" style="background:rgba(255,255,255,.04);border-radius:12px;padding:16px 18px;border:1px solid rgba(130,100,255,.2);">
+        <p style="font-size:.84rem;color:rgba(180,170,220,.8);line-height:1.7;margin-bottom:14px;">
           Entiendo que la información registrada en esta ficha será utilizada únicamente con fines de acompañamiento, bienvenida, formación y seguimiento durante mi proceso de ingreso a GCO. Esta información no representa una evaluación psicológica, clínica ni un criterio único para tomar decisiones laborales.
         </p>
         <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;">
           <input type="checkbox" id="wp-autorizacion" style="width:18px;height:18px;margin-top:2px;accent-color:#586AE8;flex-shrink:0;">
-          <span style="font-size:.84rem;font-weight:700;color:#382C54;">Acepto el uso interno de mi información con los fines descritos.</span>
+          <span style="font-size:.84rem;font-weight:700;color:rgba(200,195,235,.9);">Acepto el uso interno de mi información con los fines descritos.</span>
         </label>
         <div class="wp-err-msg" id="wp-err-auth">Debes aceptar para continuar</div>
       </div>
       <div class="wp-nav">
-        <button class="wp-back" onclick="wpBack(4)">← Atrás</button>
+        <button class="wp-back" onclick="wpBack(3)">← Atrás</button>
         <button class="wp-finish" onclick="submitSurvey()">Enviar mi ficha</button>
       </div>
     </div>
@@ -2450,15 +2398,6 @@ function wpValidate(step){
     showWpErr('wp-err-disc',!ok);
   }
   if(step===3){
-    const ls=document.querySelectorAll('#wp-learning-opts input[type=checkbox]:checked');
-    showWpErr('wp-err-ls',ls.length===0);
-    if(ls.length===0)ok=false;
-    req('wp-facilidades','wp-err-fac');
-    req('wp-challenges','wp-err-ch');
-    req('wp-leader-know','wp-err-lk');
-    req('wp-feedback-pref','wp-err-fb');
-  }
-  if(step===4){
     const auth=document.getElementById('wp-autorizacion')?.checked;
     showWpErr('wp-err-auth',!auth);
     if(!auth)ok=false;
@@ -2598,7 +2537,7 @@ function calcPuntosAtencion(data){
 }
 
 async function submitSurvey(){
-  if(!wpValidate(4))return;
+  if(!wpValidate(3))return;
   const btn=document.querySelector('.wp-finish');
   btn.disabled=true;btn.textContent='Guardando...';
   try{
@@ -2626,7 +2565,7 @@ async function submitSurvey(){
         method:'PATCH',headers:SH,body:JSON.stringify(fichaData)
       });
     } else {
-      const ls=[...document.querySelectorAll('#wp-learning-opts input[type=checkbox]:checked')].map(c=>c.value).join(' · ')||null;
+      const ls=null; // legacy field removed
       const fullFicha={
         cedula:U.cedula,nombre_completo:U.nombre,marca:U.marca,
         ciudad:U._ciudad||null,tienda:U.tienda,
@@ -3198,10 +3137,10 @@ async function loadLeaderData(){
       c._t={};c._o={};tasks.forEach(t=>{const k=tk(t.nivel_id,t.tarea_index);c._t[k]=t.estado;if(t.observacion)c._o[k]=t.observacion;});
       // Load welcome profile
       const wp=await sbq('welcome_profiles','cedula',c.cedula);c._wp=wp||null;
-      // Also load ficha_acompanamiento (richer data — use if available)
-      const fa=await sbq('ficha_acompanamiento','cedula',c.cedula);c._fa=fa||null;
-      // Prefer ficha_acompanamiento for display when available
-      if(c._fa&&!c._wp)c._wp=c._fa;
+      // Load ficha_acompanamiento — always prefer over welcome_profiles
+      try{const fa=await sbq('ficha_acompanamiento','cedula',c.cedula);c._fa=fa||null;}catch(e){c._fa=null;}
+      // Use _fa if available, fall back to _wp for legacy data
+      c._ficha=c._fa||c._wp||null;
     }
     renderLeaderPanel();
   }catch(e){document.getElementById('lp-cont').innerHTML='<div class="lp-load" style="color:var(--coral)">⚠ Error al cargar.</div>';}
@@ -3423,17 +3362,19 @@ let lpsCurrentCi=-1;
 
 function openLpSlide(ci){
   const c=ldrC[ci];
+  if(!c)return;
   lpsCurrentCi=ci;
 
-  // Header
-  const ini=c.nombre.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  // Header — defend against null nombre
+  const nombre=c.nombre||'Sin nombre';
+  const ini=nombre.split(' ').map(w=>w[0]||'').join('').slice(0,2).toUpperCase()||'?';
   const avEl=document.getElementById('lps-av-el');
-  if(c.avatar){avEl.innerHTML=`<img src="${c.avatar}" alt="${c.nombre}">`;}else{avEl.textContent=ini;}
-  document.getElementById('lps-name').textContent=c.nombre;
+  if(c.avatar){avEl.innerHTML=`<img src="${c.avatar}" alt="${nombre}">`;}else{avEl.textContent=ini;}
+  document.getElementById('lps-name').textContent=nombre;
   document.getElementById('lps-meta').textContent=`CC ${c.cedula} · ${c.marca||'—'} · Tienda ${c.tienda}`;
-  document.getElementById('lps-pct').textContent=`${c._pct}%`;
+  document.getElementById('lps-pct').textContent=`${c._pct||0}%`;
   document.getElementById('lps-pend').textContent=c._pend||'0';
-  document.getElementById('lps-day').textContent=`${c._dias} / 30`;
+  document.getElementById('lps-day').textContent=`${c._dias||1} / 30`;
   document.getElementById('lps-pdf-btn').onclick=()=>downloadCV(ci);
 
   // Validation tab
@@ -3460,7 +3401,15 @@ function openLpSlide(ci){
   });});
   if(!vItems)vItems='<div class="lp-np">No hay tareas enviadas a validación.</div>';
   document.getElementById('lps-val-content').innerHTML=`<div class="lp-vl">${vItems}</div>`;
-  document.getElementById('lps-ficha-content').innerHTML=(c._fa||c._wp)?buildWelcomeProfile(c._fa||c._wp):'<div class="wf-no-profile">📋 Ficha de Acompañamiento no completada aún.</div>';
+  let fichaHtml='<div class="wf-no-profile">📋 Ficha de Acompañamiento no completada aún.</div>';
+  try{
+    const fichaData=c._fa||c._wp||null;
+    if(fichaData)fichaHtml=buildWelcomeProfile(fichaData);
+  }catch(e){
+    console.error('buildWelcomeProfile error:',e);
+    fichaHtml='<div class="wf-no-profile">⚠ Error al cargar la ficha. Recarga el panel.</div>';
+  }
+  document.getElementById('lps-ficha-content').innerHTML=fichaHtml;
 
   // Reset tabs
   switchLpsTab('val');
@@ -3492,9 +3441,11 @@ function openCollabDetail(ci){
   const isMobile=window.innerWidth<=700;
   if(isMobile){
     const c=ldrC[ci];
-    const ini=c.nombre.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-    const avHtml=c.avatar?`<img src="${c.avatar}" alt="${c.nombre}">`:`<div class="lpd-av-ini">${ini}</div>`;
-    const lvActual=LEVELS.findLast(lv=>lv.tasks.some((_,i)=>['completada','validada','enviada'].includes(c._t[tk(lv.id,i)]||'pendiente')))||LEVELS[0];
+    if(!c)return;
+    const nombre=c.nombre||'Sin nombre';
+    const ini=nombre.split(' ').map(w=>w[0]||'').join('').slice(0,2).toUpperCase()||'?';
+    const avHtml=c.avatar?`<img src="${c.avatar}" alt="${nombre}">`:`<div class="lpd-av-ini">${ini}</div>`;
+    const lvActual=LEVELS.findLast?.(lv=>lv.tasks.some((_,i)=>['completada','validada','enviada'].includes(c._t[tk(lv.id,i)]||'pendiente')))||LEVELS[0];
     let vItems='';
     LEVELS.forEach(lv=>{lv.tasks.forEach((t,i)=>{
       if(t.type!=='leader')return;
@@ -3657,106 +3608,201 @@ const DISC_COMBINADOS={
 // FICHA DE ACOMPAÑAMIENTO — BUILD FUNCTION
 // ══════════════════════════════════════════
 function buildWelcomeProfile(fa){
-  if(!fa)return'<div class="wf-no-profile">📋 Ficha no completada.</div>';
-  const months=['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  const famLabels=['','Nada familiarizado/a','Poco familiarizado/a','Algo familiarizado/a','Familiarizado/a','Muy familiarizado/a'];
-  const bday=fa.fecha_cumpleanos_dia&&fa.fecha_cumpleanos_mes?`${fa.fecha_cumpleanos_dia} de ${months[fa.fecha_cumpleanos_mes]}`:null;
-  const fi=fa.fecha_ingreso?new Date(fa.fecha_ingreso).toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'}):null;
+  if(!fa)return'<div class="wf-no-profile">📋 Ficha no completada aún.</div>';
 
-  // Has new instrument
-  const hasNuevo=!!(fa.aprendizaje||fa.motivacion_principal||fa.necesidad_lider);
-  // Puntos de atención
-  const pts=hasNuevo?calcPuntosAtencion(fa):[];
+  const months=['','Enero','Febrero','Marzo','Abril','Mayo','Junio',
+    'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
-  const blk=(lbl,val)=>val?`<div class="wf-row"><div class="wf-lbl">${lbl}</div><div class="wf-val">${val}</div></div>`:'';
-  const tag=t=>`<span class="wf-tag">${t}</span>`;
-  const openQ=(q,a)=>a?`<div class="wf-open-q"><div class="wf-open-lbl">${q}</div><div class="wf-open-val">"${a}"</div></div>`:'';
+  // ── Helpers ──
+  const val=v=>v||null;
+  const bday=fa.fecha_cumpleanos_dia&&fa.fecha_cumpleanos_mes
+    ?`${fa.fecha_cumpleanos_dia} de ${months[fa.fecha_cumpleanos_mes]}`:null;
 
-  // ── DATOS ──
-  const datosHtml=`
-    <div class="wf-ficha-section">
-      <div class="wf-ficha-section-title">Datos del colaborador</div>
-      <div class="wf-ficha-grid2">
-        ${blk('Nombre',fa.nombre_completo)}
-        ${blk('Cédula',fa.cedula)}
-        ${blk('Marca',fa.marca)}
-        ${blk('Tienda',fa.tienda)}
-        ${fa.ciudad?blk('Ciudad',fa.ciudad):''}
-        ${fi?blk('Fecha de ingreso',fi):''}
-        ${fa.rol_tienda?blk('Rol en tienda',fa.rol_tienda):''}
-        ${fa.experiencia_previa?blk('Experiencia previa',fa.experiencia_previa):''}
-        ${fa.familiaridad_retail?blk('Familiaridad retail',famLabels[fa.familiaridad_retail]||''):''}
-        ${bday?blk('Cumpleaños',bday):''}
-      </div>
-      ${fa.meta_personal||fa.goals?`<div class="wf-meta-box"><div class="wf-meta-lbl">Meta personal o laboral</div><div class="wf-meta-val">"${fa.meta_personal||fa.goals}"</div></div>`:''}
+  const dataItem=(lbl,v)=>v?`<div class="wf-data-item">
+    <div class="wf-data-lbl">${lbl}</div>
+    <div class="wf-data-val">${v}</div>
+  </div>`:'';
+
+  const respBlock=(lbl,perfil,raw,hint,color='#7c8ff0')=>raw?`
+  <div class="wf-resp-block">
+    <div class="wf-resp-lbl">${lbl}</div>
+    ${perfil?`<div class="wf-resp-perfil" style="color:${color}">${perfil}</div>`:''}
+    <div class="wf-resp-raw">"${raw}"</div>
+    ${hint?`<div class="wf-resp-hint">→ ${hint}</div>`:''}
+  </div>`:'';
+
+  const openQ=(lbl,txt,accentCol)=>txt?`
+  <div class="wf-open" style="border-left-color:${accentCol||'rgba(130,100,255,.45)'}">
+    <div class="wf-open-lbl">${lbl}</div>
+    <div class="wf-open-txt">"${txt}"</div>
+  </div>`:'';
+
+  const section=(num,title,color,body)=>`
+  <div class="wf-section">
+    <div class="wf-section-header" style="border:1px solid ${color}22;border-bottom:none;border-radius:16px 16px 0 0;">
+      <div class="wf-section-num" style="background:${color}22;color:${color}">${num}</div>
+      <div class="wf-section-title" style="color:${color}">${title}</div>
+    </div>
+    <div class="wf-section-body">${body}</div>
+  </div>`;
+
+  // ── Hint map per respuesta ──
+  const HINTS_APR={
+    'Ver cómo alguien más lo hace antes de intentarlo':'Mostrarle primero, luego darle espacio para practicar. Evitar pedirle que actúe sin referencia.',
+    'Que me expliquen el paso a paso con calma':'Dar instrucciones claras y ordenadas. No asumir que entiende — verificar comprensión antes de soltar.',
+    'Lanzarme a practicar y corregir sobre la marcha':'Darle tarea concreta desde el primer día. Retroalimentar después de la práctica, no antes.',
+    'Hacer preguntas hasta que me quede claro':'Crear espacio explícito para preguntar. Si no pregunta, probablemente algo no quedó claro.',
+    'Repetirlo varias veces hasta sentirme seguro':'Dar tiempo de práctica repetida antes de evaluar desempeño. La velocidad llegará sola.',
+  };
+  const HINTS_FB={
+    'Me lo diga directo, sin rodeos':'Puede recibir feedback duro sin problema. No suavizar en exceso.',
+    'Me lo diga en privado y con calma':'Nunca retroalimentar en público. Buscar momento tranquilo, sin prisa.',
+    'Primero reconozca lo que hice bien, luego lo que mejorar':'Iniciar siempre con lo positivo concreto. El orden importa.',
+    'Me muestre exactamente qué hacer diferente':'No solo decir qué mejorar — mostrar o demostrar cómo.',
+    'Me dé tiempo para darme cuenta solo':'Hacer preguntas en lugar de dar respuestas. Dejar que llegue a la conclusión.',
+  };
+  const HINTS_ERR={
+    'Decírselo a mi líder antes de que se dé cuenta':'Alta transparencia. Crear un ambiente donde reportar errores sea seguro y bien recibido.',
+    'Intentar resolverlo solo antes de comentarlo':'Puede no pedir ayuda aunque la necesite. Preguntar activamente cómo va.',
+    'Quedarme pensando en qué salió mal':'Puede rumiar los errores. Normalizar equivocarse y cerrar el episodio con aprendizaje.',
+    'Aprender qué pasó y seguir adelante':'Buena resiliencia. Aprovechar esta fortaleza como ejemplo para el equipo.',
+    'Esperar a ver si tiene consecuencias':'Puede evitar la conversación difícil. Abrir el espacio antes de que lo haga él.',
+  };
+  const HINTS_LID={
+    'Está pendiente de cómo me va sin que yo lo pida':'No esperar a que pida ayuda — preguntar activamente cómo va cada día.',
+    'Me da instrucciones claras y confía en que puedo solo':'Dar autonomía con claridad del objetivo. Microgestión puede desmotivarlo.',
+    'Me da confianza aunque todavía no lo haga perfecto':'El respaldo emocional es prioritario. Validar el esfuerzo, no solo el resultado.',
+    'Me corrige rápido para no seguir haciendo algo mal':'Apreciar la retroalimentación correctiva oportuna. No dejar pasar errores sin mencionar.',
+    'Me explica el porqué de las cosas, no solo el qué':'Dar contexto y razón detrás de cada instrucción. El porqué lo conecta con el propósito.',
+  };
+  const HINTS_MOT={
+    'Sentir que aprendo y crezco':'Mostrar explícitamente en qué está creciendo. Nombrar los avances con frecuencia.',
+    'Que reconozcan cuando hago las cosas bien':'Reconocimiento frecuente y específico — no genérico. "Lo hiciste bien" vs "La forma en que atendiste al cliente fue excelente".',
+    'Lograr las metas que me propongo':'Darle metas claras desde el inicio. El avance medible lo mantiene motivado.',
+    'Tener un buen ambiente con el equipo':'Facilitar integración con el equipo. El clima de trabajo afecta directamente su desempeño.',
+    'Sentirme estable y seguro en lo que hago':'Generar certeza y consistencia. Cambios bruscos o incertidumbre pueden afectarlo.',
+  };
+  const HINTS_ADA={
+    'Observo primero antes de participar mucho':'Incluirlo activamente — no esperar a que tome iniciativa solo.',
+    'Me presento con todos y busco conectar rápido':'Aprovechar su energía social. Facilitar presentaciones con el equipo desde el día 1.',
+    'Espero que me incluyan antes de tomar iniciativa':'Necesita inclusión explícita. El equipo debe acercarse a él, no al revés.',
+    'Busco a alguien de confianza para orientarme':'Asignarle un referente claro desde el primer día.',
+    'Me adapto fácil, el ambiente nuevo me energiza':'Alta adaptabilidad. Puede tomar más responsabilidad temprana.',
+  };
+  const CTX_EXP={
+    'Sí, en retail / tienda':'Viene del sector retail. Puede tener hábitos formados — explorar qué trae y qué ajustar al estándar de marca.',
+    'Sí, en servicio al cliente':'Experiencia en atención. Buen punto de partida para protocolos de cliente — ajustar al lenguaje de marca.',
+    'Sí, en otro sector':'Trae experiencia laboral de otro contexto. Identificar qué habilidades son transferibles.',
+    'No tengo experiencia previa':'Primera experiencia laboral. Tabla rasa — moldeable desde el inicio sin hábitos que corregir.',
+  };
+
+  // ── Frase de apertura ──
+  const nomCorto=fa.preferred_name||fa.nombre_completo?.split(' ')[0]||'Este colaborador';
+  let frases=[];
+  if(fa.perfil_aprendizaje)frases.push(fa.perfil_aprendizaje.toLowerCase());
+  if(fa.necesidad_lider){
+    const nl=fa.necesidad_lider;
+    if(nl.includes('pendiente'))frases.push('necesita que su líder tome la iniciativa de acercarse');
+    else if(nl.includes('instrucciones claras'))frases.push('valora autonomía con instrucciones claras');
+    else if(nl.includes('confianza'))frases.push('necesita respaldo emocional más que instrucción técnica');
+    else if(nl.includes('corrige'))frases.push('aprecia la corrección oportuna y directa');
+    else if(nl.includes('porqué'))frases.push('necesita entender el contexto detrás de cada tarea');
+  }
+  if(fa.perfil_motivacion)frases.push('lo que más lo mueve es '+fa.perfil_motivacion.toLowerCase().replace('motivado por ',''));
+  const frase_apertura=frases.length>0
+    ?`${nomCorto} ${frases[0]}${frases[1]?' — '+frases[1]:''}${frases[2]?'. '+frases[2].charAt(0).toUpperCase()+frases[2].slice(1)+'.':''}`
+    :null;
+
+  // ── Puntos de atención ──
+  const pts=calcPuntosAtencion(fa);
+
+  // ══ RENDER ══
+  let html=`<div class="wf-wrap">`;
+
+  // Frase de apertura
+  if(frase_apertura){
+    html+=`<div class="wf-apertura">
+      <div class="wf-apertura-lbl">En resumen</div>
+      <div class="wf-apertura-txt">${frase_apertura}</div>
     </div>`;
-
-  // ── PERFIL DE ACOMPAÑAMIENTO ──
-  let perfilHtml='';
-  if(hasNuevo){
-    const perfilRows=[
-      {label:'Cómo aprende',perfil:fa.perfil_aprendizaje,raw:fa.aprendizaje},
-      {label:'Cómo recibe feedback',perfil:fa.perfil_feedback,raw:fa.recepcion_feedback},
-      {label:'Ante el error',raw:fa.reaccion_error},
-      {label:'Qué necesita del líder',perfil:fa.perfil_liderazgo,raw:fa.necesidad_lider},
-      {label:'Principal motivador',perfil:fa.perfil_motivacion,raw:fa.motivacion_principal},
-      {label:'Llegada al equipo',perfil:fa.perfil_adaptacion,raw:fa.llegada_equipo},
-    ];
-
-    perfilHtml=`
-    <div class="wf-ficha-section">
-      <div class="wf-ficha-section-title">Perfil de Acompañamiento
-        <span class="wf-disc-subtitle">Respuestas del colaborador al instrumento de acompañamiento</span>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:10px;">
-        ${perfilRows.map(r=>r.raw?`
-          <div style="background:rgba(255,255,255,.03);border:1px solid rgba(130,100,255,.15);border-radius:11px;padding:11px 14px;">
-            <div style="font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:rgba(160,150,210,.5);margin-bottom:4px;">${r.label}</div>
-            ${r.perfil?`<div style="font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:800;color:#7c8ff0;margin-bottom:3px;">${r.perfil}</div>`:''}
-            <div style="font-size:.8rem;color:rgba(220,215,245,.8);font-style:italic;">"${r.raw}"</div>
-          </div>`:'').join('')}
-      </div>
-    </div>`;
-
-    // ── PUNTOS DE ATENCIÓN ──
-    if(pts.length>0){
-      perfilHtml+=`
-      <div class="wf-ficha-section" style="background:rgba(253,99,107,.04);border-color:rgba(253,99,107,.2);">
-        <div class="wf-ficha-section-title" style="color:#fd636b;">Puntos de atención — primeros 30 días</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          ${pts.map(p=>`<div style="display:flex;gap:9px;align-items:flex-start;">
-            <div style="width:6px;height:6px;border-radius:50%;background:#fd636b;flex-shrink:0;margin-top:5px;"></div>
-            <div style="font-size:.81rem;color:rgba(220,215,245,.85);line-height:1.55;">${p}</div>
-          </div>`).join('')}
-        </div>
-      </div>`;
-    }
   }
 
-  // ── LO QUE COMPARTIÓ ──
-  const abiertasHtml=`
-    <div class="wf-ficha-section">
-      <div class="wf-ficha-section-title">Lo que el colaborador compartió</div>
-      <div class="wf-disc-bloque-sub">Respuestas literales — tal como fueron escritas.</div>
-      ${openQ('Algo de mí que no está en mi hoja de vida',fa.about_trabajo||fa.about_me)}
-      ${openQ('Qué necesitaría ver en los primeros 30 días',fa.expectativa_30dias)}
-      ${openQ('Lo que le diría a mi líder antes de empezar',fa.mensaje_lider)}
-      ${openQ('¿Qué se te facilita aprendiendo algo nuevo?',fa.respuesta_facilidades||fa.facilidades_aprendizaje)}
-      ${openQ('¿Qué te resulta retador en equipos nuevos?',fa.respuesta_retos||fa.challenges)}
-      ${openQ('¿Qué te gustaría que tu líder supiera?',fa.respuesta_lider||fa.leader_should_know)}
-      ${openQ('¿Cómo prefieres recibir retroalimentación?',fa.respuesta_feedback||fa.preferencia_feedback)}
-    </div>`;
+  // ── BLOQUE 1: Quién es ──
+  const b1Items=[
+    dataItem('Prefiere que le llamen',fa.preferred_name),
+    dataItem('Cumpleaños',bday),
+    dataItem('Vive con',fa.convivencia),
+    dataItem('Rol en tienda',fa.rol_tienda),
+    dataItem('Marca',fa.marca),
+    dataItem('Tienda',fa.tienda),
+    dataItem('Fecha de ingreso',fa.fecha_ingreso?new Date(fa.fecha_ingreso).toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'}):null),
+  ].filter(Boolean).join('');
 
-  // ── NOTA ÉTICA ──
-  const eticaHtml=`
-    <div class="wf-etica">
-      <div class="wf-etica-ico">⚖️</div>
-      <p class="wf-etica-txt">La información de esta ficha fue recopilada con fines de acompañamiento durante el proceso de ingreso. No representa una evaluación psicológica ni debe usarse como criterio único de decisiones laborales.</p>
-    </div>`;
+  const b1Meta=fa.about_me?`<div class="wf-meta" style="margin-top:2px;">
+    <div class="wf-meta-lbl">Algo que quiere que su equipo sepa</div>
+    <div class="wf-meta-txt">"${fa.about_me}"</div>
+  </div>`:'';
 
-  return`<div class="wf-ficha-wrap">${datosHtml}${perfilHtml}${abiertasHtml}${eticaHtml}</div>`;
+  const b1Goal=fa.meta_personal||fa.goals?`<div class="wf-meta" style="margin-top:2px;background:rgba(0,201,122,.05);border-color:rgba(0,201,122,.18);">
+    <div class="wf-meta-lbl" style="color:rgba(0,201,122,.7);">Meta en esta etapa</div>
+    <div class="wf-meta-txt">"${fa.meta_personal||fa.goals}"</div>
+  </div>`:'';
+
+  html+=section('1','Quién es','#7c8ff0',`<div class="wf-data-grid">${b1Items}</div>${b1Meta}${b1Goal}`);
+
+  // ── BLOQUE 2: Cómo aprende y se adapta ──
+  const expCtx=fa.experiencia_previa?`<div class="wf-ctx">
+    <div class="wf-ctx-lbl">Contexto de llegada</div>
+    <div class="wf-ctx-val">${fa.experiencia_previa}</div>
+    <div class="wf-ctx-hint">${CTX_EXP[fa.experiencia_previa]||'Trae experiencia previa — explorar qué es aplicable al nuevo contexto.'}</div>
+  </div>`:'';
+
+  const b2Pts=pts.length>0?`<div class="wf-atencion">
+    <div class="wf-atencion-title">⚡ Puntos de atención — primeros 30 días</div>
+    ${pts.map(p=>`<div class="wf-atencion-item">
+      <div class="wf-atencion-dot"></div>
+      <div class="wf-atencion-txt">${p}</div>
+    </div>`).join('')}
+  </div>`:'';
+
+  html+=section('2','Cómo aprende y se adapta','#00c97a',
+    respBlock('Estilo de aprendizaje',fa.perfil_aprendizaje,fa.aprendizaje,HINTS_APR[fa.aprendizaje],'#00c97a')+
+    respBlock('Llegada al equipo',fa.perfil_adaptacion,fa.llegada_equipo,HINTS_ADA[fa.llegada_equipo],'#6DC7CC')+
+    expCtx+b2Pts
+  );
+
+  // ── BLOQUE 3: Cómo acompañarlo ──
+  html+=section('3','Cómo acompañarlo','#586AE8',
+    respBlock('Cuando comete un error',null,fa.reaccion_error,HINTS_ERR[fa.reaccion_error],'#fd636b')+
+    respBlock('Cómo recibe retroalimentación',fa.perfil_feedback,fa.recepcion_feedback,HINTS_FB[fa.recepcion_feedback],'#586AE8')+
+    respBlock('Qué necesita del líder',fa.perfil_liderazgo,fa.necesidad_lider,HINTS_LID[fa.necesidad_lider],'#7c8ff0')
+  );
+
+  // ── BLOQUE 4: Qué lo motiva ──
+  html+=section('4','Qué lo motiva','#FFB901',
+    respBlock('Principal motivador',fa.perfil_motivacion,fa.motivacion_principal,HINTS_MOT[fa.motivacion_principal],'#FFB901')
+  );
+
+  // ── BLOQUE 5: Lo que compartió ──
+  const b5=[
+    openQ('Algo de él/ella que no está en su hoja de vida',fa.about_trabajo,'#7c8ff0'),
+    openQ('Qué necesitaría ver en sus primeros 30 días',fa.expectativa_30dias,'#00c97a'),
+    openQ('Lo que le diría a su líder antes de empezar',fa.mensaje_lider,'#FFB901'),
+  ].filter(Boolean).join('');
+
+  if(b5){
+    html+=section('5','Lo que compartió','rgba(160,150,210,.6)',b5);
+  }
+
+  // Nota ética
+  html+=`<div class="wf-etica">
+    <div class="wf-etica-ico">🤝</div>
+    <p class="wf-etica-txt">La información de esta ficha fue compartida voluntariamente por el colaborador con fines de acompañamiento durante su proceso de ingreso. Debe usarse como punto de partida para conversaciones, no como criterio de evaluación, selección o toma de decisiones laborales.</p>
+  </div>`;
+
+  html+=`</div>`;
+  return html;
 }
-
 async function validateTask(ced,lvId,idx,ci,ns){
   const oi=document.getElementById(`oi_${ci}_${lvId}_${idx}`);const obs=oi?oi.value.trim():'';
   try{
