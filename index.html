@@ -1744,18 +1744,111 @@ header::before{content:'';position:absolute;inset:0;background:linear-gradient(9
       </div>
     </div>
 
-    <!-- PASO 3: PERFIL CONDUCTUAL SITUACIONAL GCO -->
+    <!-- PASO 3: PERFIL DE ACOMPAÑAMIENTO -->
     <div class="wp-card" id="wp-step-2">
-      <div class="wp-card-title">Perfil Conductual Situacional GCO</div>
-      <div class="wp-card-sub" style="margin-bottom:6px;">Inspirado en las dimensiones del modelo DISC para conversaciones de acompañamiento.</div>
-      <div class="wp-disc-intro">
-        <p>Lee cada situación y selecciona la opción que <strong>más se parece a tu forma natural de actuar</strong>.</p>
-        <p style="margin-top:6px;opacity:.7;">No hay respuestas buenas o malas. Tus respuestas ayudarán a tu líder a conocerte mejor durante tu llegada a tienda.</p>
+      <div class="wp-card-title">Perfil de Acompañamiento</div>
+      <div class="wp-card-sub">No hay respuestas buenas ni malas. Tus respuestas ayudarán a tu líder a conocerte y acompañarte mejor desde el primer día.</div>
+
+      <!-- P1: Aprendizaje -->
+      <div class="wp-field">
+        <label class="wp-lbl">Estás aprendiendo algo nuevo en el trabajo por primera vez. Lo que más te ayuda es… <span class="req">*</span></label>
+        <div class="wp-sit-opts" id="opts-aprendizaje">
+          <label class="wp-sit-opt" onclick="selectSingleOpt('aprendizaje',this)"><input type="radio" name="aprendizaje" value="Ver cómo alguien más lo hace antes de intentarlo"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Ver cómo alguien más lo hace antes de intentarlo</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('aprendizaje',this)"><input type="radio" name="aprendizaje" value="Que me expliquen el paso a paso con calma"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Que me expliquen el paso a paso con calma</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('aprendizaje',this)"><input type="radio" name="aprendizaje" value="Lanzarme a practicar y corregir sobre la marcha"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Lanzarme a practicar y corregir sobre la marcha</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('aprendizaje',this)"><input type="radio" name="aprendizaje" value="Hacer preguntas hasta que me quede claro"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Hacer preguntas hasta que me quede claro</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('aprendizaje',this)"><input type="radio" name="aprendizaje" value="Repetirlo varias veces hasta sentirme seguro"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Repetirlo varias veces hasta sentirme seguro</div></label>
+        </div>
+        <div class="wp-err-msg" id="wp-err-apr">Selecciona una opción</div>
       </div>
 
-      <div id="disc-situations"></div>
+      <!-- P2: Retroalimentación -->
+      <div class="wp-field">
+        <label class="wp-lbl">Cuando tu líder tiene algo por mejorar contigo, prefieres que… <span class="req">*</span></label>
+        <div class="wp-sit-opts" id="opts-feedback">
+          <label class="wp-sit-opt" onclick="selectSingleOpt('recepcion_feedback',this)"><input type="radio" name="recepcion_feedback" value="Me lo diga directo, sin rodeos"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Me lo diga directo, sin rodeos</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('recepcion_feedback',this)"><input type="radio" name="recepcion_feedback" value="Me lo diga en privado y con calma"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Me lo diga en privado y con calma</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('recepcion_feedback',this)"><input type="radio" name="recepcion_feedback" value="Primero reconozca lo que hice bien, luego lo que mejorar"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Primero reconozca lo que hice bien, luego lo que mejorar</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('recepcion_feedback',this)"><input type="radio" name="recepcion_feedback" value="Me muestre exactamente qué hacer diferente"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Me muestre exactamente qué hacer diferente</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('recepcion_feedback',this)"><input type="radio" name="recepcion_feedback" value="Me dé tiempo para darme cuenta solo"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Me dé tiempo para darme cuenta solo</div></label>
+        </div>
+        <div class="wp-err-msg" id="wp-err-fb2">Selecciona una opción</div>
+      </div>
 
-      <div class="wp-err-msg" id="wp-err-disc">Responde todas las situaciones antes de continuar</div>
+      <!-- P3: Error -->
+      <div class="wp-field">
+        <label class="wp-lbl">Cometiste un error en tu turno. Lo primero que haces es… <span class="req">*</span></label>
+        <div class="wp-sit-opts" id="opts-error">
+          <label class="wp-sit-opt" onclick="selectSingleOpt('reaccion_error',this)"><input type="radio" name="reaccion_error" value="Decírselo a mi líder antes de que se dé cuenta"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Decírselo a mi líder antes de que se dé cuenta</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('reaccion_error',this)"><input type="radio" name="reaccion_error" value="Intentar resolverlo solo antes de comentarlo"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Intentar resolverlo solo antes de comentarlo</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('reaccion_error',this)"><input type="radio" name="reaccion_error" value="Quedarme pensando en qué salió mal"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Quedarme pensando en qué salió mal</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('reaccion_error',this)"><input type="radio" name="reaccion_error" value="Aprender qué pasó y seguir adelante"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Aprender qué pasó y seguir adelante</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('reaccion_error',this)"><input type="radio" name="reaccion_error" value="Esperar a ver si tiene consecuencias"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Esperar a ver si tiene consecuencias</div></label>
+        </div>
+        <div class="wp-err-msg" id="wp-err-err">Selecciona una opción</div>
+      </div>
+
+      <!-- P4: Liderazgo -->
+      <div class="wp-field">
+        <label class="wp-lbl">Un líder me ayuda a rendir mejor cuando… <span class="req">*</span></label>
+        <div class="wp-sit-opts" id="opts-lider">
+          <label class="wp-sit-opt" onclick="selectSingleOpt('necesidad_lider',this)"><input type="radio" name="necesidad_lider" value="Está pendiente de cómo me va sin que yo lo pida"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Está pendiente de cómo me va sin que yo lo pida</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('necesidad_lider',this)"><input type="radio" name="necesidad_lider" value="Me da instrucciones claras y confía en que puedo solo"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Me da instrucciones claras y confía en que puedo solo</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('necesidad_lider',this)"><input type="radio" name="necesidad_lider" value="Me da confianza aunque todavía no lo haga perfecto"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Me da confianza aunque todavía no lo haga perfecto</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('necesidad_lider',this)"><input type="radio" name="necesidad_lider" value="Me corrige rápido para no seguir haciendo algo mal"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Me corrige rápido para no seguir haciendo algo mal</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('necesidad_lider',this)"><input type="radio" name="necesidad_lider" value="Me explica el porqué de las cosas, no solo el qué"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Me explica el porqué de las cosas, no solo el qué</div></label>
+        </div>
+        <div class="wp-err-msg" id="wp-err-lid">Selecciona una opción</div>
+      </div>
+
+      <!-- P5: Motivación -->
+      <div class="wp-field">
+        <label class="wp-lbl">Lo que más te impulsa a dar lo mejor de ti en el trabajo es… <span class="req">*</span></label>
+        <div class="wp-sit-opts" id="opts-motivacion">
+          <label class="wp-sit-opt" onclick="selectSingleOpt('motivacion_principal',this)"><input type="radio" name="motivacion_principal" value="Sentir que aprendo y crezco"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Sentir que aprendo y crezco</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('motivacion_principal',this)"><input type="radio" name="motivacion_principal" value="Que reconozcan cuando hago las cosas bien"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Que reconozcan cuando hago las cosas bien</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('motivacion_principal',this)"><input type="radio" name="motivacion_principal" value="Lograr las metas que me propongo"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Lograr las metas que me propongo</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('motivacion_principal',this)"><input type="radio" name="motivacion_principal" value="Tener un buen ambiente con el equipo"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Tener un buen ambiente con el equipo</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('motivacion_principal',this)"><input type="radio" name="motivacion_principal" value="Sentirme estable y seguro en lo que hago"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Sentirme estable y seguro en lo que hago</div></label>
+        </div>
+        <div class="wp-err-msg" id="wp-err-mot">Selecciona una opción</div>
+      </div>
+
+      <!-- P6: Adaptación -->
+      <div class="wp-field">
+        <label class="wp-lbl">Cuando llegas a un lugar o equipo nuevo, normalmente… <span class="req">*</span></label>
+        <div class="wp-sit-opts" id="opts-adaptacion">
+          <label class="wp-sit-opt" onclick="selectSingleOpt('llegada_equipo',this)"><input type="radio" name="llegada_equipo" value="Observo primero antes de participar mucho"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Observo primero antes de participar mucho</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('llegada_equipo',this)"><input type="radio" name="llegada_equipo" value="Me presento con todos y busco conectar rápido"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Me presento con todos y busco conectar rápido</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('llegada_equipo',this)"><input type="radio" name="llegada_equipo" value="Espero que me incluyan antes de tomar iniciativa"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Espero que me incluyan antes de tomar iniciativa</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('llegada_equipo',this)"><input type="radio" name="llegada_equipo" value="Busco a alguien de confianza para orientarme"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Busco a alguien de confianza para orientarme</div></label>
+          <label class="wp-sit-opt" onclick="selectSingleOpt('llegada_equipo',this)"><input type="radio" name="llegada_equipo" value="Me adapto fácil, el ambiente nuevo me energiza"><div class="wp-sit-opt-dot"></div><div class="wp-sit-opt-txt">Me adapto fácil, el ambiente nuevo me energiza</div></label>
+        </div>
+        <div class="wp-err-msg" id="wp-err-ada">Selecciona una opción</div>
+      </div>
+
+      <!-- P7: Abierta 1 -->
+      <div class="wp-field">
+        <label class="wp-lbl">Cuéntanos algo de ti que no aparece en tu hoja de vida y que crees que es importante para trabajar contigo. <span class="req">*</span></label>
+        <textarea class="wp-ta" id="wp-about-trabajo" placeholder="Escribe aquí con confianza..."></textarea>
+        <div class="wp-err-msg" id="wp-err-abt">Este campo es obligatorio</div>
+      </div>
+
+      <!-- P8: Abierta 2 -->
+      <div class="wp-field">
+        <label class="wp-lbl">¿Qué necesitarías ver o sentir en tus primeros 30 días para saber que tomaste la decisión correcta al entrar a GCO? <span class="req">*</span></label>
+        <textarea class="wp-ta" id="wp-expectativa-30" placeholder="Escribe aquí con confianza..."></textarea>
+        <div class="wp-err-msg" id="wp-err-exp">Este campo es obligatorio</div>
+      </div>
+
+      <!-- P9: Abierta 3 -->
+      <div class="wp-field">
+        <label class="wp-lbl">Si pudieras decirle una sola cosa a tu líder antes de empezar, ¿qué le dirías? <span class="req">*</span></label>
+        <textarea class="wp-ta" id="wp-mensaje-lider" placeholder="Escribe aquí con confianza..."></textarea>
+        <div class="wp-err-msg" id="wp-err-msg">Este campo es obligatorio</div>
+      </div>
+
+      <div class="wp-err-msg" id="wp-err-disc">Responde todas las preguntas antes de continuar</div>
       <div class="wp-nav">
         <button class="wp-back" onclick="wpBack(2)">← Atrás</button>
         <button class="wp-next" onclick="wpNext(2)">Siguiente →</button>
@@ -2220,8 +2313,17 @@ async function loadColabStart(c){
   TS={};TO={};tasks.forEach(t=>{const k=tk(t.nivel_id,t.tarea_index);TS[k]=t.estado;if(t.observacion)TO[k]=t.observacion;});
   U=c;prevBdg=cntBdg();
   if(c.avatar)localStorage.setItem(`gco_av_${c.cedula}`,c.avatar);
-  // Check if NPS already submitted — don't show again
   try{const nps=await sbq('nps_responses','cedula',c.cedula);if(nps)npsShown=true;}catch(e){}
+  // Check if new instrument is complete
+  try{
+    const fa=await sbq('ficha_acompanamiento','cedula',c.cedula);
+    // New instrument requires aprendizaje field — if null, needs to complete
+    if(!fa||!fa.aprendizaje){
+      showWelcomeSurvey();return;
+    }
+  }catch(e){
+    showWelcomeSurvey();return;
+  }
   startColabApp();
 }
 async function colabRegister(){
@@ -2267,7 +2369,6 @@ function showWelcomeSurvey(){
   document.querySelectorAll('.screen').forEach(s=>s.style.display='none');
   document.getElementById('welcome-panel').style.display='block';
   wpStep=0;wpGoTo(0);
-  renderDiscSituations();
   const ds=document.getElementById('wp-bday-day');
   ds.innerHTML='<option value="">Día</option>';
   for(let i=1;i<=31;i++)ds.innerHTML+=`<option value="${i}">${i}</option>`;
@@ -2328,13 +2429,19 @@ function wpValidate(step){
     if(!fam)ok=false;
   }
   if(step===2){
-    // Validate all 16 situations answered
-    let discOk=true;
-    for(let i=1;i<=16;i++){
-      if(!document.querySelector(`input[name="sit_${i}"]:checked`))discOk=false;
-    }
-    showWpErr('wp-err-disc',!discOk);
-    if(!discOk)ok=false;
+    // Validate 6 multiple choice questions
+    const radioGroups=['aprendizaje','recepcion_feedback','reaccion_error','necesidad_lider','motivacion_principal','llegada_equipo'];
+    const errIds=['wp-err-apr','wp-err-fb2','wp-err-err','wp-err-lid','wp-err-mot','wp-err-ada'];
+    radioGroups.forEach((name,i)=>{
+      const checked=document.querySelector(`input[name="${name}"]:checked`);
+      showWpErr(errIds[i],!checked);
+      if(!checked)ok=false;
+    });
+    // Validate 3 open questions
+    req('wp-about-trabajo','wp-err-abt');
+    req('wp-expectativa-30','wp-err-exp');
+    req('wp-mensaje-lider','wp-err-msg');
+    showWpErr('wp-err-disc',!ok);
   }
   if(step===3){
     const ls=document.querySelectorAll('#wp-learning-opts input[type=checkbox]:checked');
@@ -2357,100 +2464,85 @@ function showWpErr(id,show){const el=document.getElementById(id);if(el)el.classL
 const gVal=id=>document.getElementById(id)?.value?.trim()||null;
 const getChecked=grpId=>[...document.querySelectorAll(`#${grpId} input:checked`)].map(c=>c.value);
 
-// ── PERFIL CONDUCTUAL SITUACIONAL GCO — DATA ──
-const DISC_SITS=[
-  {q:'Cuando llego a un equipo nuevo, primero suelo enfocarme en…',
-   opts:[{t:'Entender qué se espera de mí y empezar a aportar rápido.',d:'D'},{t:'Conocer a las personas y generar buena conexión.',d:'I'},{t:'Observar la dinámica del equipo antes de actuar demasiado.',d:'S'},{t:'Comprender las reglas, procesos y forma correcta de hacer las cosas.',d:'C'}]},
-  {q:'Cuando recibo una tarea nueva, me siento más cómodo/a si puedo…',
-   opts:[{t:'Saber cuál es el objetivo y el resultado esperado.',d:'D'},{t:'Conversar con alguien que me explique desde su experiencia.',d:'I'},{t:'Ver una demostración tranquila antes de hacerlo solo/a.',d:'S'},{t:'Revisar instrucciones claras o una guía paso a paso.',d:'C'}]},
-  {q:'Cuando algo no sale como esperaba, normalmente tiendo a…',
-   opts:[{t:'Buscar una solución rápida y seguir avanzando.',d:'D'},{t:'Hablar con alguien para entender qué pasó.',d:'I'},{t:'Mantener la calma y ajustar poco a poco.',d:'S'},{t:'Revisar el detalle para identificar el error.',d:'C'}]},
-  {q:'En una jornada con mucho movimiento en tienda, suelo sentirme mejor cuando…',
-   opts:[{t:'Tengo claro qué prioridad atender primero.',d:'D'},{t:'Puedo coordinarme y comunicarme bien con otros.',d:'I'},{t:'Hay orden en el ritmo de trabajo y apoyo del equipo.',d:'S'},{t:'Sé exactamente qué proceso seguir en cada caso.',d:'C'}]},
-  {q:'Cuando estoy aprendiendo algo nuevo, me ayuda más…',
-   opts:[{t:'Practicar pronto y corregir sobre la marcha.',d:'D'},{t:'Aprender conversando, preguntando y compartiendo ideas.',d:'I'},{t:'Ir paso a paso hasta ganar seguridad.',d:'S'},{t:'Tener una guía clara para consultar cuando lo necesite.',d:'C'}]},
-  {q:'Frente a un cliente nuevo, normalmente me resulta más natural…',
-   opts:[{t:'Identificar rápido qué necesita y orientar la conversación.',d:'D'},{t:'Crear cercanía y hacer que se sienta cómodo.',d:'I'},{t:'Escuchar con calma antes de proponer algo.',d:'S'},{t:'Asegurarme de dar información precisa y completa.',d:'C'}]},
-  {q:'Cuando recibo retroalimentación, la aprovecho mejor si…',
-   opts:[{t:'Es directa y me muestra qué mejorar puntualmente.',d:'D'},{t:'Se conversa en un tono cercano y constructivo.',d:'I'},{t:'Me da confianza para mejorar progresivamente.',d:'S'},{t:'Incluye ejemplos concretos y criterios claros.',d:'C'}]},
-  {q:'Cuando hay un cambio en la rutina o en la instrucción, suelo…',
-   opts:[{t:'Adaptarme rápido y buscar cómo resolver.',d:'D'},{t:'Preguntar y conversar para entender el cambio.',d:'I'},{t:'Necesitar un momento para ajustarme al nuevo ritmo.',d:'S'},{t:'Revisar bien la nueva instrucción antes de ejecutarla.',d:'C'}]},
-  {q:'En un equipo de trabajo, suelo aportar más cuando…',
-   opts:[{t:'Puedo tomar iniciativa y mover las cosas hacia adelante.',d:'D'},{t:'Puedo conectar, animar y facilitar la comunicación.',d:'I'},{t:'Puedo apoyar, escuchar y mantener un ambiente estable.',d:'S'},{t:'Puedo cuidar el detalle, el orden y la calidad.',d:'C'}]},
-  {q:'Cuando tengo varias tareas al mismo tiempo, normalmente prefiero…',
-   opts:[{t:'Priorizar rápido y avanzar con decisión.',d:'D'},{t:'Coordinar con otros para organizarme mejor.',d:'I'},{t:'Mantener un ritmo constante sin saturarme.',d:'S'},{t:'Ordenarlas por pasos para evitar errores.',d:'C'}]},
-  {q:'Si tengo una duda durante mi aprendizaje, suelo preferir…',
-   opts:[{t:'Resolverla pronto para continuar avanzando.',d:'D'},{t:'Preguntarle a alguien y conversar la situación.',d:'I'},{t:'Acudir a una persona de confianza.',d:'S'},{t:'Revisar una fuente clara antes de actuar.',d:'C'}]},
-  {q:'Cuando estoy en proceso de adaptación, me resulta más útil…',
-   opts:[{t:'Tener objetivos claros desde el inicio.',d:'D'},{t:'Sentirme integrado/a con las personas del equipo.',d:'I'},{t:'Tener acompañamiento gradual mientras gano confianza.',d:'S'},{t:'Conocer bien los procedimientos y estándares.',d:'C'}]},
-  {q:'Cuando observo a alguien con más experiencia, me fijo principalmente en…',
-   opts:[{t:'Cómo logra el resultado.',d:'D'},{t:'Cómo se relaciona con las personas.',d:'I'},{t:'Cómo mantiene la calma y el ritmo.',d:'S'},{t:'Cómo sigue el proceso y cuida los detalles.',d:'C'}]},
-  {q:'Cuando me asignan una responsabilidad, me genera más tranquilidad…',
-   opts:[{t:'Saber qué resultado debo alcanzar.',d:'D'},{t:'Saber con quién puedo coordinar o conversar.',d:'I'},{t:'Saber que puedo avanzar de forma progresiva.',d:'S'},{t:'Saber cuáles son los pasos correctos.',d:'C'}]},
-  {q:'En una conversación difícil o de mejora, suelo valorar más…',
-   opts:[{t:'Que sea clara, directa y enfocada en soluciones.',d:'D'},{t:'Que mantenga un tono cercano y respetuoso.',d:'I'},{t:'Que me permita expresar cómo me siento.',d:'S'},{t:'Que tenga ejemplos específicos de lo ocurrido.',d:'C'}]},
-  {q:'Cuando quiero mejorar en mi rol, me enfoco más en…',
-   opts:[{t:'Alcanzar mejores resultados.',d:'D'},{t:'Relacionarme mejor con clientes y equipo.',d:'I'},{t:'Ganar confianza y estabilidad en lo que hago.',d:'S'},{t:'Hacer las cosas con mayor precisión y calidad.',d:'C'}]},
-];
+// ── PERFIL DE ACOMPAÑAMIENTO — helpers ──
+function selectSingleOpt(name,el){
+  // Deselect all in same group
+  document.querySelectorAll(`input[name="${name}"]`).forEach(r=>{
+    r.closest('.wp-sit-opt')?.classList.remove('selected');
+  });
+  el.classList.add('selected');
+  el.querySelector('input[type=radio]').checked=true;
+}
+
+// Perfiles calculados según respuesta
+const PERFIL_APRENDIZAJE={
+  'Ver cómo alguien más lo hace antes de intentarlo':'Aprende por observación',
+  'Que me expliquen el paso a paso con calma':'Aprende con estructura',
+  'Lanzarme a practicar y corregir sobre la marcha':'Aprende por práctica',
+  'Hacer preguntas hasta que me quede claro':'Aprende por exploración',
+  'Repetirlo varias veces hasta sentirme seguro':'Aprende por repetición',
+};
+const PERFIL_FEEDBACK={
+  'Me lo diga directo, sin rodeos':'Valora feedback directo',
+  'Me lo diga en privado y con calma':'Necesita privacidad y calma',
+  'Primero reconozca lo que hice bien, luego lo que mejorar':'Necesita reconocimiento previo',
+  'Me muestre exactamente qué hacer diferente':'Valora feedback concreto',
+  'Me dé tiempo para darme cuenta solo':'Prefiere autorreflexión',
+};
+const PERFIL_LIDERAZGO={
+  'Está pendiente de cómo me va sin que yo lo pida':'Necesita seguimiento cercano',
+  'Me da instrucciones claras y confía en que puedo solo':'Valora autonomía con claridad',
+  'Me da confianza aunque todavía no lo haga perfecto':'Necesita respaldo emocional',
+  'Me corrige rápido para no seguir haciendo algo mal':'Valora corrección oportuna',
+  'Me explica el porqué de las cosas, no solo el qué':'Valora contexto y sentido',
+};
+const PERFIL_MOTIVACION={
+  'Sentir que aprendo y crezco':'Motivado por desarrollo',
+  'Que reconozcan cuando hago las cosas bien':'Motivado por reconocimiento',
+  'Lograr las metas que me propongo':'Motivado por logro',
+  'Tener un buen ambiente con el equipo':'Motivado por pertenencia',
+  'Sentirme estable y seguro en lo que hago':'Motivado por seguridad',
+};
+const PERFIL_ADAPTACION={
+  'Observo primero antes de participar mucho':'Adaptación progresiva',
+  'Me presento con todos y busco conectar rápido':'Adaptación activa y social',
+  'Espero que me incluyan antes de tomar iniciativa':'Necesita inclusión activa',
+  'Busco a alguien de confianza para orientarme':'Necesita referente cercano',
+  'Me adapto fácil, el ambiente nuevo me energiza':'Alta adaptabilidad',
+};
+
+// Puntos de atención según combinación de respuestas
+function calcPuntosAtencion(data){
+  const pts=[];
+  if(data.aprendizaje==='Repetirlo varias veces hasta sentirme seguro'||
+     data.aprendizaje==='Que me expliquen el paso a paso con calma'){
+    pts.push('Puede necesitar más tiempo en la curva inicial — dar espacio para afianzar antes de exigir velocidad.');
+  }
+  if(data.reaccion_error==='Quedarme pensando en qué salió mal'||
+     data.reaccion_error==='Esperar a ver si tiene consecuencias'){
+    pts.push('Puede necesitar acompañamiento para procesar errores — normalizar equivocarse como parte del aprendizaje.');
+  }
+  if(data.reaccion_error==='Intentar resolverlo solo antes de comentarlo'){
+    pts.push('Puede no pedir ayuda aunque la necesite — crear apertura explícita para que consulte sin miedo.');
+  }
+  if(data.necesidad_lider==='Está pendiente de cómo me va sin que yo lo pida'){
+    pts.push('Valora seguimiento proactivo — no esperar a que pida ayuda, preguntar activamente cómo va.');
+  }
+  if(data.llegada_equipo==='Observo primero antes de participar mucho'||
+     data.llegada_equipo==='Espero que me incluyan antes de tomar iniciativa'){
+    pts.push('Puede pasar desapercibido los primeros días — incluirlo activamente en conversaciones y actividades.');
+  }
+  if(data.motivacion_principal==='Que reconozcan cuando hago las cosas bien'){
+    pts.push('El reconocimiento es clave para su motivación — nombrar los avances explícitamente y con frecuencia.');
+  }
+  if(data.recepcion_feedback==='Me dé tiempo para darme cuenta solo'){
+    pts.push('Prefiere procesar antes de recibir retroalimentación — dar espacio antes de la conversación de mejora.');
+  }
+  if(pts.length===0){
+    pts.push('No se detectan señales de alerta específicas. Mantener conversación continua durante los primeros 30 días.');
+  }
 
 // Rotation patterns — D,I,S,C appear in different positions per question
-const DISC_ROTATIONS=[
-  [0,1,2,3],[1,2,3,0],[2,3,0,1],[3,0,1,2],
-  [0,2,1,3],[1,3,0,2],[2,0,3,1],[3,1,2,0],
-  [0,3,2,1],[1,0,3,2],[2,1,0,3],[3,2,1,0],
-  [0,1,3,2],[1,2,0,3],[2,3,1,0],[3,0,2,1],
-];
-
-function renderDiscSituations(){
-  const cont=document.getElementById('disc-situations');
-  if(!cont)return;
-  cont.innerHTML=DISC_SITS.map((sit,idx)=>{
-    const rot=DISC_ROTATIONS[idx%DISC_ROTATIONS.length];
-    const opts=rot.map(i=>sit.opts[i]);
-    return`<div class="wp-sit" id="sit-${idx}">
-      <div class="wp-sit-num">Situación ${idx+1} de ${DISC_SITS.length}</div>
-      <div class="wp-sit-q">${sit.q}</div>
-      <div class="wp-sit-opts">
-        ${opts.map((opt,oi)=>`
-          <label class="wp-sit-opt" id="sopt-${idx}-${oi}" onclick="selectSitOpt(${idx},${oi},'${opt.d}')">
-            <input type="radio" name="sit_${idx+1}" value="${opt.d}">
-            <div class="wp-sit-opt-dot"></div>
-            <div class="wp-sit-opt-txt">${opt.t}</div>
-          </label>`).join('')}
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function selectSitOpt(sitIdx,optIdx,dim){
-  // Deselect all options for this situation
-  for(let i=0;i<4;i++){
-    const el=document.getElementById(`sopt-${sitIdx}-${i}`);
-    if(el)el.classList.remove('selected');
-  }
-  // Select chosen option
-  const chosen=document.getElementById(`sopt-${sitIdx}-${optIdx}`);
-  if(chosen)chosen.classList.add('selected');
-  // Mark situation as answered
-  const sit=document.getElementById(`sit-${sitIdx}`);
-  if(sit)sit.classList.add('answered');
-  // Set radio value
-  const radio=document.querySelector(`input[name="sit_${sitIdx+1}"][value="${dim}"]`);
-  if(radio)radio.checked=true;
-}
-
-// ── DISC CALCULATION — SITUACIONAL ──
-function calcDISC(){
-  let D=0,I=0,S=0,C=0;
-  const sitAnswers={};
-  for(let i=1;i<=16;i++){
-    const v=document.querySelector(`input[name="sit_${i}"]:checked`)?.value||null;
-    sitAnswers[`sit_${i}`]=v;
-    if(v==='D')D++;
-    else if(v==='I')I++;
-    else if(v==='S')S++;
-    else if(v==='C')C++;
-  }
 
   // Porcentajes (máximo 16)
   const pct=v=>Math.round((v/16)*100);
@@ -2503,103 +2595,64 @@ async function submitSurvey(){
   if(!wpValidate(4))return;
   const btn=document.querySelector('.wp-finish');
   btn.disabled=true;btn.textContent='Guardando...';
-
   try{
-    const disc=calcDISC();
-    const ls=[...document.querySelectorAll('#wp-learning-opts input[type=checkbox]:checked')].map(c=>c.value).join(' · ')||null;
-
-    // Build unified ficha_acompanamiento record
-    const ficha={
-      cedula:U.cedula,
-      // Datos del colaborador
-      nombre_completo:U.nombre,
-      marca:U.marca,
-      ciudad:U._ciudad||null,
-      tienda:U.tienda,
-      fecha_ingreso:U.fecha_inicio?new Date(U.fecha_inicio).toISOString().split('T')[0]:null,
-      rol_tienda:gVal('wp-rol-tienda'),
-      // Paso 1 — quién eres
-      preferred_name:gVal('wp-preferred-name'),
-      fecha_cumpleanos_dia:parseInt(document.getElementById('wp-bday-day').value)||null,
-      fecha_cumpleanos_mes:parseInt(document.getElementById('wp-bday-month').value)||null,
-      convivencia:gVal('wp-living'),
-      about_me:gVal('wp-about-me'),
-      // Paso 2 — tu mundo
-      free_time:gVal('wp-free-time'),
-      experiencia_previa:gVal('wp-experiencia'),
-      experiencia_detalle:gVal('wp-exp-detalle'),
-      familiaridad_retail:parseInt(document.querySelector('input[name="familiaridad"]:checked')?.value)||null,
-      meta_personal:gVal('wp-goals'),
-      // Paso 3 — DISC situacional (sit_1 a sit_16)
-      sit_1:disc.sit_1,sit_2:disc.sit_2,sit_3:disc.sit_3,sit_4:disc.sit_4,
-      sit_5:disc.sit_5,sit_6:disc.sit_6,sit_7:disc.sit_7,sit_8:disc.sit_8,
-      sit_9:disc.sit_9,sit_10:disc.sit_10,sit_11:disc.sit_11,sit_12:disc.sit_12,
-      sit_13:disc.sit_13,sit_14:disc.sit_14,sit_15:disc.sit_15,sit_16:disc.sit_16,
-      // DISC calculado
-      puntaje_d:disc.puntaje_d,puntaje_i:disc.puntaje_i,
-      puntaje_s:disc.puntaje_s,puntaje_c:disc.puntaje_c,
-      porcentaje_d:disc.porcentaje_d,porcentaje_i:disc.porcentaje_i,
-      porcentaje_s:disc.porcentaje_s,porcentaje_c:disc.porcentaje_c,
-      nivel_d:disc.nivel_d,nivel_i:disc.nivel_i,
-      nivel_s:disc.nivel_s,nivel_c:disc.nivel_c,
-      dimension_principal:disc.dimension_principal,
-      dimension_secundaria:disc.dimension_secundaria,
-      perfil_combinado:disc.perfil_combinado,
-      nivel_diferenciacion:disc.nivel_diferenciacion,
-      diferencia_perfil:disc.diferencia_perfil,
-      perfil_equilibrado:disc.perfil_equilibrado,
-      // Paso 4 — conozcámonos mejor
-      learning_style:ls,
-      respuesta_facilidades:gVal('wp-facilidades'),
-      respuesta_retos:gVal('wp-challenges'),
-      respuesta_lider:gVal('wp-leader-know'),
-      respuesta_feedback:gVal('wp-feedback-pref'),
-      // Paso 5
-      autorizacion:true,
+    const apr=document.querySelector('input[name="aprendizaje"]:checked')?.value||null;
+    const fb2=document.querySelector('input[name="recepcion_feedback"]:checked')?.value||null;
+    const err2=document.querySelector('input[name="reaccion_error"]:checked')?.value||null;
+    const lid=document.querySelector('input[name="necesidad_lider"]:checked')?.value||null;
+    const mot=document.querySelector('input[name="motivacion_principal"]:checked')?.value||null;
+    const ada=document.querySelector('input[name="llegada_equipo"]:checked')?.value||null;
+    const fichaData={
+      aprendizaje:apr,recepcion_feedback:fb2,reaccion_error:err2,
+      necesidad_lider:lid,motivacion_principal:mot,llegada_equipo:ada,
+      about_trabajo:gVal('wp-about-trabajo'),
+      expectativa_30dias:gVal('wp-expectativa-30'),
+      mensaje_lider:gVal('wp-mensaje-lider'),
+      perfil_aprendizaje:PERFIL_APRENDIZAJE[apr]||null,
+      perfil_feedback:PERFIL_FEEDBACK[fb2]||null,
+      perfil_liderazgo:PERFIL_LIDERAZGO[lid]||null,
+      perfil_motivacion:PERFIL_MOTIVACION[mot]||null,
+      perfil_adaptacion:PERFIL_ADAPTACION[ada]||null,
     };
-
-    await sbins('ficha_acompanamiento',ficha);
-
-    // Also keep welcome_profiles for backwards compatibility with leader panel
-    const profile={
-      cedula:U.cedula,
-      preferred_name:ficha.preferred_name,
-      birthday_day:ficha.fecha_cumpleanos_dia,
-      birthday_month:ficha.fecha_cumpleanos_mes,
-      living_with:ficha.convivencia,
-      about_me:ficha.about_me,
-      free_time:ficha.free_time,
-      motivation_join:gVal('wp-motivation-join'),
-      goals:ficha.meta_personal,
-      learning_style:ls,
-      challenges:ficha.respuesta_retos,
-      leader_should_know:ficha.respuesta_lider,
-      experiencia_previa:ficha.experiencia_previa,
-      experiencia_detalle:ficha.experiencia_detalle,
-      familiaridad_moda:ficha.familiaridad_retail,
-      preferencia_feedback:ficha.respuesta_feedback,
-      facilidades_aprendizaje:ficha.respuesta_facilidades,
-      autorizacion:true,
-    };
-    try{await sbins('welcome_profiles',profile);}catch(e){console.warn('WP compat err',e);}
-
-    // Update rol_tienda in colaboradores
-    if(ficha.rol_tienda){
-      try{
-        await fetch(`${SB}/rest/v1/colaboradores?cedula=eq.${U.cedula}`,{
-          method:'PATCH',headers:SH,
-          body:JSON.stringify({rol_tienda:ficha.rol_tienda})
-        });
-      }catch(e){console.warn('Rol err',e);}
+    const existing=await sbq('ficha_acompanamiento','cedula',U.cedula);
+    if(existing){
+      await fetch(`${SB}/rest/v1/ficha_acompanamiento?cedula=eq.${U.cedula}`,{
+        method:'PATCH',headers:SH,body:JSON.stringify(fichaData)
+      });
+    } else {
+      const ls=[...document.querySelectorAll('#wp-learning-opts input[type=checkbox]:checked')].map(c=>c.value).join(' · ')||null;
+      const fullFicha={
+        cedula:U.cedula,nombre_completo:U.nombre,marca:U.marca,
+        ciudad:U._ciudad||null,tienda:U.tienda,
+        fecha_ingreso:U.fecha_inicio?new Date(U.fecha_inicio).toISOString().split('T')[0]:null,
+        rol_tienda:gVal('wp-rol-tienda'),
+        preferred_name:gVal('wp-preferred-name'),
+        fecha_cumpleanos_dia:parseInt(document.getElementById('wp-bday-day')?.value)||null,
+        fecha_cumpleanos_mes:parseInt(document.getElementById('wp-bday-month')?.value)||null,
+        convivencia:gVal('wp-living'),about_me:gVal('wp-about-me'),
+        free_time:gVal('wp-free-time'),
+        experiencia_previa:gVal('wp-experiencia'),
+        experiencia_detalle:gVal('wp-exp-detalle'),
+        familiaridad_retail:parseInt(document.querySelector('input[name="familiaridad"]:checked')?.value)||null,
+        meta_personal:gVal('wp-goals'),learning_style:ls,
+        autorizacion:true,...fichaData,
+      };
+      await sbins('ficha_acompanamiento',fullFicha);
+      try{await sbins('welcome_profiles',{cedula:U.cedula,preferred_name:fullFicha.preferred_name,
+        birthday_day:fullFicha.fecha_cumpleanos_dia,birthday_month:fullFicha.fecha_cumpleanos_mes,
+        living_with:fullFicha.convivencia,about_me:fullFicha.about_me,
+        free_time:fullFicha.free_time,goals:fullFicha.meta_personal,
+        learning_style:ls,autorizacion:true});}catch(e){console.warn('WP',e);}
     }
-
+    const rol=gVal('wp-rol-tienda');
+    if(rol){try{await fetch(`${SB}/rest/v1/colaboradores?cedula=eq.${U.cedula}`,{
+      method:'PATCH',headers:SH,body:JSON.stringify({rol_tienda:rol})
+    });}catch(e){}}
     btn.textContent='¡Listo!';
     setTimeout(()=>startColabApp(),800);
-
   }catch(e){
     console.error('Submit err',e);
-    btn.disabled=false;
-    btn.textContent='Reintentar';
+    btn.disabled=false;btn.textContent='Reintentar';
     alert('Hubo un error al guardar. Intenta de nuevo.');
   }
 }
@@ -3598,211 +3651,106 @@ const DISC_COMBINADOS={
 // FICHA DE ACOMPAÑAMIENTO — BUILD FUNCTION
 // ══════════════════════════════════════════
 function buildWelcomeProfile(fa){
-  // fa = ficha_acompanamiento record (or welcome_profiles for legacy)
+  if(!fa)return'<div class="wf-no-profile">📋 Ficha no completada.</div>';
   const months=['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   const famLabels=['','Nada familiarizado/a','Poco familiarizado/a','Algo familiarizado/a','Familiarizado/a','Muy familiarizado/a'];
-
-  // Normalize field names — support both ficha_acompanamiento and welcome_profiles
-  const nombre=fa.nombre_completo||fa.preferred_name||'—';
-  const cedula=fa.cedula||'—';
-  const marca=fa.marca||'—';
-  const tienda=fa.tienda||'—';
-  const ciudad=fa.ciudad||null;
-  const fechaIngreso=fa.fecha_ingreso?new Date(fa.fecha_ingreso).toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'}):null;
-  const rol=fa.rol_tienda||null;
-  const expPrevia=fa.experiencia_previa||null;
-  const expDetalle=fa.experiencia_detalle||fa.detalle_experiencia||null;
-  const famRaw=fa.familiaridad_retail||fa.familiaridad_moda||null;
-  const fam=famRaw?famLabels[famRaw]||null:null;
-  const meta=fa.meta_personal||fa.goals||null;
   const bday=fa.fecha_cumpleanos_dia&&fa.fecha_cumpleanos_mes?`${fa.fecha_cumpleanos_dia} de ${months[fa.fecha_cumpleanos_mes]}`:null;
-  const convivencia=fa.convivencia||fa.living_with||null;
-  const aboutMe=fa.about_me||null;
+  const fi=fa.fecha_ingreso?new Date(fa.fecha_ingreso).toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'}):null;
 
-  // DISC scores
-  const pD=fa.puntaje_d??null;
-  const pI=fa.puntaje_i??null;
-  const pS=fa.puntaje_s??null;
-  const pC=fa.puntaje_c??null;
-  const hasDisc=pD!==null&&pI!==null;
-  const MAX=16; // new situational format max
+  // Has new instrument
+  const hasNuevo=!!(fa.aprendizaje||fa.motivacion_principal||fa.necesidad_lider);
+  // Puntos de atención
+  const pts=hasNuevo?calcPuntosAtencion(fa):[];
 
-  const princi=fa.dimension_principal||fa.perfil_predominante||null;
-  const secund=fa.dimension_secundaria||fa.perfil_secundario||null;
-  const combinado=fa.perfil_combinado||null;
-  const nivelDif=fa.nivel_diferenciacion||null;
-  const equilibrado=fa.perfil_equilibrado||false;
-
-  // Open answers
-  const facilidades=fa.respuesta_facilidades||fa.facilidades_aprendizaje||null;
-  const retos=fa.respuesta_retos||fa.challenges||null;
-  const liderSepa=fa.respuesta_lider||fa.leader_should_know||null;
-  const feedback=fa.respuesta_feedback||fa.preferencia_feedback||null;
-  const learningStyle=fa.learning_style||null;
-
-  // Helper
   const blk=(lbl,val)=>val?`<div class="wf-row"><div class="wf-lbl">${lbl}</div><div class="wf-val">${val}</div></div>`:'';
-  const chip=txt=>`<span class="wf-comm-chip">${txt}</span>`;
+  const tag=t=>`<span class="wf-tag">${t}</span>`;
+  const openQ=(q,a)=>a?`<div class="wf-open-q"><div class="wf-open-lbl">${q}</div><div class="wf-open-val">"${a}"</div></div>`:'';
 
-  // ── BLOQUE 1: DATOS ──
+  // ── DATOS ──
   const datosHtml=`
     <div class="wf-ficha-section">
       <div class="wf-ficha-section-title">Datos del colaborador</div>
       <div class="wf-ficha-grid2">
-        ${blk('Nombre',nombre)}
-        ${blk('Cédula',cedula)}
-        ${blk('Marca',marca)}
-        ${blk('Tienda',tienda)}
-        ${ciudad?blk('Ciudad',ciudad):''}
-        ${fechaIngreso?blk('Fecha de ingreso',fechaIngreso):''}
-        ${rol?blk('Rol en tienda',rol):''}
-        ${expPrevia?blk('Experiencia previa',expPrevia):''}
-        ${expDetalle?blk('Detalle de experiencia',expDetalle):''}
-        ${fam?blk('Familiaridad con moda / retail',fam):''}
+        ${blk('Nombre',fa.nombre_completo)}
+        ${blk('Cédula',fa.cedula)}
+        ${blk('Marca',fa.marca)}
+        ${blk('Tienda',fa.tienda)}
+        ${fa.ciudad?blk('Ciudad',fa.ciudad):''}
+        ${fi?blk('Fecha de ingreso',fi):''}
+        ${fa.rol_tienda?blk('Rol en tienda',fa.rol_tienda):''}
+        ${fa.experiencia_previa?blk('Experiencia previa',fa.experiencia_previa):''}
+        ${fa.familiaridad_retail?blk('Familiaridad retail',famLabels[fa.familiaridad_retail]||''):''}
         ${bday?blk('Cumpleaños',bday):''}
-        ${convivencia?blk('Convivencia',convivencia):''}
       </div>
-      ${meta?`<div class="wf-meta-box"><div class="wf-meta-lbl">Meta personal o laboral</div><div class="wf-meta-val">"${meta}"</div></div>`:''}
+      ${fa.meta_personal||fa.goals?`<div class="wf-meta-box"><div class="wf-meta-lbl">Meta personal o laboral</div><div class="wf-meta-val">"${fa.meta_personal||fa.goals}"</div></div>`:''}
     </div>`;
 
-  // ── BLOQUE 2-6: DISC ──
-  let discHtml='';
-  if(hasDisc){
-    const scores=[
-      {dim:'D',val:pD,pct:fa.porcentaje_d??Math.round(pD/MAX*100)},
-      {dim:'I',val:pI,pct:fa.porcentaje_i??Math.round(pI/MAX*100)},
-      {dim:'S',val:pS,pct:fa.porcentaje_s??Math.round(pS/MAX*100)},
-      {dim:'C',val:pC,pct:fa.porcentaje_c??Math.round(pC/MAX*100)},
-    ].sort((a,b)=>b.val-a.val);
+  // ── PERFIL DE ACOMPAÑAMIENTO ──
+  let perfilHtml='';
+  if(hasNuevo){
+    const perfilRows=[
+      {label:'Cómo aprende',perfil:fa.perfil_aprendizaje,raw:fa.aprendizaje},
+      {label:'Cómo recibe feedback',perfil:fa.perfil_feedback,raw:fa.recepcion_feedback},
+      {label:'Ante el error',raw:fa.reaccion_error},
+      {label:'Qué necesita del líder',perfil:fa.perfil_liderazgo,raw:fa.necesidad_lider},
+      {label:'Principal motivador',perfil:fa.perfil_motivacion,raw:fa.motivacion_principal},
+      {label:'Llegada al equipo',perfil:fa.perfil_adaptacion,raw:fa.llegada_equipo},
+    ];
 
-    const content=DISC_CONTENT[princi]||DISC_CONTENT['S'];
-    const combKey=combinado&&combinado!=='Perfil equilibrado / mixto'?combinado.replace(' ',''):null;
-    const combData=combKey?(DISC_COMBINADOS[combKey]||DISC_COMBINADOS[combKey.split('').reverse().join('+')]||null):null;
-
-    // Nivel label
-    const nivelLbl=v=>v<=3?'Bajo':v<=7?'Medio bajo':v<=11?'Medio alto':'Alto';
-
-    discHtml=`
-    <div class="wf-ficha-disc">
-      <div class="wf-ficha-section-title">Perfil Conductual Situacional GCO
-        <span class="wf-disc-subtitle">Inspirado en las dimensiones del modelo DISC</span>
+    perfilHtml=`
+    <div class="wf-ficha-section">
+      <div class="wf-ficha-section-title">Perfil de Acompañamiento
+        <span class="wf-disc-subtitle">Respuestas del colaborador al instrumento de acompañamiento</span>
       </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        ${perfilRows.map(r=>r.raw?`
+          <div style="background:rgba(255,255,255,.03);border:1px solid rgba(130,100,255,.15);border-radius:11px;padding:11px 14px;">
+            <div style="font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:rgba(160,150,210,.5);margin-bottom:4px;">${r.label}</div>
+            ${r.perfil?`<div style="font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:800;color:#7c8ff0;margin-bottom:3px;">${r.perfil}</div>`:''}
+            <div style="font-size:.8rem;color:rgba(220,215,245,.8);font-style:italic;">"${r.raw}"</div>
+          </div>`:'').join('')}
+      </div>
+    </div>`;
 
-      <!-- Barras -->
-      <div class="wf-disc-bars">
-        ${scores.map(s=>`
-          <div class="wf-disc-bar-row">
-            <div class="wf-disc-bar-lbl">
-              <span class="wf-disc-icon" style="color:${DISC_COLOR[s.dim]};">${DISC_ICON[s.dim]}</span>
-              <span>${DISC_NAMES_SHORT[s.dim]}</span>
-            </div>
-            <div class="wf-disc-bar-track">
-              <div class="wf-disc-bar-fill" style="width:${s.pct}%;background:linear-gradient(90deg,${DISC_COLOR[s.dim]},${DISC_COLOR[s.dim]}99);box-shadow:0 0 10px ${DISC_COLOR[s.dim]}44;"></div>
-            </div>
-            <div class="wf-disc-bar-meta">
-              <span class="wf-disc-bar-score" style="color:${DISC_COLOR[s.dim]};">${s.val}/${MAX}</span>
-              <span class="wf-disc-bar-pct">${s.pct}%</span>
-              <span class="wf-disc-nivel" style="background:${DISC_COLOR[s.dim]}18;color:${DISC_COLOR[s.dim]};border:1px solid ${DISC_COLOR[s.dim]}44;">${nivelLbl(s.val)}</span>
-            </div>
+    // ── PUNTOS DE ATENCIÓN ──
+    if(pts.length>0){
+      perfilHtml+=`
+      <div class="wf-ficha-section" style="background:rgba(253,99,107,.04);border-color:rgba(253,99,107,.2);">
+        <div class="wf-ficha-section-title" style="color:#fd636b;">Puntos de atención — primeros 30 días</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          ${pts.map(p=>`<div style="display:flex;gap:9px;align-items:flex-start;">
+            <div style="width:6px;height:6px;border-radius:50%;background:#fd636b;flex-shrink:0;margin-top:5px;"></div>
+            <div style="font-size:.81rem;color:rgba(220,215,245,.85);line-height:1.55;">${p}</div>
           </div>`).join('')}
-      </div>
-
-      <!-- Perfil tags -->
-      <div class="wf-disc-profile-row">
-        ${princi&&princi!=='Equilibrado'?`<div class="wf-disc-profile-tag" style="border-color:${DISC_COLOR[princi]||'rgba(88,106,232,.4)'};background:${DISC_COLOR[princi]||'rgba(88,106,232,.1)'}15;">
-          <span class="wf-dpt-lbl">Predominante</span>
-          <span class="wf-dpt-val" style="color:${DISC_COLOR[princi]||'#7c8ff0'};">${princi} · ${DISC_NAMES_SHORT[princi]||princi}</span>
-        </div>`:''}
-        ${secund&&secund!=='—'?`<div class="wf-disc-profile-tag" style="border-color:${DISC_COLOR[secund]||'rgba(130,100,255,.3)'};background:${DISC_COLOR[secund]||'rgba(130,100,255,.1)'}12;">
-          <span class="wf-dpt-lbl">Secundario</span>
-          <span class="wf-dpt-val" style="color:${DISC_COLOR[secund]||'rgba(160,150,210,.8)'};">${secund} · ${DISC_NAMES_SHORT[secund]||secund}</span>
-        </div>`:''}
-        ${combinado?`<div class="wf-disc-profile-tag" style="border-color:rgba(130,100,255,.3);background:rgba(130,100,255,.06);">
-          <span class="wf-dpt-lbl">Perfil combinado</span>
-          <span class="wf-dpt-val" style="color:rgba(190,180,235,.9);">${combinado}</span>
-        </div>`:''}
-        ${nivelDif?`<div class="wf-disc-profile-tag" style="border-color:rgba(200,195,235,.15);background:rgba(200,195,235,.04);">
-          <span class="wf-dpt-lbl">Diferenciación</span>
-          <span class="wf-dpt-val" style="color:rgba(200,195,235,.7);">${nivelDif}</span>
-        </div>`:''}
-      </div>
-
-      ${equilibrado?`<div class="wf-disc-equilibrado">
-        <div class="wf-disc-eq-title">Perfil equilibrado / mixto</div>
-        <p class="wf-disc-eq-txt">El perfil muestra tendencias relativamente equilibradas entre las dimensiones. Usa esta información como punto de conversación, evitando conclusiones fuertes sobre un estilo predominante.</p>
-      </div>`:''}
-
-      <!-- Estilo general -->
-      ${!equilibrado&&content?`<div class="wf-disc-bloque">
-        <div class="wf-disc-bloque-title">Estilo general</div>
-        <p class="wf-disc-bloque-txt">${content.estilo_general}</p>
-      </div>`:''}
-
-      <!-- Perfil combinado -->
-      ${combData?`<div class="wf-disc-bloque wf-disc-bloque-comb">
-        <div class="wf-disc-bloque-title">${combData.nombre}</div>
-        <p class="wf-disc-bloque-txt">${combData.desc}</p>
-      </div>`:''}
-
-      <!-- Tendencias observables -->
-      ${!equilibrado&&content?`<div class="wf-disc-bloque">
-        <div class="wf-disc-bloque-title">Tendencias observables</div>
-        <ul class="wf-disc-list">
-          ${content.tendencias.map(t=>`<li>${t}</li>`).join('')}
-        </ul>
-      </div>`:''}
-
-      <!-- Estilo de comunicación -->
-      ${!equilibrado&&content?`<div class="wf-disc-bloque">
-        <div class="wf-disc-bloque-title">Estilo probable de comunicación</div>
-        <div class="wf-comm-chips">
-          ${content.comunicacion.map(chip).join('')}
         </div>
-      </div>`:''}
-
-      <!-- Posibles tensiones -->
-      ${!equilibrado&&content?`<div class="wf-disc-bloque wf-disc-tensiones">
-        <div class="wf-disc-bloque-title">Posibles tensiones del estilo</div>
-        <ul class="wf-disc-list">
-          ${content.tensiones.map(t=>`<li>${t}</li>`).join('')}
-        </ul>
-      </div>`:''}
-    </div>`;
+      </div>`;
+    }
   }
 
-  // ── BLOQUE 7: RESPUESTAS ABIERTAS ──
-  const openHtml=(facilidades||retos||liderSepa||feedback)?`
+  // ── LO QUE COMPARTIÓ ──
+  const abiertasHtml=`
     <div class="wf-ficha-section">
       <div class="wf-ficha-section-title">Lo que el colaborador compartió</div>
-      <div class="wf-disc-bloque-sub">Las respuestas se muestran de manera literal, tal como fueron escritas.</div>
-      ${facilidades?`<div class="wf-open-q"><div class="wf-open-lbl">¿Qué se te facilita cuando estás aprendiendo algo nuevo?</div><div class="wf-open-val">"${facilidades}"</div></div>`:''}
-      ${retos?`<div class="wf-open-q"><div class="wf-open-lbl">¿Qué suele ser más retador cuando llegas a un equipo nuevo?</div><div class="wf-open-val">"${retos}"</div></div>`:''}
-      ${liderSepa?`<div class="wf-open-q"><div class="wf-open-lbl">¿Qué te gustaría que tu líder supiera de ti?</div><div class="wf-open-val">"${liderSepa}"</div></div>`:''}
-      ${feedback?`<div class="wf-open-q"><div class="wf-open-lbl">¿Cómo prefieres recibir retroalimentación?</div><div class="wf-open-val">"${feedback}"</div></div>`:''}
-      ${learningStyle?`<div class="wf-open-q"><div class="wf-open-lbl">Estilo de aprendizaje</div><div class="wf-open-val">${learningStyle}</div></div>`:''}
-      ${aboutMe?`<div class="wf-open-q"><div class="wf-open-lbl">Algo que quiere que el equipo sepa</div><div class="wf-open-val">"${aboutMe}"</div></div>`:''}
-    </div>`:'';
+      <div class="wf-disc-bloque-sub">Respuestas literales — tal como fueron escritas.</div>
+      ${openQ('Algo de mí que no está en mi hoja de vida',fa.about_trabajo||fa.about_me)}
+      ${openQ('Qué necesitaría ver en los primeros 30 días',fa.expectativa_30dias)}
+      ${openQ('Lo que le diría a mi líder antes de empezar',fa.mensaje_lider)}
+      ${openQ('¿Qué se te facilita aprendiendo algo nuevo?',fa.respuesta_facilidades||fa.facilidades_aprendizaje)}
+      ${openQ('¿Qué te resulta retador en equipos nuevos?',fa.respuesta_retos||fa.challenges)}
+      ${openQ('¿Qué te gustaría que tu líder supiera?',fa.respuesta_lider||fa.leader_should_know)}
+      ${openQ('¿Cómo prefieres recibir retroalimentación?',fa.respuesta_feedback||fa.preferencia_feedback)}
+    </div>`;
 
-  // ── BLOQUE 8-9: NOTA ÉTICA + BOTÓN CARTILLA ──
-  const footerHtml=`
+  // ── NOTA ÉTICA ──
+  const eticaHtml=`
     <div class="wf-etica">
       <div class="wf-etica-ico">⚖️</div>
-      <p class="wf-etica-txt">Esta herramienta está inspirada en el modelo DISC, pero no corresponde a una prueba DISC certificada ni a una evaluación psicométrica. Sus resultados no deben utilizarse como criterio único de selección, evaluación de desempeño, permanencia o toma de decisiones laborales.</p>
-    </div>
-    <button class="wf-cartilla-btn" onclick="alert('Cartilla disponible próximamente — Fase 3')">
-      📖 Abrir guía de interpretación DISC
-      <span style="display:block;font-size:.68rem;font-weight:600;opacity:.7;margin-top:2px;">Aprende a interpretar este perfil y a preparar mejores conversaciones</span>
-    </button>`;
+      <p class="wf-etica-txt">La información de esta ficha fue recopilada con fines de acompañamiento durante el proceso de ingreso. No representa una evaluación psicológica ni debe usarse como criterio único de decisiones laborales.</p>
+    </div>`;
 
-  return`<div class="wf-ficha-wrap">
-    ${datosHtml}
-    ${discHtml}
-    ${openHtml}
-    ${footerHtml}
-  </div>`;
+  return`<div class="wf-ficha-wrap">${datosHtml}${perfilHtml}${abiertasHtml}${eticaHtml}</div>`;
 }
 
-function toggleCC(ci){const b=document.getElementById(`lp-cb-${ci}`);b.classList.toggle('open');}
 async function validateTask(ced,lvId,idx,ci,ns){
   const oi=document.getElementById(`oi_${ci}_${lvId}_${idx}`);const obs=oi?oi.value.trim():'';
   try{
