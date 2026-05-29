@@ -3829,230 +3829,189 @@ function downloadCV(ci){
   const nom=fa?.nombre_completo||c.nombre||'Colaborador';
   const fileName='Ficha_'+nom.replace(/\s+/g,'_')+'.pdf';
 
-  // Build HTML document for capture
   function buildFichaHTML(){
+    const months=['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
     const fi=c.fecha_inicio?new Date(c.fecha_inicio).toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'}):'—';
     const today=new Date().toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'});
-    const famLabels=['','★☆☆☆☆  Nada familiarizado/a','★★☆☆☆  Poco familiarizado/a','★★★☆☆  Algo familiarizado/a','★★★★☆  Familiarizado/a','★★★★★  Muy familiarizado/a'];
-    const DNAME={D:'Dominancia / Resultados',I:'Influencia / Relación',S:'Estabilidad / Ritmo',C:'Cumplimiento / Claridad'};
-    const DCOLOR={D:'#4f46e5',I:'#d97706',S:'#059669',C:'#dc2626'};
-    const DBG={D:'#ede9fe',I:'#fef3c7',S:'#d1fae5',C:'#fee2e2'};
-    const NIVEL_COLOR={'Alto':'#4f46e5','Medio alto':'#059669','Medio bajo':'#d97706','Bajo':'#dc2626'};
-    const NIVEL_BG={'Alto':'#ede9fe','Medio alto':'#d1fae5','Medio bajo':'#fef3c7','Bajo':'#fee2e2'};
+    const bday=fa?.fecha_cumpleanos_dia&&fa?.fecha_cumpleanos_mes?`${fa.fecha_cumpleanos_dia} de ${months[fa.fecha_cumpleanos_mes]}`:null;
+    const av=localStorage.getItem('gco_av_'+c.cedula)||c.avatar||null;
 
-    const pD=fa?.puntaje_d??null;
-    const hasDisc=pD!==null;
-    const MAX=16;
-
-    let discHTML='';
-    let profileHTML='';
-    let contentHTML='';
-
-    if(hasDisc){
-      const allS=[
-        {d:'D',v:fa.puntaje_d,pct:fa.porcentaje_d??Math.round(fa.puntaje_d/MAX*100),niv:fa.nivel_d||'—'},
-        {d:'I',v:fa.puntaje_i,pct:fa.porcentaje_i??Math.round(fa.puntaje_i/MAX*100),niv:fa.nivel_i||'—'},
-        {d:'S',v:fa.puntaje_s,pct:fa.porcentaje_s??Math.round(fa.puntaje_s/MAX*100),niv:fa.nivel_s||'—'},
-        {d:'C',v:fa.puntaje_c,pct:fa.porcentaje_c??Math.round(fa.puntaje_c/MAX*100),niv:fa.nivel_c||'—'},
-      ].sort((a,b)=>b.v-a.v);
-
-      discHTML=`<table class="disc-table">
-        <thead><tr><th>Dimensión</th><th colspan="2">Puntaje</th><th>%</th><th>Nivel</th></tr></thead>
-        <tbody>${allS.map(s=>`<tr>
-          <td><span class="dim-badge" style="background:${DBG[s.d]};color:${DCOLOR[s.d]}">${s.d}</span> ${DNAME[s.d]}</td>
-          <td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:${s.pct}%;background:${DCOLOR[s.d]}"></div></div></td>
-          <td class="score">${s.v}/${MAX}</td>
-          <td class="pct" style="color:${DCOLOR[s.d]}">${s.pct}%</td>
-          <td><span class="nivel-pill" style="background:${NIVEL_BG[s.niv]||'#f3f4f6'};color:${NIVEL_COLOR[s.niv]||'#374151'}">${s.niv}</span></td>
-        </tr>`).join('')}</tbody>
-      </table>`;
-
-      const pr=fa?.dimension_principal||null;
-      const sc=fa?.dimension_secundaria||null;
-      const cb=fa?.perfil_combinado||null;
-      const nd=fa?.nivel_diferenciacion||null;
-      const eq=fa?.perfil_equilibrado||false;
-
-      profileHTML=`<div class="profile-grid">
-        <div class="profile-box">
-          <div class="profile-box-label">Predominante</div>
-          ${pr&&pr!=='Equilibrado'?`<div class="profile-letter" style="color:${DCOLOR[pr]||'#4f46e5'}">${pr}</div><div class="profile-name">${DNAME[pr]||pr}</div>`:`<div class="profile-eq">Equilibrado / mixto</div>`}
-        </div>
-        <div class="profile-box">
-          <div class="profile-box-label">Secundario</div>
-          ${sc&&sc!=='—'?`<div class="profile-letter" style="color:${DCOLOR[sc]||'#6b7280'}">${sc}</div><div class="profile-name">${DNAME[sc]||sc}</div>`:`<div class="profile-name">—</div>`}
-        </div>
-        <div class="profile-box">
-          <div class="profile-box-label">Perfil combinado</div>
-          <div class="profile-comb">${cb||'—'}</div>
-        </div>
-        <div class="profile-box">
-          <div class="profile-box-label">Diferenciación</div>
-          <div class="profile-comb">${nd||'—'}</div>
-          <div class="profile-name">${fa?.diferencia_perfil||0} pts</div>
-        </div>
-      </div>`;
-
-      const ct=DISC_CONTENT[pr]||null;
-      const ck=cb&&!eq?cb.replace(/\s/g,''):null;
-      const cd=ck?(DISC_COMBINADOS[ck]||DISC_COMBINADOS[ck.split('').reverse().join('+')]||null):null;
-
-      if(ct&&!eq){
-        const color=DCOLOR[pr]||'#4f46e5';
-        const bg=DBG[pr]||'#ede9fe';
-        contentHTML=`
-          <div class="two-col">
-            <div class="content-card">
-              <div class="content-card-title" style="color:${color}">Estilo general</div>
-              <p class="content-card-txt">${ct.estilo_general}</p>
-            </div>
-            ${cd?`<div class="content-card">
-              <div class="content-card-title" style="color:${color}">Perfil combinado — ${cd.nombre}</div>
-              <p class="content-card-txt">${cd.desc}</p>
-            </div>`:''}
-          </div>
-          <div class="two-col">
-            <div class="content-card">
-              <div class="content-card-title" style="color:${color}">Tendencias observables</div>
-              <ul class="tendency-list">${ct.tendencias.map(t=>`<li>${t}</li>`).join('')}</ul>
-            </div>
-            <div class="content-card">
-              <div class="content-card-title" style="color:${color}">Estilo de comunicación</div>
-              <div class="chips">${ct.comunicacion.map((ch,i)=>`<span class="chip" style="background:${[bg,'#fef3c7','#d1fae5','#fee2e2'][i]||bg};color:${[color,'#d97706','#059669','#dc2626'][i]||color}">${ch}</span>`).join('')}</div>
-              <div class="content-card-title" style="color:#dc2626;margin-top:12px">Posibles tensiones</div>
-              <ul class="tension-list">${ct.tensiones.map(t=>`<li>${t}</li>`).join('')}</ul>
-            </div>
-          </div>`;
-      } else if(eq){
-        contentHTML=`<div class="eq-box"><strong>Perfil equilibrado / mixto.</strong> Las dimensiones muestran tendencias similares. Usar esta información como punto de conversación, sin conclusiones fuertes sobre un estilo predominante.</div>`;
-      }
+    // Frase de apertura
+    const nomCorto=fa?.preferred_name||nom.split(' ')[0];
+    let frases=[];
+    if(fa?.perfil_aprendizaje)frases.push(fa.perfil_aprendizaje.toLowerCase());
+    if(fa?.necesidad_lider){
+      const nl=fa.necesidad_lider;
+      if(nl.includes('pendiente'))frases.push('necesita que su líder tome la iniciativa de acercarse');
+      else if(nl.includes('instrucciones claras'))frases.push('valora autonomía con instrucciones claras');
+      else if(nl.includes('confianza'))frases.push('necesita respaldo emocional más que instrucción técnica');
+      else if(nl.includes('corrige'))frases.push('aprecia la corrección oportuna y directa');
+      else if(nl.includes('porqué'))frases.push('necesita entender el contexto detrás de cada tarea');
     }
+    if(fa?.perfil_motivacion)frases.push('lo que más lo mueve es '+fa.perfil_motivacion.toLowerCase().replace('motivado por ',''));
+    const apertura=frases.length>0?`${nomCorto} ${frases[0]}${frases[1]?' — '+frases[1]:''}${frases[2]?'. '+frases[2].charAt(0).toUpperCase()+frases[2].slice(1)+'.':''}`:null;
 
-    const answers=[
-      {q:'¿Qué se te facilita cuando estás aprendiendo algo nuevo?',a:fa?.respuesta_facilidades||fa?.facilidades_aprendizaje},
-      {q:'¿Qué suele ser más retador cuando llegas a un equipo nuevo?',a:fa?.respuesta_retos||fa?.challenges},
-      {q:'¿Qué te gustaría que tu líder supiera de ti para acompañarte mejor?',a:fa?.respuesta_lider||fa?.leader_should_know},
-      {q:'¿Cómo prefieres recibir retroalimentación durante tu proceso?',a:fa?.respuesta_feedback||fa?.preferencia_feedback},
-    ];
+    // Puntos de atención
+    const pts=fa?calcPuntosAtencion(fa):[];
 
-    return`<!DOCTYPE html><html><head><meta charset="UTF-8">
-    <style>
-      *{margin:0;padding:0;box-sizing:border-box;}
-      body{font-family:'Segoe UI',Arial,sans-serif;font-size:11px;color:#1f2937;background:#fff;width:794px;}
-      .page{width:794px;padding:36px 40px;background:#fff;}
-      /* HEADER */
-      .header{display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;border-bottom:3px solid #4f46e5;margin-bottom:20px;}
-      .header-left{}
-      .header-brand{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6d28d9;margin-bottom:3px;}
-      .header-title{font-size:18px;font-weight:800;color:#1e1b4b;}
-      .header-right{text-align:right;font-size:9px;color:#6b7280;}
-      .header-pct{font-size:22px;font-weight:800;color:#4f46e5;}
-      /* PROFILE HERO */
-      .hero{display:flex;gap:20px;align-items:flex-start;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:12px;padding:18px;margin-bottom:16px;}
-      .avatar{width:60px;height:60px;border-radius:50%;background:#4f46e5;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;font-weight:800;flex-shrink:0;overflow:hidden;object-fit:cover;}
-      .avatar img{width:60px;height:60px;border-radius:50%;object-fit:cover;display:block;}
-      .hero-info{flex:1;}
-      .hero-name{font-size:20px;font-weight:800;color:#1e1b4b;margin-bottom:4px;}
-      .hero-meta{font-size:10px;color:#6b7280;margin-bottom:8px;}
-      .hero-tags{display:flex;gap:8px;flex-wrap:wrap;}
-      .hero-tag{font-size:9px;font-weight:700;padding:3px 10px;border-radius:99px;background:#ede9fe;color:#4f46e5;}
-      /* DATA GRID */
-      .section-title{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6d28d9;margin-bottom:10px;padding-bottom:4px;border-bottom:1px solid #e5e7eb;}
-      .data-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
-      .data-item{background:#fafafa;border:1px solid #e5e7eb;border-radius:8px;padding:8px 12px;}
-      .data-label{font-size:8px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
-      .data-value{font-size:11px;font-weight:600;color:#1f2937;}
-      .meta-box{background:#fffbeb;border:1px solid #fbbf24;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 14px;margin-bottom:16px;}
-      .meta-label{font-size:8px;font-weight:700;color:#d97706;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
-      .meta-text{font-size:11px;color:#1f2937;font-style:italic;line-height:1.6;}
-      /* DISC */
-      .disc-table{width:100%;border-collapse:collapse;margin-bottom:12px;}
-      .disc-table thead th{background:#4f46e5;color:#fff;font-size:9px;font-weight:700;padding:7px 10px;text-align:left;letter-spacing:.5px;}
-      .disc-table tbody tr{border-bottom:1px solid #f3f4f6;}
-      .disc-table tbody tr:nth-child(even){background:#fafafa;}
-      .disc-table tbody td{padding:8px 10px;font-size:10.5px;vertical-align:middle;}
-      .dim-badge{display:inline-block;font-weight:800;font-size:10px;padding:2px 8px;border-radius:6px;margin-right:6px;}
-      .bar-cell{width:120px;}
-      .bar-track{height:8px;background:#e5e7eb;border-radius:99px;overflow:hidden;}
-      .bar-fill{height:100%;border-radius:99px;}
-      .score{font-size:10px;font-weight:700;color:#374151;white-space:nowrap;}
-      .pct{font-weight:800;font-size:11px;}
-      .nivel-pill{display:inline-block;font-size:9px;font-weight:700;padding:3px 8px;border-radius:99px;}
-      /* PROFILE GRID */
-      .profile-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
-      .profile-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:12px;text-align:center;}
-      .profile-box-label{font-size:8px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
-      .profile-letter{font-size:26px;font-weight:900;line-height:1;}
-      .profile-name{font-size:9px;color:#6b7280;margin-top:3px;line-height:1.3;}
-      .profile-comb{font-size:13px;font-weight:800;color:#4f46e5;margin-top:4px;}
-      .profile-eq{font-size:10px;font-weight:700;color:#d97706;margin-top:4px;}
-      /* CONTENT */
-      .two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
-      .content-card{background:#fafafa;border:1px solid #e5e7eb;border-radius:10px;padding:12px;}
-      .content-card-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
-      .content-card-txt{font-size:10px;color:#374151;line-height:1.6;}
-      .tendency-list{padding-left:14px;}
-      .tendency-list li{font-size:10px;color:#374151;margin-bottom:4px;line-height:1.5;}
-      .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
-      .chip{font-size:9px;font-weight:700;padding:4px 10px;border-radius:99px;}
-      .tension-list{padding-left:14px;}
-      .tension-list li{font-size:10px;color:#dc2626;margin-bottom:4px;line-height:1.5;}
-      .eq-box{background:#fef3c7;border:1px solid #fbbf24;border-radius:8px;padding:12px;font-size:10.5px;color:#92400e;line-height:1.6;margin-bottom:12px;}
-      /* OPEN ANSWERS */
-      .answer-card{background:#fafafa;border:1px solid #e5e7eb;border-left:4px solid #4f46e5;border-radius:8px;padding:12px 14px;margin-bottom:10px;}
-      .answer-q{font-size:9px;font-weight:700;color:#4f46e5;text-transform:uppercase;letter-spacing:.3px;margin-bottom:6px;}
-      .answer-a{font-size:11px;color:#1f2937;font-style:italic;line-height:1.6;}
-      /* ETHICS */
-      .ethics{background:#fef9c3;border:1px solid #fde68a;border-radius:8px;padding:12px 14px;margin-top:16px;}
-      .ethics-txt{font-size:9.5px;color:#713f12;line-height:1.6;}
-      /* PAGE BREAK */
-      .page-break{page-break-before:always;padding-top:36px;}
-      .footer{margin-top:20px;padding-top:10px;border-top:1px solid #e5e7eb;display:flex;justify-content:space-between;font-size:8px;color:#9ca3af;}
-      .no-disc{background:#f3f4f6;border-radius:8px;padding:14px;font-size:10px;color:#6b7280;text-align:center;margin-bottom:12px;}
+    // Hints
+    const HINTS_APR={'Ver cómo alguien más lo hace antes de intentarlo':'Mostrarle primero, luego darle espacio para practicar.','Que me expliquen el paso a paso con calma':'Instrucciones claras y ordenadas. Verificar comprensión antes de soltar.','Lanzarme a practicar y corregir sobre la marcha':'Darle tarea concreta desde el primer día. Retroalimentar después de la práctica.','Hacer preguntas hasta que me quede claro':'Crear espacio explícito para preguntar.','Repetirlo varias veces hasta sentirme seguro':'Dar tiempo de práctica repetida antes de evaluar desempeño.'};
+    const HINTS_FB={'Me lo diga directo, sin rodeos':'Puede recibir feedback duro. No suavizar en exceso.','Me lo diga en privado y con calma':'Nunca retroalimentar en público. Buscar momento tranquilo.','Primero reconozca lo que hice bien, luego lo que mejorar':'Iniciar siempre con lo positivo concreto. El orden importa.','Me muestre exactamente qué hacer diferente':'No solo decir qué mejorar — mostrar cómo.','Me dé tiempo para darme cuenta solo':'Hacer preguntas en lugar de dar respuestas.'};
+    const HINTS_ERR={'Decírselo a mi líder antes de que se dé cuenta':'Alta transparencia. Crear ambiente donde reportar errores sea seguro.','Intentar resolverlo solo antes de comentarlo':'Puede no pedir ayuda aunque la necesite. Preguntar activamente.','Quedarme pensando en qué salió mal':'Puede rumiar los errores. Normalizar equivocarse y cerrar con aprendizaje.','Aprender qué pasó y seguir adelante':'Buena resiliencia. Aprovechar como ejemplo para el equipo.','Esperar a ver si tiene consecuencias':'Puede evitar la conversación difícil. Abrir el espacio proactivamente.'};
+    const HINTS_LID={'Está pendiente de cómo me va sin que yo lo pida':'No esperar a que pida ayuda — preguntar activamente cada día.','Me da instrucciones claras y confía en que puedo solo':'Dar autonomía con claridad del objetivo.','Me da confianza aunque todavía no lo haga perfecto':'El respaldo emocional es prioritario sobre las instrucciones técnicas.','Me corrige rápido para no seguir haciendo algo mal':'Retroalimentación correctiva oportuna. No dejar pasar errores sin mencionar.','Me explica el porqué de las cosas, no solo el qué':'Dar contexto y razón detrás de cada instrucción.'};
+    const HINTS_MOT={'Sentir que aprendo y crezco':'Mostrar en qué está creciendo. Nombrar los avances con frecuencia.','Que reconozcan cuando hago las cosas bien':'Reconocimiento frecuente y específico — no genérico.','Lograr las metas que me propongo':'Darle metas claras. El avance medible lo mantiene motivado.','Tener un buen ambiente con el equipo':'Facilitar integración. El clima afecta directamente su desempeño.','Sentirme estable y seguro en lo que hago':'Generar certeza y consistencia. Evitar cambios bruscos.'};
+    const CTX_EXP={'Sí, en retail / tienda':'Viene del sector retail — explorar qué trae y qué ajustar al estándar de marca.','Sí, en servicio al cliente':'Experiencia en atención — adaptar al lenguaje de marca.','Sí, en otro sector':'Trae experiencia de otro contexto — identificar habilidades transferibles.','No tengo experiencia previa':'Primera experiencia laboral — moldeable desde el inicio.'};
+
+    const row=(lbl,val)=>val?`<tr><td class="dl">${lbl}</td><td class="dv">${val}</td></tr>`:'';
+    const respRow=(lbl,perfil,raw,hint)=>raw?`
+      <div class="resp-block">
+        <div class="resp-lbl">${lbl}</div>
+        ${perfil?`<div class="resp-perfil">${perfil}</div>`:''}
+        <div class="resp-raw">"${raw}"</div>
+        ${hint?`<div class="resp-hint">→ ${hint}</div>`:''}
+      </div>`:'';
+    const openQ=(lbl,txt,col)=>txt?`
+      <div class="open-q" style="border-left-color:${col||'#6d28d9'}">
+        <div class="open-lbl">${lbl}</div>
+        <div class="open-txt">"${txt}"</div>
+      </div>`:'';
+
+    return`<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Segoe UI',Arial,sans-serif;font-size:11px;color:#1e1b4b;background:#fff;width:794px;}
+    .page{width:794px;padding:32px 38px;background:#fff;page-break-after:always;}
+    .page:last-child{page-break-after:auto;}
+
+    /* HEADER */
+    .header{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:14px;border-bottom:3px solid #6d28d9;margin-bottom:22px;}
+    .header-brand{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7c3aed;margin-bottom:3px;}
+    .header-title{font-size:17px;font-weight:800;color:#1e1b4b;line-height:1.1;}
+    .header-right{text-align:right;}
+    .header-pct{font-size:26px;font-weight:900;color:#6d28d9;line-height:1;}
+    .header-pct-lbl{font-size:8px;color:#9ca3af;margin-top:2px;}
+    .header-date{font-size:8px;color:#9ca3af;margin-top:2px;}
+
+    /* HERO */
+    .hero{display:flex;gap:16px;align-items:flex-start;background:linear-gradient(135deg,#f5f3ff,#faf5ff);border:1px solid #ddd6fe;border-radius:14px;padding:16px 18px;margin-bottom:18px;}
+    .av{width:52px;height:52px;border-radius:50%;background:#6d28d9;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:800;flex-shrink:0;overflow:hidden;}
+    .av img{width:52px;height:52px;object-fit:cover;border-radius:50%;}
+    .hero-info{flex:1;}
+    .hero-name{font-size:18px;font-weight:800;color:#1e1b4b;margin-bottom:4px;line-height:1.2;}
+    .hero-meta{font-size:9px;color:#6b7280;margin-bottom:8px;}
+    .hero-tags{display:flex;gap:6px;flex-wrap:wrap;}
+    .hero-tag{font-size:8px;font-weight:700;padding:3px 9px;border-radius:99px;background:#ede9fe;color:#6d28d9;}
+
+    /* APERTURA */
+    .apertura{background:#fdf4ff;border:1px solid #e9d5ff;border-left:4px solid #9333ea;border-radius:10px;padding:12px 14px;margin-bottom:18px;}
+    .apertura-lbl{font-size:7.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:#9333ea;margin-bottom:5px;}
+    .apertura-txt{font-size:10.5px;color:#1e1b4b;line-height:1.65;font-style:italic;font-weight:500;}
+
+    /* SECCIÓN */
+    .section{margin-bottom:16px;}
+    .section-header{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:9px 9px 0 0;}
+    .section-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;flex-shrink:0;}
+    .section-title{font-size:8.5px;font-weight:900;letter-spacing:1px;text-transform:uppercase;}
+    .section-body{border:1px solid #e5e7eb;border-top:none;border-radius:0 0 9px 9px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;}
+
+    /* DATA TABLE */
+    .data-table{width:100%;border-collapse:collapse;}
+    .data-table tr{border-bottom:1px solid #f3f4f6;}
+    .data-table tr:last-child{border-bottom:none;}
+    .dl{padding:5px 8px;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#9ca3af;width:160px;}
+    .dv{padding:5px 8px;font-size:10px;color:#1e1b4b;font-weight:500;}
+
+    /* META BOX */
+    .meta-box{background:#fffbeb;border:1px solid #fde68a;border-left:3px solid #f59e0b;border-radius:8px;padding:10px 12px;}
+    .meta-lbl{font-size:7.5px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:#d97706;margin-bottom:4px;}
+    .meta-txt{font-size:10px;color:#1e1b4b;font-style:italic;line-height:1.6;}
+
+    /* RESP BLOCK */
+    .resp-block{background:#fafafa;border:1px solid #e5e7eb;border-radius:9px;padding:11px 13px;}
+    .resp-lbl{font-size:7.5px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#9ca3af;margin-bottom:3px;}
+    .resp-perfil{font-size:10px;font-weight:800;color:#6d28d9;margin-bottom:2px;}
+    .resp-raw{font-size:10px;color:#374151;font-style:italic;margin-bottom:4px;}
+    .resp-hint{font-size:9px;color:#6b7280;padding:5px 8px;background:#f5f3ff;border-left:2px solid #c4b5fd;border-radius:0 5px 5px 0;line-height:1.5;}
+
+    /* ATENCION */
+    .atencion{background:#fffbeb;border:1px solid #fde68a;border-radius:9px;padding:11px 13px;}
+    .atencion-title{font-size:7.5px;font-weight:900;text-transform:uppercase;letter-spacing:.8px;color:#d97706;margin-bottom:8px;}
+    .atencion-item{display:flex;gap:7px;align-items:flex-start;margin-bottom:5px;}
+    .atencion-dot{width:5px;height:5px;border-radius:50%;background:#f59e0b;flex-shrink:0;margin-top:3px;}
+    .atencion-txt{font-size:9.5px;color:#374151;line-height:1.5;}
+
+    /* CTX */
+    .ctx{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:9px;padding:10px 12px;}
+    .ctx-lbl{font-size:7.5px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#059669;margin-bottom:3px;}
+    .ctx-val{font-size:10px;font-weight:600;color:#1e1b4b;margin-bottom:2px;}
+    .ctx-hint{font-size:9px;color:#6b7280;font-style:italic;line-height:1.4;}
+
+    /* OPEN Q */
+    .open-q{border-left:3px solid #6d28d9;padding:10px 13px;background:#fafafa;border-radius:0 9px 9px 0;border-top:1px solid #f3f4f6;border-bottom:1px solid #f3f4f6;border-right:1px solid #f3f4f6;margin-bottom:4px;}
+    .open-lbl{font-size:7.5px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#9ca3af;margin-bottom:4px;}
+    .open-txt{font-size:10.5px;color:#1e1b4b;line-height:1.65;font-style:italic;}
+
+    /* ETICA */
+    .etica{background:#f9fafb;border:1px solid #e5e7eb;border-radius:9px;padding:11px 13px;margin-top:14px;}
+    .etica-txt{font-size:8.5px;color:#9ca3af;line-height:1.6;}
+
+    /* FOOTER */
+    .footer{margin-top:18px;padding-top:10px;border-top:1px solid #e5e7eb;display:flex;justify-content:space-between;font-size:7.5px;color:#d1d5db;}
+
+    /* 2-col */
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
     </style></head><body>
 
-    <!-- PAGE 1: DATOS -->
+    <!-- PAGE 1: DATOS + APERTURA -->
     <div class="page">
       <div class="header">
-        <div class="header-left">
+        <div>
           <div class="header-brand">Pasaporte GCO</div>
           <div class="header-title">Ficha de Acompañamiento</div>
         </div>
         <div class="header-right">
           <div class="header-pct">${c._pct||0}%</div>
-          <div>Avance del pasaporte</div>
-          <div style="margin-top:4px">${today}</div>
+          <div class="header-pct-lbl">Avance del pasaporte</div>
+          <div class="header-date">${today}</div>
         </div>
       </div>
 
       <div class="hero">
-        <div class="avatar">${(()=>{const av=localStorage.getItem('gco_av_'+c.cedula)||c.avatar||null;if(av)return '<img src="'+av+'" style="width:60px;height:60px;border-radius:50%;object-fit:cover;display:block;">';return nom.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();})()} </div>
+        <div class="av">${av?`<img src="${av}" alt="${nom}">`:(nom.split(' ').map(w=>w[0]||'').join('').slice(0,2).toUpperCase()||'?')}</div>
         <div class="hero-info">
           <div class="hero-name">${nom}</div>
-          <div class="hero-meta">CC ${c.cedula} · ${c.marca||'—'} · Tienda ${c.tienda||'—'} · Ingreso ${fi}</div>
+          <div class="hero-meta">CC ${c.cedula||'—'} · ${c.marca||'—'} · Tienda ${c.tienda||'—'} · Ingreso ${fi}</div>
           <div class="hero-tags">
             ${fa?.rol_tienda?`<span class="hero-tag">${fa.rol_tienda}</span>`:''}
             ${fa?.ciudad?`<span class="hero-tag">${fa.ciudad}</span>`:''}
+            ${fa?.experiencia_previa?`<span class="hero-tag">${fa.experiencia_previa==='No tengo experiencia previa'?'Sin exp. previa':'Con exp. previa'}</span>`:''}
           </div>
         </div>
       </div>
 
-      <div class="section-title">Datos del colaborador</div>
-      <div class="data-grid">
-        <div class="data-item"><div class="data-label">Cédula</div><div class="data-value">${c.cedula}</div></div>
-        <div class="data-item"><div class="data-label">Marca</div><div class="data-value">${c.marca||'—'}</div></div>
-        <div class="data-item"><div class="data-label">Tienda</div><div class="data-value">${c.tienda||'—'}</div></div>
-        <div class="data-item"><div class="data-label">Ciudad</div><div class="data-value">${fa?.ciudad||'—'}</div></div>
-        <div class="data-item"><div class="data-label">Fecha de ingreso</div><div class="data-value">${fi}</div></div>
-        <div class="data-item"><div class="data-label">Rol en tienda</div><div class="data-value">${fa?.rol_tienda||'—'}</div></div>
-        <div class="data-item"><div class="data-label">Experiencia previa</div><div class="data-value">${fa?.experiencia_previa||'—'}</div></div>
-        <div class="data-item"><div class="data-label">Familiaridad moda / retail</div><div class="data-value">${famLabels[fa?.familiaridad_retail||0]||'—'}</div></div>
-      </div>
-
-      ${fa?.meta_personal||fa?.goals?`<div class="meta-box">
-        <div class="meta-label">Meta personal o laboral</div>
-        <div class="meta-text">"${fa?.meta_personal||fa?.goals}"</div>
+      ${apertura?`<div class="apertura">
+        <div class="apertura-lbl">En resumen</div>
+        <div class="apertura-txt">${apertura}</div>
       </div>`:''}
+
+      <!-- Bloque 1: Quién es -->
+      <div class="section">
+        <div class="section-header" style="background:#f5f3ff;">
+          <div class="section-num" style="background:#ede9fe;color:#6d28d9;">1</div>
+          <div class="section-title" style="color:#6d28d9;">Quién es</div>
+        </div>
+        <div class="section-body">
+          <table class="data-table">
+            ${row('Prefiere que le llamen',fa?.preferred_name)}
+            ${row('Cumpleaños',bday)}
+            ${row('Vive con',fa?.convivencia)}
+            ${row('Rol en tienda',fa?.rol_tienda)}
+            ${row('Experiencia previa',fa?.experiencia_previa)}
+            ${row('Familiaridad moda/retail',['','Nada','Poco','Algo','Familiarizado/a','Muy familiarizado/a'][fa?.familiaridad_retail||0]||null)}
+          </table>
+          ${fa?.about_me?`<div class="meta-box"><div class="meta-lbl">Algo que quiere que su equipo sepa</div><div class="meta-txt">"${fa.about_me}"</div></div>`:''}
+          ${fa?.meta_personal||fa?.goals?`<div class="meta-box" style="background:#f0fdf4;border-color:#bbf7d0;border-left-color:#059669;"><div class="meta-lbl" style="color:#059669;">Meta en esta etapa</div><div class="meta-txt">"${fa?.meta_personal||fa?.goals}"</div></div>`:''}
+        </div>
+      </div>
 
       <div class="footer">
         <span>Pasaporte GCO · Ficha de Acompañamiento</span>
@@ -4060,26 +4019,66 @@ function downloadCV(ci){
       </div>
     </div>
 
-    <!-- PAGE 2: DISC -->
-    <div class="page page-break">
+    <!-- PAGE 2: CÓMO APRENDE + CÓMO ACOMPAÑAR -->
+    <div class="page">
       <div class="header">
-        <div class="header-left">
+        <div>
           <div class="header-brand">Pasaporte GCO · Ficha de Acompañamiento</div>
-          <div class="header-title">Perfil Conductual Situacional GCO</div>
+          <div class="header-title">${nom}</div>
         </div>
-        <div class="header-right" style="font-size:9px;color:#6b7280">
-          Inspirado en las dimensiones del modelo DISC<br>No es una evaluación psicométrica
+        <div class="header-right">
+          <div class="header-date">${today}</div>
         </div>
       </div>
 
-      ${hasDisc?`
-        <div class="section-title">Resultados por dimensión</div>
-        ${discHTML}
-        <div class="section-title">Perfil identificado</div>
-        ${profileHTML}
-        <div class="section-title">Lectura del perfil</div>
-        ${contentHTML}
-      `:`<div class="no-disc">El colaborador aún no ha completado el Perfil Conductual Situacional GCO.</div>`}
+      <!-- Bloque 2 -->
+      <div class="section">
+        <div class="section-header" style="background:#f0fdf4;">
+          <div class="section-num" style="background:#dcfce7;color:#059669;">2</div>
+          <div class="section-title" style="color:#059669;">Cómo aprende y se adapta</div>
+        </div>
+        <div class="section-body">
+          <div class="two-col">
+            ${respRow('Estilo de aprendizaje',fa?.perfil_aprendizaje,fa?.aprendizaje,HINTS_APR[fa?.aprendizaje])}
+            ${respRow('Llegada al equipo',fa?.perfil_adaptacion,fa?.llegada_equipo,null)}
+          </div>
+          ${fa?.experiencia_previa?`<div class="ctx">
+            <div class="ctx-lbl">Contexto de llegada</div>
+            <div class="ctx-val">${fa.experiencia_previa}</div>
+            <div class="ctx-hint">${CTX_EXP[fa.experiencia_previa]||''}</div>
+          </div>`:''}
+          ${pts.length>0?`<div class="atencion">
+            <div class="atencion-title">⚡ Puntos de atención — primeros 30 días</div>
+            ${pts.map(p=>`<div class="atencion-item"><div class="atencion-dot"></div><div class="atencion-txt">${p}</div></div>`).join('')}
+          </div>`:''}
+        </div>
+      </div>
+
+      <!-- Bloque 3 -->
+      <div class="section">
+        <div class="section-header" style="background:#eff6ff;">
+          <div class="section-num" style="background:#dbeafe;color:#2563eb;">3</div>
+          <div class="section-title" style="color:#2563eb;">Cómo acompañarlo</div>
+        </div>
+        <div class="section-body">
+          ${respRow('Cuando comete un error',null,fa?.reaccion_error,HINTS_ERR[fa?.reaccion_error])}
+          <div class="two-col">
+            ${respRow('Cómo recibe retroalimentación',fa?.perfil_feedback,fa?.recepcion_feedback,HINTS_FB[fa?.recepcion_feedback])}
+            ${respRow('Qué necesita del líder',fa?.perfil_liderazgo,fa?.necesidad_lider,HINTS_LID[fa?.necesidad_lider])}
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloque 4 -->
+      <div class="section">
+        <div class="section-header" style="background:#fffbeb;">
+          <div class="section-num" style="background:#fef3c7;color:#d97706;">4</div>
+          <div class="section-title" style="color:#d97706;">Qué lo motiva</div>
+        </div>
+        <div class="section-body">
+          ${respRow('Principal motivador',fa?.perfil_motivacion,fa?.motivacion_principal,HINTS_MOT[fa?.motivacion_principal])}
+        </div>
+      </div>
 
       <div class="footer">
         <span>Pasaporte GCO · Ficha de Acompañamiento</span>
@@ -4087,24 +4086,32 @@ function downloadCV(ci){
       </div>
     </div>
 
-    <!-- PAGE 3: RESPUESTAS -->
-    <div class="page page-break">
+    <!-- PAGE 3: LO QUE COMPARTIÓ -->
+    <div class="page">
       <div class="header">
-        <div class="header-left">
+        <div>
           <div class="header-brand">Pasaporte GCO · Ficha de Acompañamiento</div>
-          <div class="header-title">Lo que el colaborador compartió</div>
+          <div class="header-title">${nom}</div>
         </div>
-        <div class="header-right" style="font-size:9px;color:#6b7280">Respuestas literales — tal como fueron escritas</div>
+        <div class="header-right">
+          <div class="header-date">${today}</div>
+        </div>
       </div>
 
-      <div class="section-title">Respuestas abiertas</div>
-      ${answers.map((item,i)=>item.a?`<div class="answer-card">
-        <div class="answer-q">${item.q}</div>
-        <div class="answer-a">"${item.a}"</div>
-      </div>`:'').join('')}
+      <div class="section">
+        <div class="section-header" style="background:#f5f3ff;">
+          <div class="section-num" style="background:#ede9fe;color:#6d28d9;">5</div>
+          <div class="section-title" style="color:#6d28d9;">Lo que compartió</div>
+        </div>
+        <div class="section-body">
+          ${openQ('Algo de él/ella que no está en su hoja de vida',fa?.about_trabajo,'#6d28d9')}
+          ${openQ('Qué necesitaría ver en sus primeros 30 días',fa?.expectativa_30dias,'#059669')}
+          ${openQ('Lo que le diría a su líder antes de empezar',fa?.mensaje_lider,'#d97706')}
+        </div>
+      </div>
 
-      <div class="ethics">
-        <div class="ethics-txt"><strong>Nota ética:</strong> Esta herramienta está inspirada en el modelo DISC pero no corresponde a una prueba DISC certificada ni a una evaluación psicométrica. Sus resultados no deben utilizarse como criterio único de selección, evaluación de desempeño, permanencia o toma de decisiones laborales.</div>
+      <div class="etica">
+        <div class="etica-txt"><strong>Nota:</strong> La información de esta ficha fue compartida voluntariamente por el colaborador con fines de acompañamiento durante su proceso de ingreso. Debe usarse como punto de partida para conversaciones, no como criterio de evaluación, selección o toma de decisiones laborales.</div>
       </div>
 
       <div class="footer">
@@ -4130,35 +4137,22 @@ function downloadCV(ci){
   }
 
   loadLibs(async()=>{
-    // Create hidden iframe to render HTML
     const iframe=document.createElement('iframe');
-    iframe.style.cssText='position:fixed;left:-9999px;top:0;width:794px;height:1123px;border:none;visibility:hidden;';
+    iframe.style.cssText='position:fixed;left:-9999px;top:0;width:794px;height:3000px;border:none;visibility:hidden;';
     document.body.appendChild(iframe);
-
-    const html=buildFichaHTML();
     iframe.contentDocument.open();
-    iframe.contentDocument.write(html);
+    iframe.contentDocument.write(buildFichaHTML());
     iframe.contentDocument.close();
-
-    // Wait for render
-    await new Promise(r=>setTimeout(r,600));
-
+    await new Promise(r=>setTimeout(r,800));
     const {jsPDF}=window.jspdf;
     const doc=new jsPDF({unit:'mm',format:'a4',orientation:'portrait'});
     const pages=iframe.contentDocument.querySelectorAll('.page');
-
     for(let i=0;i<pages.length;i++){
-      const canvas=await html2canvas(pages[i],{
-        scale:2,useCORS:true,
-        backgroundColor:'#ffffff',
-        width:794,
-        windowWidth:794,
-      });
-      const img=canvas.toDataURL('image/jpeg',0.92);
+      const canvas=await html2canvas(pages[i],{scale:2,useCORS:true,backgroundColor:'#ffffff',width:794,windowWidth:794});
+      const img=canvas.toDataURL('image/jpeg',0.93);
       if(i>0)doc.addPage();
       doc.addImage(img,'JPEG',0,0,210,297);
     }
-
     document.body.removeChild(iframe);
     doc.save(fileName);
   });
